@@ -7,13 +7,16 @@ import './helpers/globalAuth';
 
 import { configureStore } from './redux/store';
 import Routes from './routes';
+import Layout from './components/UI/Layout/Layout';
 
 const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Routes />
+      <Layout>
+        <Routes />
+      </Layout>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
