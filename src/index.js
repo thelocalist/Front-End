@@ -2,21 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 import './helpers/globalAuth';
 
 import { configureStore } from './redux/store';
 import Routes from './routes';
-import Layout from './components/UI/Layout/Layout';
+import Layout from './components/Layout';
 
 const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Layout>
-        <Routes />
-      </Layout>
+      <BrowserRouter>
+        <Layout>
+          <Routes />
+        </Layout>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

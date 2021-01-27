@@ -1,11 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import classes from './Header.module.css';
+import classes from './styles.module.scss';
 
-export default function Header(props) {
+function Header({ location, setIsSideMenuVisible }) {
   const showSideMenuHandler = () => {
-    props.setShowSideMenu(true);
+    setIsSideMenuVisible(true);
   };
+
+  if (location.pathname === '/') {
+    return <></>;
+  }
 
   return (
     <header className={classes.Header}>
@@ -21,6 +26,11 @@ export default function Header(props) {
         <span className={classes.capitalLetter}>T</span>HE{' '}
         <span className={classes.capitalLetter}>L</span>OCALIST
       </h1>
+      <i role="button" className={classes.search} tabIndex={0}>
+        Menu
+      </i>
     </header>
   );
 }
+
+export default withRouter(Header);
