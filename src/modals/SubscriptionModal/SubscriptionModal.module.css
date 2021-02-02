@@ -1,3 +1,9 @@
+*,
+*:focus,
+*:hover {
+  outline: none;
+}
+
 .SubscriptionModal {
   font-family: 'Libre Baskerville';
   color: #7284b6;
@@ -10,15 +16,24 @@
   border: none !important;
 }
 
+.body {
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center !important;
+}
+
 .button {
   width: 170px;
   height: 42px;
   background-color: #00030a;
   color: #7284b6;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 28px;
+  font-weight: 700;
+  line-height: 20px;
   letter-spacing: 0.05em;
   text-align: center;
   border: none;

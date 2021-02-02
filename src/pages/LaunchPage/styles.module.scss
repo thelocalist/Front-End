@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 *,
 *:focus,
 *:hover {
@@ -25,18 +29,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(0, 3, 11);
+  background-color: rgb(0, 0, 0);
   opacity: 0.44;
-  animation: fadeinout 6s linear infinite;
+  animation: fadeinout 9s linear infinite;
 }
 
 @keyframes fadeinout {
   0%,
   100% {
-    opacity: 0.24;
+    opacity: 0.7;
   }
   50% {
-    opacity: 0.8;
+    opacity: 0;
   }
 }
 
@@ -55,23 +59,24 @@
   height: 57px;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #8998c2;
+  }
 }
 
-.heading h1 {
-  margin: 0;
-  font-size: 26px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #9499a6;
-}
-
-.capitalLetter {
+.heading .capitalLetter {
   font-size: 33px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: normal;
   line-height: 41px;
   letter-spacing: 0em;
 }
@@ -97,7 +102,7 @@
   line-height: 27px;
   letter-spacing: 0.05em;
   text-align: center;
-  color: #9499a6;
+  color: #8998c2;
   cursor: pointer;
 
   &:hover span {
@@ -119,7 +124,7 @@
   transition: transform 0.1s ease-out;
 
   &.clicked {
-    transform: rotate(90deg);
+    transform: rotate(90deg) translate(7px);
   }
 }
 
@@ -130,5 +135,26 @@
 
 .releaseDate:hover .arrowIcon.clicked,
 .arrowIcon.clicked:hover {
-  transform: scale(1.2) rotate(90deg);
+  transform: scale(1.2) rotate(90deg) translate(7px);
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+  .LaunchPage {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+
+  .heading {
+    justify-content: center;
+
+    h1 {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  .line {
+    width: 50px;
+  }
 }

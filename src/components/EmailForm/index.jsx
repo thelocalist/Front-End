@@ -1,26 +1,18 @@
 import { React, useState } from 'react';
-
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames';
-import classes from './styles.module.scss';
+
 import SubscriptionModal from '../../modals/SubscriptionModal/SubscriptionModal';
+import { API_URL } from '../../constants/main';
+
+import classes from './styles.module.scss';
 
 const EmailSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
 });
 
 export default function EmailForm({ show, small, setIsEmailFormVisible }) {
-  let emailFormClasses = classnames(
-    show
-      ? classnames(classes.EmailForm, classes.show)
-      : classnames(classes.EmailForm, classes.hide)
-  );
-
-  emailFormClasses = classnames(
-    small ? classnames(emailFormClasses, classes.small) : emailFormClasses
-  );
-
   const [isSubscriptionModalVisible, setIsSubscriptionModalVisible] = useState(
     false
   );
@@ -28,27 +20,26 @@ export default function EmailForm({ show, small, setIsEmailFormVisible }) {
 
   const submitForm = async (values) => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/contacts`,
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: values.email }),
-        }
-      );
+      const response = await fetch(`${API_URL}/contacts`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: values.email }),
+      });
       if (response.ok) {
         setIsSubscriptionModalVisible(true);
         setSubscriptionModalMessage('The email was sent successfully');
         setIsEmailFormVisible(false);
       } else {
-        setSubscriptionModalMessage('Please, write correct email');
+        setSubscriptionModalMessage('This email is already joined');
         setIsSubscriptionModalVisible(true);
       }
     } catch (error) {
-      setSubscriptionModalMessage('Please, write correct email');
+      setSubscriptionModalMessage(
+        'Sorry something went wrong, please try again later'
+      );
       setIsSubscriptionModalVisible(true);
     }
   };
@@ -58,7 +49,13 @@ export default function EmailForm({ show, small, setIsEmailFormVisible }) {
   };
 
   return (
-    <div className={emailFormClasses}>
+    <div
+      className={classnames(
+        classes.EmailForm,
+        show ? classes.show : classes.hide,
+        small && classes.small
+      )}
+    >
       <SubscriptionModal
         show={isSubscriptionModalVisible}
         onHide={hideSubscriptionModal}
@@ -95,7 +92,7 @@ export default function EmailForm({ show, small, setIsEmailFormVisible }) {
               className={classes.submitButton}
               disabled={errors.email || !values.email}
             >
-              Submit
+              Inform me!
             </button>
           </Form>
         )}

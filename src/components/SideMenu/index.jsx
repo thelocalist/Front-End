@@ -3,28 +3,7 @@ import { Link } from 'react-router-dom';
 
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
-
-const AREAS = [
-  'Astoria',
-  'Bronx',
-  'Chelsea',
-  'Dumbo & Downtown',
-  'FIDI',
-  'Flatiron',
-  'Greenpoint & Williamsburg',
-  'Greenwich Village',
-  'Harlem',
-  'Jersey City & Hoboken',
-  'Long Island City',
-  'Lower East Side',
-  'Midtown',
-  'Roosevelt Island',
-  'Soho & Tribeca',
-  'Upper East Side',
-  'Upper West Side',
-  'Washington Heights',
-  'West New York',
-];
+import { AREAS } from '../../constants/main';
 
 export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);

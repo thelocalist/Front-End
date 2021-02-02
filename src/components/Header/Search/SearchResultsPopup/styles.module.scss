@@ -1,0 +1,74 @@
+.SearchResultsPopup {
+  display: flex;
+  position: fixed;
+  z-index: -12;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #b8c4e3;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  display: block;
+  width: 29px;
+  height: 27px;
+  font-size: 0;
+  background-image: url(../../../../assets/images/searchClose.svg);
+  cursor: pointer;
+}
+
+.content {
+  position: absolute;
+  top: 15px;
+  left: 35px;
+  right: 35px;
+  bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 45px;
+  padding-left: 50px;
+  padding-right: 50px;
+  background: #01030b;
+  border-radius: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 100px);
+  height: 48px;
+  border-top: 0.5px solid #2f4273;
+
+  .switchPageButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+    height: 20px;
+
+    i {
+      display: block;
+      width: 20px;
+      height: 20px;
+      font-size: 0;
+      cursor: pointer;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .switchNext {
+      background-image: url(../../../../assets/images/switchNext.svg);
+    }
+    .switchPrevious {
+      background-image: url(../../../../assets/images/switchPrevious.svg);
+    }
+  }
+}

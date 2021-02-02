@@ -58,14 +58,15 @@
   height: 56px;
   box-sizing: border-box;
   margin-bottom: 35px;
-  padding-left: 20px;
-  padding-right: 20px;
-  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
   font-size: 18px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 28px;
   letter-spacing: 0.05em;
+  text-align: center;
+
   color: #7284b6;
 }
 
@@ -80,10 +81,10 @@
   height: 42px;
   background-color: #00030a;
   color: #7284b6;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 28px;
+  font-weight: 700;
+  line-height: 20px;
   letter-spacing: 0.05em;
   text-align: center;
   border: none;
@@ -97,6 +98,8 @@
   }
 
   &:disabled {
+    background-color: #4f576f;
+    color: #6b7a9c;
     cursor: auto;
   }
 }
@@ -135,4 +138,33 @@
 .EmailForm.small .emailInput {
   width: 100%;
   margin-bottom: 12px;
+}
+
+@media only screen and (max-width: 767px) {
+  .EmailForm:not(.small) {
+    width: 330px;
+    height: 300px;
+    padding-top: 30px;
+    .emailInput {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .text {
+      width: 90%;
+      margin-bottom: 50px;
+    }
+    .submitButton {
+      margin-top: 10px;
+      align-self: center;
+    }
+    form {
+      flex-direction: column;
+      justify-content: center;
+      width: 90%;
+      box-sizing: border-box;
+      margin-top: 30px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
 }

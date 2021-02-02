@@ -1,0 +1,66 @@
+.SearchResultsItem {
+  position: relative;
+  width: 32%;
+  height: 40%;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #030a1b;
+  border-radius: 5px;
+  cursor: pointer;
+
+  h1 {
+    font-family: Libre Baskerville;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #e5e5e5;
+  }
+
+  &:hover {
+    background-color: #131929;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 70%;
+  background-image: url(https://source.unsplash.com/random/800x600);
+  background-size: cover;
+  border-radius: 5px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 20px);
+  height: 20px;
+  font-family: Libre Baskerville;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #7284b6;
+
+  .views {
+    display: flex;
+
+    .viewsIcon {
+      display: block;
+      width: 13px;
+      height: 10px;
+      margin-right: 3px;
+      background-image: url(../../../../../assets/images/views.svg);
+      background-position: center -1px;
+      background-repeat: no-repeat;
+      font-size: 0;
+    }
+  }
+}
