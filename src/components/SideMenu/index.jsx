@@ -107,11 +107,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
               >
                 Newsletter
               </span>
-              <EmailForm
-                show={isSubscriptionFormVisible}
-                setIsEmailFormVisible={setIsSubscriptionFormVisible}
-                small
-              />
+              <EmailForm show={isSubscriptionFormVisible} small />
             </li>
             <li className={classes.areaLi}>
               <Link to="/" className={classes.areaLink}>

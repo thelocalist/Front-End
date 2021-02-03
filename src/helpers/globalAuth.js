@@ -1,4 +1,4 @@
-import { defaultGlobals } from 'redux-rest-resource';
+/* import { defaultGlobals } from 'redux-rest-resource';
 import { fetch } from 'whatwg-fetch';
 
 import { actions } from '../resources/users';
@@ -44,3 +44,4 @@ Object.assign(defaultGlobals, {
       return refreshTokenPromise;
     }),
 });
+ */

@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames';
+import axios from 'axios';
 
 import SubscriptionModal from '../../modals/SubscriptionModal/SubscriptionModal';
 import { API_URL } from '../../constants/main';
@@ -12,35 +13,31 @@ const EmailSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
 });
 
-export default function EmailForm({ show, small, setIsEmailFormVisible }) {
+export default function EmailForm({ show, small }) {
   const [isSubscriptionModalVisible, setIsSubscriptionModalVisible] = useState(
     false
   );
+  const [isSuccessfullySent, setIsSuccessfullySent] = useState(false);
   const [subscriptionModalMessage, setSubscriptionModalMessage] = useState('');
 
   const submitForm = async (values) => {
     try {
-      const response = await fetch(`${API_URL}/contacts`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: values.email }),
+      await axios.post(`${API_URL}/contacts`, {
+        email: values.email,
       });
-      if (response.ok) {
+      setIsSuccessfullySent(true);
+    } catch (error) {
+      if (!error.response) {
+        setSubscriptionModalMessage(
+          'Sorry something went wrong, please try again later'
+        );
         setIsSubscriptionModalVisible(true);
-        setSubscriptionModalMessage('The email was sent successfully');
-        setIsEmailFormVisible(false);
-      } else {
+        return;
+      }
+      if (error.response.status === 400) {
         setSubscriptionModalMessage('This email is already joined');
         setIsSubscriptionModalVisible(true);
       }
-    } catch (error) {
-      setSubscriptionModalMessage(
-        'Sorry something went wrong, please try again later'
-      );
-      setIsSubscriptionModalVisible(true);
     }
   };
 
@@ -77,15 +74,24 @@ export default function EmailForm({ show, small, setIsEmailFormVisible }) {
       >
         {({ errors, values }) => (
           <Form noValidate>
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email..."
-              className={classnames(
-                classes.emailInput,
-                errors.email && values.email ? classes.invalid : null
-              )}
-            />
+            {isSuccessfullySent ? (
+              <Field
+                name="success"
+                type="text"
+                value="You will hear from us soon!"
+                className={classnames(classes.emailInput, classes.success)}
+              />
+            ) : (
+              <Field
+                name="email"
+                type="email"
+                placeholder="Email..."
+                className={classnames(
+                  classes.emailInput,
+                  errors.email && values.email && classes.invalid
+                )}
+              />
+            )}
 
             <button
               type="submit"

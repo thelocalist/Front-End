@@ -40,10 +40,7 @@ export default function LaunchPage() {
             Email form
           </i>
         </div>
-        <EmailForm
-          show={isEmailFormVisible}
-          setIsEmailFormVisible={setIsEmailFormVisible}
-        />
+        <EmailForm show={isEmailFormVisible} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+/* import { combineReducers } from 'redux';
 
 import { rootReducer as users } from '../resources/users';
 
@@ -7,3 +7,4 @@ const reducers = combineReducers({
 });
 
 export default reducers;
+ */

@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+/* import i18n from 'i18next';
 import en from './en.json';
 
 i18n.init({
@@ -23,3 +23,4 @@ i18n.init({
 export const t = (...args) => i18n.t(...args);
 
 export default i18n;
+ */

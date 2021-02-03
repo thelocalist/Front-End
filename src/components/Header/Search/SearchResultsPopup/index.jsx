@@ -8,9 +8,11 @@ export default function SearchResultsPopup({
   setIsSearchResultsVisible,
   searchResults,
   searchStories,
+  resetSearch,
 }) {
   const hideSearchResultsPopup = () => {
     setIsSearchResultsVisible(false);
+    resetSearch();
   };
 
   const switchResultsPageForward = () => {
@@ -21,24 +23,35 @@ export default function SearchResultsPopup({
     searchStories(null, 'back');
   };
 
+  let content;
+
+  if (!searchResults.length) {
+    content = (
+      <Spinner
+        styles={{ alignSelf: 'center', margin: 'auto', paddingBottom: 48 }}
+      />
+    );
+  } else {
+    content = searchResults.map((searchResult) => (
+      <SearchResultsItem key={searchResult.id} searchResult={searchResult} />
+    ));
+  }
+
+  if (searchResults[0] === 'empty') {
+    content = (
+      <div className={classes.noSearchResults}>
+        <p>Nothing found</p>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.SearchResultsPopup}>
       <i className={classes.closeIcon} onClick={hideSearchResultsPopup}>
         Close
       </i>
       <div className={classes.content}>
-        {searchResults.length ? (
-          searchResults.map((searchResult) => (
-            <SearchResultsItem
-              key={searchResult.id}
-              searchResult={searchResult}
-            />
-          ))
-        ) : (
-          <Spinner
-            styles={{ alignSelf: 'center', margin: 'auto', paddingBottom: 48 }}
-          />
-        )}
+        {content}
         <div className={classes.footer}>
           <div className={classes.switchPageButtons}>
             <i

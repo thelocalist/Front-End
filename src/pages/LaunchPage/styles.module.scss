@@ -14,7 +14,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
   background-size: cover;
   background-position: center;
   background-image: url(../../assets/images/map.svg);
@@ -95,7 +95,7 @@ body {
   align-items: center;
   height: 49px;
   margin-bottom: 15px;
-  font-family: Libre Baskerville;
+  font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -138,7 +138,7 @@ body {
   transform: scale(1.2) rotate(90deg) translate(7px);
 }
 
-@media only screen and (min-width: 375px) and (max-width: 767px) {
+@media only screen and (max-width: 767px) {
   .LaunchPage {
     position: fixed;
     left: 0;
