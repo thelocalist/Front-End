@@ -13,8 +13,11 @@ export default function Communities({
   communitiesRef,
 }) {
   const [communities, setCommunities] = useState([]);
+  const [currentCommunityId, setCurrentCommunityId] = useState(null);
   const [stories, setStories] = useState([]);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
+  const [searchResultsPage, setSearchResultsPage] = useState(0);
+  const [searchResultsCount, setSearchResultsCount] = useState(null);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/communities`)
@@ -22,12 +25,27 @@ export default function Communities({
       .catch((error) => console.log(error));
   }, []);
 
-  const fetchStories = (communityId) => {
+  const fetchStories = (communityId, direction) => {
+    let pageNumber = searchResultsPage;
+
+    if (direction === 'forward') {
+      pageNumber += 1;
+    } else if (direction === 'back') {
+      pageNumber -= 1;
+    }
+
+    if (
+      pageNumber < 0 ||
+      (searchResultsCount - PAGESIZE * pageNumber < 1 && searchResultsCount)
+    ) {
+      return;
+    }
+
     const queryParams = {
       keywords: '',
       filterType: 'communityId',
-      filterValue: communityId,
-      pageIndex: 0,
+      filterValue: communityId || currentCommunityId,
+      pageIndex: pageNumber,
       pageSize: PAGESIZE,
     };
 
@@ -40,6 +58,15 @@ export default function Communities({
           setStories(['empty']);
         } else {
           setStories(response.data.rows);
+          setSearchResultsCount(response.data.count);
+          if (communityId) {
+            setCurrentCommunityId(communityId);
+          }
+          if (direction === 'forward') {
+            setSearchResultsPage((prevState) => prevState + 1);
+          } else if (direction === 'back') {
+            setSearchResultsPage((prevState) => prevState - 1);
+          }
         }
         setIsSearchResultsVisible(true);
       })
@@ -65,6 +92,8 @@ export default function Communities({
           zIndex={1}
           setIsSearchResultsVisible={setIsSearchResultsVisible}
           resetSearch={() => null}
+          searchResultsPage={searchResultsPage}
+          searchStories={fetchStories}
         />
       )}
     </div>

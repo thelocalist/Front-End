@@ -30,7 +30,7 @@ function Header({ location, setIsSideMenuVisible }) {
       >
         Menu
       </i>
-      <h1>
+      <h1 className={classes.abyrwalg}>
         <span className={classes.capitalLetter}>T</span>HE{' '}
         <span className={classes.capitalLetter}>L</span>OCALIST
       </h1>

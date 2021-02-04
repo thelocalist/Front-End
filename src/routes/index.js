@@ -3,11 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import LaunchPage from '../pages/LaunchPage';
 import HomePage from '../pages/HomePage';
-// import PrivateRoute from "../containers/PrivateRoute";
 
 const Routes = () => {
   useEffect(() => {
     document.body.style.margin = 0;
+    document.body.style.fontFamily =
+      'Libre Baskerville, Times New Roman, Georgia, serif';
   }, []);
   return (
     <Switch>

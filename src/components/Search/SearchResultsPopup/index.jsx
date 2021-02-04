@@ -11,7 +11,6 @@ export default function SearchResultsPopup({
   resetSearch,
   zIndex,
 }) {
-  console.log(searchResults);
   const hideSearchResultsPopup = () => {
     setIsSearchResultsVisible(false);
     resetSearch();
