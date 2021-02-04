@@ -59,7 +59,7 @@ export default function EmailForm({ show, small }) {
         message={subscriptionModalMessage}
       />
       <div className={classes.text}>
-        Join our mission to localize journalism and give the power of the media
+        Join our mission to localize journalism and bring the power of the media
         back to the people!
       </div>
       <Formik
@@ -85,7 +85,7 @@ export default function EmailForm({ show, small }) {
               <Field
                 name="email"
                 type="email"
-                placeholder="Email..."
+                placeholder="EMAIL..."
                 className={classnames(
                   classes.emailInput,
                   errors.email && values.email && classes.invalid
@@ -95,7 +95,11 @@ export default function EmailForm({ show, small }) {
 
             <button
               type="submit"
-              className={classes.submitButton}
+              className={
+                isSuccessfullySent
+                  ? classnames(classes.submitButton, classes.sent)
+                  : classes.submitButton
+              }
               disabled={errors.email || !values.email}
             >
               Inform me!

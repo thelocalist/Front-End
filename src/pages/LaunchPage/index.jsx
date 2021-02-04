@@ -22,6 +22,7 @@ export default function LaunchPage() {
   return (
     <div className={classes.LaunchPage}>
       <div className={classes.overlay} />
+      <div className={classes.overlayMobile} />
       <div className={classes.content}>
         <div className={classes.heading}>
           <div className={classes.line} />

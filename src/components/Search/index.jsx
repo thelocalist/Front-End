@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import axios from 'axios';
 
 import SearchResultsPopup from './SearchResultsPopup';
-import { API_URL, AREAS } from '../../../constants/main';
+import { API_URL, AREAS } from '../../constants/main';
 import classes from './styles.module.scss';
 
 const PAGESIZE = 6;
@@ -242,7 +242,7 @@ export default function Search({ setIsSearchbarVisible }) {
                       event.stopPropagation();
                       setSearchFilter({
                         type: 'community',
-                        value: community.title,
+                        value: community.id,
                         option: community.title,
                       });
                       toggleOptionsVisibility();

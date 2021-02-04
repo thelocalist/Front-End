@@ -60,13 +60,14 @@
   }
 
   .text {
-    width: 570px;
+    width: 615px;
     height: 56px;
     box-sizing: border-box;
     margin-bottom: 35px;
     padding-left: 15px;
     padding-right: 15px;
-    font-size: 18px;
+    font-family: Libre Baskerville;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 28px;
@@ -83,16 +84,18 @@
   }
 
   .submitButton {
-    width: 170px;
-    height: 42px;
+    width: 176px;
+    height: 47px;
     background-color: #00030a;
     color: #7284b6;
+    font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-align: center;
+    text-transform: uppercase;
     border: none;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -104,15 +107,19 @@
     }
 
     &:disabled {
+      cursor: auto;
+    }
+    &.sent:disabled {
       background-color: #4f576f;
       color: #6b7a9c;
-      cursor: auto;
     }
   }
 
   .emailInput {
     width: 300px;
-    height: 33px;
+    height: 25px;
+    position: relative;
+    bottom: -5px;
     background-color: transparent;
     font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
     font-size: 14px;
@@ -128,9 +135,10 @@
     &::placeholder {
       padding-top: 14px;
       font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
-      font-size: 14px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 700;
+      line-height: 28px;
       letter-spacing: 0.05em;
       color: #7284b6;
       opacity: 1;
@@ -142,28 +150,49 @@
   }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 374px) {
+  .EmailForm {
+    overflow: scroll;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 667px) {
   .EmailForm:not(.small) {
-    width: 330px;
-    height: 300px;
+    width: 345px;
+    height: 305px;
     padding-top: 30px;
 
     .emailInput {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 35px;
 
       &.success {
         text-align: center;
+      }
+
+      &::placeholder {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 15px;
+        letter-spacing: 0.05em;
       }
     }
 
     .text {
       width: 90%;
       margin-bottom: 50px;
+      padding: 0;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 30px;
+      letter-spacing: 0.05em;
+      text-align: center;
     }
 
     .submitButton {
-      margin-top: 10px;
       align-self: center;
     }
 

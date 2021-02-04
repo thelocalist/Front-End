@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Spinner from '../../../Spinner';
+import Spinner from '../../Spinner';
 import SearchResultsItem from './SearchResultsItem';
 import classes from './styles.module.scss';
 
@@ -9,7 +9,9 @@ export default function SearchResultsPopup({
   searchResults,
   searchStories,
   resetSearch,
+  zIndex,
 }) {
+  console.log(searchResults);
   const hideSearchResultsPopup = () => {
     setIsSearchResultsVisible(false);
     resetSearch();
@@ -46,7 +48,7 @@ export default function SearchResultsPopup({
   }
 
   return (
-    <div className={classes.SearchResultsPopup}>
+    <div className={classes.SearchResultsPopup} style={{ zIndex }}>
       <i className={classes.closeIcon} onClick={hideSearchResultsPopup}>
         Close
       </i>

@@ -51,6 +51,7 @@ body {
   position: relative;
   z-index: 2;
   margin-top: 186px;
+  text-transform: uppercase;
 }
 
 .heading {
@@ -63,7 +64,8 @@ body {
 
   h1 {
     margin: 0;
-    font-size: 26px;
+    width: 254px;
+    font-size: 28px;
     font-style: normal;
     font-weight: normal;
     line-height: 32px;
@@ -74,23 +76,22 @@ body {
 }
 
 .heading .capitalLetter {
-  font-size: 33px;
+  font-size: 37px;
   font-style: normal;
   font-weight: normal;
-  line-height: 41px;
+  line-height: 46px;
   letter-spacing: 0em;
 }
 
 .line {
   width: 182px;
-  height: 2px;
+  height: 1px;
   background-color: #7284b6;
 }
 
 .releaseDate {
   display: flex;
   flex-wrap: nowrap;
-  width: 334px;
   justify-content: center;
   align-items: center;
   height: 49px;
@@ -138,11 +139,12 @@ body {
   transform: scale(1.2) rotate(90deg) translate(7px);
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 667px) {
   .LaunchPage {
     position: fixed;
     left: 0;
     right: 0;
+    background-image: url(../../assets/images/map_mobile-svg.svg);
   }
 
   .heading {
@@ -154,7 +156,35 @@ body {
     }
   }
 
+  .overlayMobile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 3, 11, 0.75);
+    animation: fadeinoutMobile 9s linear infinite;
+  }
+
+  .overlay {
+    background-color: transparent;
+  }
+
   .line {
     width: 50px;
+    background-color: #7284b6;
+  }
+}
+
+@keyframes fadeinoutMobile {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
   }
 }

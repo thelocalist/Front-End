@@ -2,6 +2,7 @@ import { React, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import LaunchPage from '../pages/LaunchPage';
+import HomePage from '../pages/HomePage';
 // import PrivateRoute from "../containers/PrivateRoute";
 
 const Routes = () => {
@@ -16,8 +17,8 @@ const Routes = () => {
       {/* <Route exact path="/reset-password" component={ResetPasswordPage} /> */}
       {/* <Route exact path="/error" component={ErrorPage} /> */}
 
-      <Route path="/" component={LaunchPage} />
-      <Route path="/home" component={LaunchPage} />
+      <Route path="/" exact component={LaunchPage} />
+      <Route path="/home" exact component={HomePage} />
     </Switch>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import classes from './styles.module.scss';
-import Search from './Search';
+import Search from '../Search';
 
 function Header({ location, setIsSideMenuVisible }) {
   const [isSearchbarVisible, setIsSearchbarVisible] = useState(false);
