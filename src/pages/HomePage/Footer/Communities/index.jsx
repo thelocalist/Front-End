@@ -91,7 +91,12 @@ export default function Communities({
           <Community
             title={community.title}
             id={community.id}
-            click={() => fetchStories(community.id)}
+            click={() => {
+              if (!isVisible) {
+                return;
+              }
+              fetchStories(community.id);
+            }}
           />
         ))
       ) : (

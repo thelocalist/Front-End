@@ -9,7 +9,16 @@ import classes from './styles.module.scss';
 
 export default function Footer() {
   const [selectedMenuOption, setSelectedMenuOption] = useState('communities');
-  const [scrollContentPosition, setScrollContentPosition] = useState(0);
+  // const [scrollContentPosition, setScrollContentPosition] = useState(0);
+  const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
+  const [
+    scrollRecentStoriesPosition,
+    setScrollRecentStoriesPosition,
+  ] = useState(0);
+  const [
+    scrollFeaturedStoriesPosition,
+    setScrollFeaturedStoriesPosition,
+  ] = useState(0);
 
   const communitiesRef = useRef();
   const featuredStoriesRef = useRef();
@@ -17,32 +26,42 @@ export default function Footer() {
 
   const scrollContent = (direction) => {
     let ref;
+    let scrollContentPosition;
+    let setScrollContentPosition;
 
     switch (selectedMenuOption) {
       case 'communities':
         ref = communitiesRef;
+        scrollContentPosition = scrollCommunitiesPosition;
+        setScrollContentPosition = setScrollCommunitiesPosition;
         break;
       case 'featured':
         ref = featuredStoriesRef;
+        scrollContentPosition = scrollFeaturedStoriesPosition;
+        setScrollContentPosition = setScrollFeaturedStoriesPosition;
         break;
       case 'recent':
         ref = recentStoriesRef;
+        scrollContentPosition = scrollRecentStoriesPosition;
+        setScrollContentPosition = setScrollRecentStoriesPosition;
         break;
       default:
         ref = null;
     }
+
+    const scrollDistance = Math.trunc(window.innerWidth / 320) * 320;
 
     if (direction === 'forward') {
       if (ref.current.scrollWidth + scrollContentPosition < window.innerWidth) {
         return;
       }
 
-      setScrollContentPosition((prevState) => prevState - 280);
+      setScrollContentPosition((prevState) => prevState - scrollDistance);
     } else {
-      if (scrollContentPosition + 280 > 0) {
+      if (scrollContentPosition + scrollDistance > 0) {
         return;
       }
-      setScrollContentPosition((prevState) => prevState + 280);
+      setScrollContentPosition((prevState) => prevState + scrollDistance);
     }
   };
 
@@ -54,7 +73,10 @@ export default function Footer() {
           <li
             onClick={() => {
               setSelectedMenuOption('recent');
-              setScrollContentPosition(0);
+              setTimeout(() => {
+                setScrollCommunitiesPosition(0);
+                setScrollFeaturedStoriesPosition(0);
+              }, 500);
             }}
             className={selectedMenuOption === 'recent' ? classes.active : null}
           >
@@ -63,7 +85,10 @@ export default function Footer() {
           <li
             onClick={() => {
               setSelectedMenuOption('featured');
-              setScrollContentPosition(0);
+              setTimeout(() => {
+                setScrollCommunitiesPosition(0);
+                setScrollRecentStoriesPosition(0);
+              }, 500);
             }}
             className={
               selectedMenuOption === 'featured' ? classes.active : null
@@ -74,7 +99,10 @@ export default function Footer() {
           <li
             onClick={() => {
               setSelectedMenuOption('communities');
-              setScrollContentPosition(0);
+              setTimeout(() => {
+                setScrollFeaturedStoriesPosition(0);
+                setScrollRecentStoriesPosition(0);
+              }, 500);
             }}
             className={
               selectedMenuOption === 'communities' ? classes.active : null
@@ -103,20 +131,20 @@ export default function Footer() {
         </div>
       </div>
       <div className={classes.content}>
-        <Communities
-          isVisible={selectedMenuOption === 'communities'}
-          scrollCommunitiesPosition={scrollContentPosition}
-          communitiesRef={communitiesRef}
-        />
         <FeaturedStories
           isVisible={selectedMenuOption === 'featured'}
           featuredStoriesRef={featuredStoriesRef}
-          featuredStoriesPosition={scrollContentPosition}
+          featuredStoriesPosition={scrollFeaturedStoriesPosition}
         />
         <RecentStories
           isVisible={selectedMenuOption === 'recent'}
           recentStoriesRef={recentStoriesRef}
-          recentStoriesPosition={scrollContentPosition}
+          recentStoriesPosition={scrollRecentStoriesPosition}
+        />
+        <Communities
+          isVisible={selectedMenuOption === 'communities'}
+          scrollCommunitiesPosition={scrollCommunitiesPosition}
+          communitiesRef={communitiesRef}
         />
       </div>
     </div>
