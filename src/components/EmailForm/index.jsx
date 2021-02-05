@@ -80,6 +80,7 @@ export default function EmailForm({ show, small }) {
                 type="text"
                 value="You will hear from us soon!"
                 className={classnames(classes.emailInput, classes.success)}
+                disabled
               />
             ) : (
               <Field

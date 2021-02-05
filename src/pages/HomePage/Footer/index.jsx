@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import Communities from './Communities';
+import FeaturedStories from './FeaturedStories';
 import classes from './styles.module.scss';
 
 export default function Footer() {
@@ -72,10 +73,13 @@ export default function Footer() {
         </div>
       </div>
       <div className={classes.content}>
-        <Communities
-          scrollCommunitiesPosition={scrollCommunitiesPosition}
-          communitiesRef={communitiesRef}
-        />
+        {selectedMenuOption === 'communities' && (
+          <Communities
+            scrollCommunitiesPosition={scrollCommunitiesPosition}
+            communitiesRef={communitiesRef}
+          />
+        )}
+        {selectedMenuOption === 'featured' && <FeaturedStories />}
       </div>
     </div>
   );

@@ -17,7 +17,18 @@ body {
   font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
   background-size: cover;
   background-position: center;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   background-image: url(../../assets/images/map.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(1.5px);
 }
 
 .overlay {
@@ -29,18 +40,18 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(0, 0, 0);
-  opacity: 0.44;
+  background-color: rgb(0, 3, 11);
+  opacity: 0.8;
   animation: fadeinout 9s linear infinite;
 }
 
 @keyframes fadeinout {
   0%,
   100% {
-    opacity: 0.7;
+    opacity: 0.8;
   }
   50% {
-    opacity: 0;
+    opacity: 0.6;
   }
 }
 
@@ -139,12 +150,38 @@ body {
   transform: scale(1.2) rotate(90deg) translate(7px);
 }
 
+@media only screen and (max-width: 374px) {
+  .LaunchPage {
+    overflow: auto;
+  }
+
+  .background {
+    position: fixed;
+  }
+
+  .overlay {
+    position: fixed;
+  }
+
+  .heading {
+    width: 100%;
+    h1 {
+      margin-left: 5px !important;
+      margin-right: 5px !important;
+    }
+  }
+}
+
 @media only screen and (max-width: 667px) {
   .LaunchPage {
     position: fixed;
     left: 0;
     right: 0;
+  }
+
+  .background {
     background-image: url(../../assets/images/map_mobile-svg.svg);
+    filter: blur(0);
   }
 
   .heading {
@@ -154,23 +191,6 @@ body {
       margin-left: 10px;
       margin-right: 10px;
     }
-  }
-
-  .overlayMobile {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 3, 11, 0.75);
-    animation: fadeinoutMobile 9s linear infinite;
-  }
-
-  .overlay {
-    background-color: transparent;
   }
 
   .line {

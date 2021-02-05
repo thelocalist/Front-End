@@ -1,5 +1,6 @@
 import { React, useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
@@ -10,7 +11,6 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
   const [isSubscriptionFormVisible, setIsSubscriptionFormVisible] = useState(
     'false'
   );
-  const [arrowIconClasses, setArrowIconClasses] = useState(classes.arrowIcon);
 
   const arrowIconRef = useRef();
   const menuRef = useRef();
@@ -18,16 +18,15 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
 
   const toggleSubmenuVisibility = () => {
     setIsSubmenuVisible((prevState) => !prevState);
-    setArrowIconClasses((prevState) => {
+    /* setArrowIconClasses((prevState) => {
       if (prevState === classes.arrowIcon) {
         return `${classes.arrowIcon} ${classes.clicked}`;
       }
       return classes.arrowIcon;
-    });
+    }); */
   };
 
   const hideSideMenu = () => {
-    setArrowIconClasses(classes.arrowIcon);
     setIsSideMenuVisible(false);
     setIsSubmenuVisible(false);
     setIsSubscriptionFormVisible(false);
@@ -88,13 +87,34 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                 <span className={classes.areaLink}>Directory</span>
                 <i
                   role="button"
-                  className={arrowIconClasses}
+                  className={
+                    isSubmenuVisible
+                      ? classnames(classes.arrowIcon, classes.clicked)
+                      : classes.arrowIcon
+                  }
                   tabIndex={0}
                   ref={arrowIconRef}
                 >
                   Directory
                 </i>
               </span>
+              <li style={{ display: isSubmenuVisible ? 'block' : 'none' }}>
+                <div className={classes.areaListContainer}>
+                  <ul className={classes.areasList}>
+                    {AREAS.map((area) => (
+                      <li
+                        className={classes.areaLi}
+                        key={area}
+                        ref={areasListElementRef}
+                      >
+                        <Link to="/" className={classes.areaLink}>
+                          {area}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
             </li>
             <li
               className={`${classes.areaLi} ${
@@ -126,30 +146,11 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
             </li>
           </ul>
         </div>
-        <footer className={classes.menuFooter}>
-          <p>Publish - Contact - Newsletter</p>
-          <p>Operations@thelocalist.co</p>
-        </footer>
       </div>
-      <div
-        className={`${classes.col} ${isSubmenuVisible ? classes.show : null}`}
-      >
-        <div className={classes.areaListContainer}>
-          <ul className={classes.areasList}>
-            {AREAS.map((area) => (
-              <li
-                className={classes.areaLi}
-                key={area}
-                ref={areasListElementRef}
-              >
-                <Link to="/" className={classes.areaLink}>
-                  {area}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <footer className={classes.menuFooter}>
+        <p>Publish - Contact - Newsletter</p>
+        <p>Operations@thelocalist.co</p>
+      </footer>
     </div>
   );
 }

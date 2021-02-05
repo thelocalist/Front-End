@@ -101,17 +101,15 @@
     border-radius: 10px;
     cursor: pointer;
 
-    &:hover:enabled {
+    &:hover {
       background-color: #05153a;
       color: #96aae0;
     }
 
-    &:disabled {
-      cursor: auto;
-    }
     &.sent:disabled {
       background-color: #4f576f;
       color: #6b7a9c;
+      cursor: auto;
     }
   }
 
@@ -150,12 +148,12 @@
   }
 }
 
-@media only screen and (max-width: 374px) {
+/* @media only screen and (max-width: 374px) {
   .EmailForm {
     overflow: scroll;
     padding-bottom: 20px;
   }
-}
+} */
 
 @media only screen and (max-width: 667px) {
   .EmailForm:not(.small) {
