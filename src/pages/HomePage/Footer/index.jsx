@@ -6,25 +6,38 @@ import classes from './styles.module.scss';
 
 export default function Footer() {
   const [selectedMenuOption, setSelectedMenuOption] = useState('communities');
-  const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
+  const [scrollContentPosition, setScrollContentPosition] = useState(0);
 
   const communitiesRef = useRef();
+  const featuredStoriesRef = useRef();
 
-  const scrollCommunities = (direction) => {
+  const scrollContent = (direction) => {
+    let ref;
+
+    console.log(selectedMenuOption);
+
+    switch (selectedMenuOption) {
+      case 'communities':
+        ref = communitiesRef;
+        break;
+      case 'featured':
+        ref = featuredStoriesRef;
+        break;
+      default:
+        ref = null;
+    }
+
     if (direction === 'forward') {
-      if (
-        communitiesRef.current.scrollWidth + scrollCommunitiesPosition <
-        window.innerWidth
-      ) {
+      if (ref.current.scrollWidth + scrollContentPosition < window.innerWidth) {
         return;
       }
 
-      setScrollCommunitiesPosition((prevState) => prevState - 280);
+      setScrollContentPosition((prevState) => prevState - 280);
     } else {
-      if (scrollCommunitiesPosition + 280 > 0) {
+      if (scrollContentPosition + 280 > 0) {
         return;
       }
-      setScrollCommunitiesPosition((prevState) => prevState + 280);
+      setScrollContentPosition((prevState) => prevState + 280);
     }
   };
 
@@ -40,7 +53,10 @@ export default function Footer() {
             Recent Nearby
           </li>
           <li
-            onClick={() => setSelectedMenuOption('featured')}
+            onClick={() => {
+              setSelectedMenuOption('featured');
+              setScrollContentPosition(0);
+            }}
             className={
               selectedMenuOption === 'featured' ? classes.active : null
             }
@@ -48,7 +64,10 @@ export default function Footer() {
             Featured
           </li>
           <li
-            onClick={() => setSelectedMenuOption('communities')}
+            onClick={() => {
+              setSelectedMenuOption('communities');
+              setScrollContentPosition(0);
+            }}
             className={
               selectedMenuOption === 'communities' ? classes.active : null
             }
@@ -60,13 +79,13 @@ export default function Footer() {
         <div className={classes.arrowIcons}>
           <i
             className={classes.switchPrevious}
-            onClick={() => scrollCommunities('back')}
+            onClick={() => scrollContent('back')}
           >
             Left
           </i>
           <i
             className={classes.switchNext}
-            onClick={() => scrollCommunities('forward')}
+            onClick={() => scrollContent('forward')}
           >
             Right
           </i>
@@ -75,11 +94,16 @@ export default function Footer() {
       <div className={classes.content}>
         {selectedMenuOption === 'communities' && (
           <Communities
-            scrollCommunitiesPosition={scrollCommunitiesPosition}
+            scrollCommunitiesPosition={scrollContentPosition}
             communitiesRef={communitiesRef}
           />
         )}
-        {selectedMenuOption === 'featured' && <FeaturedStories />}
+        {selectedMenuOption === 'featured' && (
+          <FeaturedStories
+            featuredStoriesRef={featuredStoriesRef}
+            featuredStoriesPosition={scrollContentPosition}
+          />
+        )}
       </div>
     </div>
   );

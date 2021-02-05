@@ -5,3 +5,10 @@
   position: relative;
   transition: left 0.3s ease-out;
 }
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 10px);
+}

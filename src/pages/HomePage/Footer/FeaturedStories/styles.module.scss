@@ -4,5 +4,11 @@
   padding-left: 10px;
   position: relative;
   transition: left 0.3s ease-out;
-  background-color: green;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 10px);
 }

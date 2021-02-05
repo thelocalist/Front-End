@@ -11,6 +11,10 @@
   margin-right: 15px;
   cursor: pointer;
 
+  &:hover {
+    background-color: #131929;
+  }
+
   .heading {
     display: flex;
     flex-direction: column;

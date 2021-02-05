@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
-// import SearchResulstItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
+import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
 import classes from './styles.module.scss';
 
-export default function FeaturedStories() {
+export default function FeaturedStories({
+  featuredStoriesPosition,
+  featuredStoriesRef,
+}) {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
@@ -22,11 +25,23 @@ export default function FeaturedStories() {
   }, []);
 
   return (
-    <div className={classes.FeaturedStories}>
+    <div
+      className={classes.FeaturedStories}
+      style={{ left: featuredStoriesPosition }}
+      ref={featuredStoriesRef}
+    >
       {stories.length ? (
-        stories.map((story) => <p key={story.id}>{story.title}</p>)
+        stories.map((story) => (
+          <SearchResultsItem
+            key={story.id}
+            searchResult={story}
+            styles={{ minWidth: 305, height: 250, marginRight: 15 }}
+          />
+        ))
       ) : (
-        <Spinner />
+        <div className={classes.spinner}>
+          <Spinner />
+        </div>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import SearchResultsPopup from '../../../../components/Search/SearchResultsPopup';
+import Spinner from '../../../../components/Spinner';
 import Community from './Community';
 import classes from './styles.module.scss';
 
@@ -79,13 +80,19 @@ export default function Communities({
       style={{ left: scrollCommunitiesPosition }}
       ref={communitiesRef}
     >
-      {communities.map((community) => (
-        <Community
-          title={community.title}
-          id={community.id}
-          click={() => fetchStories(community.id)}
-        />
-      ))}
+      {communities.length ? (
+        communities.map((community) => (
+          <Community
+            title={community.title}
+            id={community.id}
+            click={() => fetchStories(community.id)}
+          />
+        ))
+      ) : (
+        <div className={classes.spinner}>
+          <Spinner />
+        </div>
+      )}
       {isSearchResultsVisible && (
         <SearchResultsPopup
           searchResults={stories}
