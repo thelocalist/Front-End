@@ -1,9 +1,9 @@
-.Communities {
+.RecentStories {
   display: flex;
   height: 250px;
   padding-left: 10px;
-  position: absolute;
   opacity: 0;
+  position: absolute;
   &.visible {
     opacity: 1;
   }

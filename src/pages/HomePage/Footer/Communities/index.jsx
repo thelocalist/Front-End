@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import classnames from 'classnames';
 
 import SearchResultsPopup from '../../../../components/Search/SearchResultsPopup';
 import Spinner from '../../../../components/Spinner';
@@ -12,6 +13,7 @@ const PAGESIZE = 6;
 export default function Communities({
   scrollCommunitiesPosition,
   communitiesRef,
+  isVisible,
 }) {
   const [communities, setCommunities] = useState([]);
   const [currentCommunityId, setCurrentCommunityId] = useState(null);
@@ -76,7 +78,11 @@ export default function Communities({
 
   return (
     <div
-      className={classes.Communities}
+      className={
+        isVisible
+          ? classnames(classes.Communities, classes.visible)
+          : classes.Communities
+      }
       style={{ left: scrollCommunitiesPosition }}
       ref={communitiesRef}
     >

@@ -148,12 +148,13 @@
   }
 }
 
-/* @media only screen and (max-width: 374px) {
-  .EmailForm {
-    overflow: scroll;
-    padding-bottom: 20px;
+@media only screen and (max-width: 376px) {
+  .EmailForm:not(.small) {
+    .text {
+      font-size: 14px !important;
+    }
   }
-} */
+}
 
 @media only screen and (max-width: 667px) {
   .EmailForm:not(.small) {

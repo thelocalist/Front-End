@@ -1,7 +1,10 @@
 import React, { useState, useRef } from 'react';
 
+import classnames from 'classnames';
+
 import Communities from './Communities';
 import FeaturedStories from './FeaturedStories';
+import RecentStories from './RecentStories';
 import classes from './styles.module.scss';
 
 export default function Footer() {
@@ -10,11 +13,10 @@ export default function Footer() {
 
   const communitiesRef = useRef();
   const featuredStoriesRef = useRef();
+  const recentStoriesRef = useRef();
 
   const scrollContent = (direction) => {
     let ref;
-
-    console.log(selectedMenuOption);
 
     switch (selectedMenuOption) {
       case 'communities':
@@ -22,6 +24,9 @@ export default function Footer() {
         break;
       case 'featured':
         ref = featuredStoriesRef;
+        break;
+      case 'recent':
+        ref = recentStoriesRef;
         break;
       default:
         ref = null;
@@ -47,7 +52,10 @@ export default function Footer() {
         <ul>
           {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
           <li
-            onClick={() => setSelectedMenuOption('recent')}
+            onClick={() => {
+              setSelectedMenuOption('recent');
+              setScrollContentPosition(0);
+            }}
             className={selectedMenuOption === 'recent' ? classes.active : null}
           >
             Recent Nearby
@@ -74,6 +82,9 @@ export default function Footer() {
           >
             Communities
           </li>
+          <li
+            className={classnames(classes.line, classes[selectedMenuOption])}
+          />
           {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
         </ul>
         <div className={classes.arrowIcons}>
@@ -92,18 +103,21 @@ export default function Footer() {
         </div>
       </div>
       <div className={classes.content}>
-        {selectedMenuOption === 'communities' && (
-          <Communities
-            scrollCommunitiesPosition={scrollContentPosition}
-            communitiesRef={communitiesRef}
-          />
-        )}
-        {selectedMenuOption === 'featured' && (
-          <FeaturedStories
-            featuredStoriesRef={featuredStoriesRef}
-            featuredStoriesPosition={scrollContentPosition}
-          />
-        )}
+        <Communities
+          isVisible={selectedMenuOption === 'communities'}
+          scrollCommunitiesPosition={scrollContentPosition}
+          communitiesRef={communitiesRef}
+        />
+        <FeaturedStories
+          isVisible={selectedMenuOption === 'featured'}
+          featuredStoriesRef={featuredStoriesRef}
+          featuredStoriesPosition={scrollContentPosition}
+        />
+        <RecentStories
+          isVisible={selectedMenuOption === 'recent'}
+          recentStoriesRef={recentStoriesRef}
+          recentStoriesPosition={scrollContentPosition}
+        />
       </div>
     </div>
   );

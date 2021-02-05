@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import classnames from 'classnames';
 
-import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
+import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import classes from './styles.module.scss';
 
-export default function FeaturedStories({
-  featuredStoriesPosition,
-  featuredStoriesRef,
+export default function RecentStories({
+  recentStoriesRef,
+  recentStoriesPosition,
   isVisible,
 }) {
   const [stories, setStories] = useState([]);
@@ -17,10 +17,9 @@ export default function FeaturedStories({
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/stories`, {
-        params: { isFeatured: true },
+        params: { sortField: 'createdAt', sortOrder: 'desc' },
       })
       .then((response) => {
-        console.log(response.data.data);
         setStories(response.data.data);
       })
       .catch((error) => console.log(error));
@@ -30,15 +29,15 @@ export default function FeaturedStories({
     <div
       className={
         isVisible
-          ? classnames(classes.FeaturedStories, classes.visible)
-          : classes.FeaturedStories
+          ? classnames(classes.RecentStories, classes.visible)
+          : classes.RecentStories
       }
-      style={{ left: featuredStoriesPosition }}
-      ref={featuredStoriesRef}
+      ref={recentStoriesRef}
+      style={{ left: recentStoriesPosition }}
     >
       {stories.length ? (
         stories.map((story) => (
-          <SearchResultsItem
+          <SearchResultItem
             key={story.id}
             searchResult={story}
             styles={{

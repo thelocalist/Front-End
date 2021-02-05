@@ -12,6 +12,7 @@
   position: relative;
   margin-bottom: 7px;
   ul {
+    position: relative;
     width: 420px;
     display: flex;
     justify-content: space-between;
@@ -36,15 +37,27 @@
       color: #9797aa;
     }
 
-    li.active::after {
-      content: '';
-      display: block;
-      width: 75%;
-      position: relative;
+    li.line {
+      position: absolute;
+      width: 100%;
       bottom: -7px;
-      margin: auto;
-
       border-bottom: 2px solid #9797aa;
+      transition: all 0.3s ease-in-out;
+
+      &.recent {
+        left: 20px;
+        width: 105px;
+      }
+
+      &.featured {
+        left: 186px;
+        width: 63px;
+      }
+
+      &.communities {
+        left: 305px;
+        width: 99px;
+      }
     }
   }
 
