@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
 import classnames from 'classnames';
 
 import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
+import { API_URL } from '../../../../constants/main';
 import classes from './styles.module.scss';
 
 export default function FeaturedStories({
@@ -16,11 +16,10 @@ export default function FeaturedStories({
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/stories`, {
+      .get(`${API_URL}/stories`, {
         params: { isFeatured: true },
       })
       .then((response) => {
-        console.log(response.data.data);
         setStories(response.data.data);
       })
       .catch((error) => console.log(error));
@@ -28,11 +27,10 @@ export default function FeaturedStories({
 
   return (
     <div
-      className={
-        isVisible
-          ? classnames(classes.FeaturedStories, classes.visible)
-          : classes.FeaturedStories
-      }
+      className={classnames(
+        classes.FeaturedStories,
+        isVisible && classes.visible
+      )}
       style={{ left: featuredStoriesPosition }}
       ref={featuredStoriesRef}
     >
@@ -41,12 +39,7 @@ export default function FeaturedStories({
           <SearchResultsItem
             key={story.id}
             searchResult={story}
-            styles={{
-              minWidth: 305,
-              maxWidth: 305,
-              height: 250,
-              marginRight: 15,
-            }}
+            className={classes.searchItem}
           />
         ))
       ) : (

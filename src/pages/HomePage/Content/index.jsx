@@ -7,7 +7,7 @@ import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
 import classes from './styles.module.scss';
 
-export default function Footer() {
+export default function HomeContent() {
   const [selectedMenuOption, setSelectedMenuOption] = useState('communities');
   // const [scrollContentPosition, setScrollContentPosition] = useState(0);
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
@@ -66,7 +66,7 @@ export default function Footer() {
   };
 
   return (
-    <div className={classes.Footer}>
+    <div className={classes.HomeContent}>
       <div className={classes.menu}>
         <ul>
           {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}

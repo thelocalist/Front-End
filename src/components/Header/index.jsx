@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import classnames from 'classnames';
 
 import classes from './styles.module.scss';
 import Search from '../Search';
 
-function Header({ location, setIsSideMenuVisible }) {
+function Header({ setIsSideMenuVisible }) {
   const [isSearchbarVisible, setIsSearchbarVisible] = useState(false);
 
   const showSideMenu = () => {
@@ -15,31 +15,31 @@ function Header({ location, setIsSideMenuVisible }) {
     setIsSearchbarVisible(true);
   };
 
-  if (location.pathname === '/') {
-    return <></>;
-  }
-
   return (
     <header className={classes.Header}>
       <i
         role="button"
-        className={classes.burgerMenu}
+        className={classnames(
+          classes.burgerMenu,
+          isSearchbarVisible && classes.hidden
+        )}
         onClick={showSideMenu}
         tabIndex={0}
-        style={{ visibility: isSearchbarVisible ? 'hidden' : 'visible' }}
       >
         Menu
       </i>
-      <h1 className={classes.abyrwalg}>
+      <h1>
         <span className={classes.capitalLetter}>T</span>HE{' '}
         <span className={classes.capitalLetter}>L</span>OCALIST
       </h1>
       <i
         role="button"
-        className={classes.search}
+        className={classnames(
+          classes.search,
+          isSearchbarVisible && classes.hidden
+        )}
         onClick={showSearchbar}
         tabIndex={0}
-        style={{ visibility: isSearchbarVisible ? 'hidden' : 'visible' }}
       >
         Menu
       </i>
@@ -50,4 +50,4 @@ function Header({ location, setIsSideMenuVisible }) {
   );
 }
 
-export default withRouter(Header);
+export default Header;

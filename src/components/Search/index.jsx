@@ -229,11 +229,10 @@ export default function Search({ setIsSearchbarVisible }) {
             >
               <span>community</span>
               <ul
-                className={
-                  isCommunitiesListVisible
-                    ? classnames(classes.communitiesList, classes.expand)
-                    : classes.communitiesList
-                }
+                className={classnames(
+                  classes.communitiesList,
+                  isCommunitiesListVisible && classes.expand
+                )}
               >
                 {communities.map((community) => (
                   <li

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
 import axios from 'axios';
 import classnames from 'classnames';
 
 import Spinner from '../../../../components/Spinner';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
+import { API_URL } from '../../../../constants/main';
 import classes from './styles.module.scss';
 
 export default function RecentStories({
@@ -16,7 +16,7 @@ export default function RecentStories({
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/stories`, {
+      .get(`${API_URL}/stories`, {
         params: { sortField: 'createdAt', sortOrder: 'desc' },
       })
       .then((response) => {
@@ -40,12 +40,7 @@ export default function RecentStories({
           <SearchResultItem
             key={story.id}
             searchResult={story}
-            styles={{
-              minWidth: 305,
-              maxWidth: 305,
-              height: 250,
-              marginRight: 15,
-            }}
+            className={classes.searchItem}
           />
         ))
       ) : (

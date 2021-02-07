@@ -25,25 +25,18 @@ export default function SearchResultsPopup({
   };
 
   let content;
-
   if (!searchResults.length) {
-    content = (
-      <Spinner
-        styles={{ alignSelf: 'center', margin: 'auto', paddingBottom: 48 }}
-      />
-    );
-  } else {
-    content = searchResults.map((searchResult) => (
-      <SearchResultsItem key={searchResult.id} searchResult={searchResult} />
-    ));
-  }
-
-  if (searchResults[0] === 'empty') {
+    content = <Spinner className={classes.spinner} />;
+  } else if (searchResults[0] === 'empty') {
     content = (
       <div className={classes.noSearchResults}>
         <p>Nothing found</p>
       </div>
     );
+  } else {
+    content = searchResults.map((searchResult) => (
+      <SearchResultsItem key={searchResult.id} searchResult={searchResult} />
+    ));
   }
 
   return (

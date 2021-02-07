@@ -143,11 +143,11 @@
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
-}
 
-.areaLink:hover {
-  text-decoration: underline;
-  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 .logo {
@@ -199,8 +199,9 @@
 
     .arrowIcon {
       transform: scale(1.2);
+
       &.clicked {
-        transform: scale(1.2) rotate(90deg) translate(7px);
+        transform: scale(1.2) rotate(90deg) translate(7px);;
       }
     }
   }
@@ -220,5 +221,6 @@
 
   &.clicked {
     transform: rotate(90deg) translate(7px);
+    margin-bottom: 10px;
   }
 }

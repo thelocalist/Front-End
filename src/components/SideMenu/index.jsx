@@ -12,9 +12,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
     'false'
   );
 
-  const arrowIconRef = useRef();
   const menuRef = useRef();
-  const areasListElementRef = useRef();
 
   const toggleSubmenuVisibility = () => {
     setIsSubmenuVisible((prevState) => !prevState);
@@ -77,7 +75,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
           </i>
           <h2>MENU</h2>
         </header>
-        <div className={classes.menuListContainer}>
+        <div>
           <ul className={classes.areasList}>
             <li className={classes.areaLi}>
               <span
@@ -87,13 +85,11 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                 <span className={classes.areaLink}>Directory</span>
                 <i
                   role="button"
-                  className={
-                    isSubmenuVisible
-                      ? classnames(classes.arrowIcon, classes.clicked)
-                      : classes.arrowIcon
-                  }
+                  className={classnames(
+                    classes.arrowIcon,
+                    isSubmenuVisible && classes.clicked
+                  )}
                   tabIndex={0}
-                  ref={arrowIconRef}
                 >
                   Directory
                 </i>
@@ -102,11 +98,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                 <div className={classes.areaListContainer}>
                   <ul className={classes.areasList}>
                     {AREAS.map((area) => (
-                      <li
-                        className={classes.areaLi}
-                        key={area}
-                        ref={areasListElementRef}
-                      >
+                      <li className={classes.areaLi} key={area}>
                         <Link to="/" className={classes.areaLink}>
                           {area}
                         </Link>

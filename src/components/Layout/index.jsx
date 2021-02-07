@@ -1,13 +1,17 @@
 import { React, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Header from '../Header';
 import SideMenu from '../SideMenu';
 
-export default function Layout({ children }) {
+const Layout = ({ location, children }) => {
   const [isSideMenuVisible, setIsSideMenuVisible] = useState(false);
+
+  const isLaunchPage = location.pathname === '/';
+
   return (
     <>
-      <Header setIsSideMenuVisible={setIsSideMenuVisible} />
+      {!isLaunchPage && <Header setIsSideMenuVisible={setIsSideMenuVisible} />}
       <SideMenu
         isSideMenuVisible={isSideMenuVisible}
         setIsSideMenuVisible={setIsSideMenuVisible}
@@ -15,4 +19,5 @@ export default function Layout({ children }) {
       {children}
     </>
   );
-}
+};
+export default withRouter(Layout);

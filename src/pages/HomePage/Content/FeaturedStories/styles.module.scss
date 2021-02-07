@@ -4,10 +4,18 @@
   padding-left: 10px;
   opacity: 0;
   position: absolute;
+  transition: opacity 0.5s ease-out, left 0.3s ease-out;
+
   &.visible {
     opacity: 1;
   }
-  transition: opacity 0.5s ease-out, left 0.3s ease-out;
+}
+
+.searchItem {
+  min-width: 305px;
+  max-width: 305px;
+  height: 250px;
+  margin-right: 15px;
 }
 
 .spinner {
