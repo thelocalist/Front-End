@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import classnames from 'classnames';
 
 import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
-import { API_URL } from '../../../../constants/main';
+import ErrorMessage from '../../ErrorMessage';
+import useApiRequest from '../../../../helpers/useApiRequest';
 import classes from './styles.module.scss';
 
 export default function FeaturedStories({
@@ -12,17 +12,18 @@ export default function FeaturedStories({
   featuredStoriesRef,
   isVisible,
 }) {
-  const [stories, setStories] = useState([]);
+  // const [stories, setStories] = useState([]);
+
+  const [
+    stories,
+    fetchStories,
+    isStoriesFetching,
+    storiesFetchingError,
+  ] = useApiRequest('get', '/stories');
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/stories`, {
-        params: { isFeatured: true },
-      })
-      .then((response) => {
-        setStories(response.data.data);
-      })
-      .catch((error) => console.log(error));
+    fetchStories({ isFeatured: true });
+    console.log(isStoriesFetching);
   }, []);
 
   return (
@@ -31,11 +32,11 @@ export default function FeaturedStories({
         classes.FeaturedStories,
         isVisible && classes.visible
       )}
-      style={{ left: featuredStoriesPosition }}
+      style={{ left: featuredStoriesPosition, zIndex: isVisible ? 1 : 0 }}
       ref={featuredStoriesRef}
     >
-      {stories.length ? (
-        stories.map((story) => (
+      {stories ? (
+        stories.data.map((story) => (
           <SearchResultsItem
             key={story.id}
             searchResult={story}
@@ -44,7 +45,11 @@ export default function FeaturedStories({
         ))
       ) : (
         <div className={classes.spinner}>
-          <Spinner />
+          {storiesFetchingError ? (
+            <ErrorMessage message={storiesFetchingError.message} />
+          ) : (
+            <Spinner />
+          )}
         </div>
       )}
     </div>

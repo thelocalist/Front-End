@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import classnames from 'classnames';
-import axios from 'axios';
 
 import SearchResultsPopup from './SearchResultsPopup';
-import { API_URL, AREAS } from '../../constants/main';
+import useSearch from '../../helpers/useSearch';
+import useApiRequest from '../../helpers/useApiRequest';
+import { AREAS } from '../../constants/main';
 import classes from './styles.module.scss';
 
 const PAGESIZE = 6;
@@ -22,7 +23,7 @@ export default function Search({ setIsSearchbarVisible }) {
   const [isCommunitiesListVisible, setIsCommunitiesListVisible] = useState(
     false
   );
-  const [communities, setCommunities] = useState([]);
+
   const [isAreasListVisible, setIsAreasListVisible] = useState(false);
   const [search, setSearch] = useState('');
   const [searchFilter, setSearchFilter] = useState({
@@ -30,17 +31,29 @@ export default function Search({ setIsSearchbarVisible }) {
     type: 'author',
     value: '',
   });
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchResultsPage, setSearchResultsPage] = useState(0);
-  const [searchResultsCount, setSearchResultsCount] = useState(null);
+
+  /* eslint-disable no-unused-vars */
+  const [
+    stories,
+    getStories,
+    areStoriesFetching,
+    storiesFetchingError,
+    storiesCount,
+    getPreviousPage,
+    getNextPage,
+    resetSearch,
+  ] = useSearch('get', '/stories/search');
+  /* eslint-disable no-unused-vars */
+  const [
+    communities,
+    fetchCommunities,
+    areCommunitiesFetching,
+    communitiesFetchingError,
+  ] = useApiRequest('get', '/communities');
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/communities`)
-      .then((response) => {
-        setCommunities(response.data);
-      })
-      .catch((error) => console.log(error));
+    fetchCommunities();
+    console.log(areCommunitiesFetching, communitiesFetchingError);
   }, []);
 
   const optionsRef = useRef();
@@ -89,64 +102,27 @@ export default function Search({ setIsSearchbarVisible }) {
     setIsSearchbarVisible(false);
   };
 
-  const resetSearch = () => {
-    setSearch('');
-    setSearchResults([]);
-    setSearchResultsPage(0);
-  };
-
-  const searchStories = (event, direction) => {
-    let pageNumber = searchResultsPage;
-
+  const searchStories = (event) => {
     if (event) {
       event.preventDefault();
       if (search.trim() === '') {
         return;
       }
       resetSearch();
-      pageNumber = 0;
-    }
-
-    if (direction === 'forward') {
-      pageNumber += 1;
-    } else if (direction === 'back') {
-      pageNumber -= 1;
-    }
-
-    if (
-      pageNumber < 0 ||
-      (searchResultsCount - PAGESIZE * pageNumber < 1 && searchResultsCount)
-    ) {
-      return;
     }
 
     const queryParams = {
       keywords: search,
       filterType: FIELDS[searchFilter.type],
       filterValue: searchFilter.value,
-      pageIndex: pageNumber,
+      // pageIndex: pageNumber,
       pageSize: PAGESIZE,
     };
 
+    getStories(queryParams);
+    setSearch('');
+
     setIsSearchResultsVisible(true);
-    axios
-      .get(`${API_URL}/stories/search`, {
-        params: queryParams,
-      })
-      .then((response) => {
-        if (!response.data.rows.length) {
-          setSearchResults(['empty']);
-          return;
-        }
-        setSearchResults(response.data.rows);
-        setSearchResultsCount(response.data.count);
-        if (direction === 'forward') {
-          setSearchResultsPage((prevState) => prevState + 1);
-        } else if (direction === 'back') {
-          setSearchResultsPage((prevState) => prevState - 1);
-        }
-      })
-      .catch((error) => console.log(error));
   };
 
   return (
@@ -154,10 +130,10 @@ export default function Search({ setIsSearchbarVisible }) {
       {isSearchResultsVisible && (
         <SearchResultsPopup
           setIsSearchResultsVisible={setIsSearchResultsVisible}
-          searchResults={searchResults}
+          searchResults={stories}
           resetSearch={resetSearch}
-          searchResultsPage={searchResultsPage}
-          searchStories={searchStories}
+          getNextPage={getNextPage}
+          getPreviousPage={getPreviousPage}
         />
       )}
       <i

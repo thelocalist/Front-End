@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import classnames from 'classnames';
 
 import Spinner from '../../../../components/Spinner';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
-import { API_URL } from '../../../../constants/main';
+import ErrorMessage from '../../ErrorMessage';
+import useApiRequest from '../../../../helpers/useApiRequest';
 import classes from './styles.module.scss';
 
 export default function RecentStories({
@@ -12,17 +12,16 @@ export default function RecentStories({
   recentStoriesPosition,
   isVisible,
 }) {
-  const [stories, setStories] = useState([]);
+  const [
+    stories,
+    fetchStories,
+    isStoriesFetching,
+    storiesFetchingError,
+  ] = useApiRequest('get', '/stories');
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/stories`, {
-        params: { sortField: 'createdAt', sortOrder: 'desc' },
-      })
-      .then((response) => {
-        setStories(response.data.data);
-      })
-      .catch((error) => console.log(error));
+    fetchStories({ sortField: 'createdAt', sortOrder: 'desc' });
+    console.log(isStoriesFetching);
   }, []);
 
   return (
@@ -33,10 +32,10 @@ export default function RecentStories({
           : classes.RecentStories
       }
       ref={recentStoriesRef}
-      style={{ left: recentStoriesPosition }}
+      style={{ left: recentStoriesPosition, zIndex: isVisible ? 1 : 0 }}
     >
-      {stories.length ? (
-        stories.map((story) => (
+      {stories ? (
+        stories.data.map((story) => (
           <SearchResultItem
             key={story.id}
             searchResult={story}
@@ -45,7 +44,11 @@ export default function RecentStories({
         ))
       ) : (
         <div className={classes.spinner}>
-          <Spinner />
+          {storiesFetchingError ? (
+            <ErrorMessage message={storiesFetchingError.message} />
+          ) : (
+            <Spinner />
+          )}
         </div>
       )}
     </div>

@@ -4,9 +4,15 @@ import classnames from 'classnames';
 import classes from './styles.module.scss';
 
 export default function SearchResultsItem({ className, searchResult }) {
+  const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
   return (
     <div className={classnames(classes.SearchResultsItem, className)}>
-      <div className={classes.image} />
+      <div
+        className={classes.image}
+        style={{
+          backgroundImage: `url(${process.env.REACT_APP_STATIC_URL}${imagePath})`,
+        }}
+      />
       <h1>{searchResult.title}</h1>
       <div className={classes.footer}>
         <span className={classes.views}>

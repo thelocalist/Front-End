@@ -7,25 +7,19 @@ import classes from './styles.module.scss';
 export default function SearchResultsPopup({
   setIsSearchResultsVisible,
   searchResults,
-  searchStories,
   resetSearch,
   zIndex,
+  error,
+  getNextPage,
+  getPreviousPage,
 }) {
   const hideSearchResultsPopup = () => {
     setIsSearchResultsVisible(false);
     resetSearch();
   };
 
-  const switchResultsPageForward = () => {
-    searchStories(null, 'forward');
-  };
-
-  const switchResultsPageBack = () => {
-    searchStories(null, 'back');
-  };
-
   let content;
-  if (!searchResults.length) {
+  if (!searchResults) {
     content = <Spinner className={classes.spinner} />;
   } else if (searchResults[0] === 'empty') {
     content = (
@@ -39,6 +33,10 @@ export default function SearchResultsPopup({
     ));
   }
 
+  if (error) {
+    content = <div className={classes.error}>{error.message}</div>;
+  }
+
   return (
     <div className={classes.SearchResultsPopup} style={{ zIndex }}>
       <i className={classes.closeIcon} onClick={hideSearchResultsPopup}>
@@ -48,16 +46,10 @@ export default function SearchResultsPopup({
         {content}
         <div className={classes.footer}>
           <div className={classes.switchPageButtons}>
-            <i
-              className={classes.switchPrevious}
-              onClick={switchResultsPageBack}
-            >
+            <i className={classes.switchPrevious} onClick={getPreviousPage}>
               Left
             </i>
-            <i
-              className={classes.switchNext}
-              onClick={switchResultsPageForward}
-            >
+            <i className={classes.switchNext} onClick={getNextPage}>
               Right
             </i>
           </div>

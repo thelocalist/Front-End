@@ -3,6 +3,7 @@
   height: 250px;
   padding-left: 10px;
   position: absolute;
+  z-index: 0;
   opacity: 0;
   &.visible {
     opacity: 1;

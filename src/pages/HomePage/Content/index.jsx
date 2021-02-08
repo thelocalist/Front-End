@@ -1,15 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import classnames from 'classnames';
 
 import Communities from './Communities';
 import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
+
 import classes from './styles.module.scss';
 
 export default function HomeContent() {
+  const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('communities');
-  // const [scrollContentPosition, setScrollContentPosition] = useState(0);
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
   const [
     scrollRecentStoriesPosition,
@@ -19,10 +20,38 @@ export default function HomeContent() {
     scrollFeaturedStoriesPosition,
     setScrollFeaturedStoriesPosition,
   ] = useState(0);
+  const [isContentScrolldManually, setIsContentScrolldManually] = useState(
+    false
+  );
+  let timer;
 
   const communitiesRef = useRef();
   const featuredStoriesRef = useRef();
   const recentStoriesRef = useRef();
+
+  const switchTabsToRecent = () => {
+    setSelectedMenuOption('recent');
+    setTimeout(() => {
+      setScrollCommunitiesPosition(0);
+      setScrollFeaturedStoriesPosition(0);
+    }, 500);
+  };
+
+  const switchTabsToFeatured = () => {
+    setSelectedMenuOption('featured');
+    setTimeout(() => {
+      setScrollCommunitiesPosition(0);
+      setScrollRecentStoriesPosition(0);
+    }, 500);
+  };
+
+  const switchTabsToCommunities = () => {
+    setSelectedMenuOption('communities');
+    setTimeout(() => {
+      setScrollFeaturedStoriesPosition(0);
+      setScrollRecentStoriesPosition(0);
+    }, 500);
+  };
 
   const scrollContent = (direction) => {
     let ref;
@@ -53,6 +82,13 @@ export default function HomeContent() {
 
     if (direction === 'forward') {
       if (ref.current.scrollWidth + scrollContentPosition < window.innerWidth) {
+        if (selectedMenuOption === 'communities') {
+          switchTabsToRecent();
+        } else if (selectedMenuOption === 'recent') {
+          switchTabsToFeatured();
+        } else if (selectedMenuOption === 'featured') {
+          switchTabsToCommunities();
+        }
         return;
       }
 
@@ -65,31 +101,37 @@ export default function HomeContent() {
     }
   };
 
+  const scrollContentAutomatically = () => {
+    scrollContent('forward');
+  };
+
+  useEffect(() => {
+    if (isSearchResultsVisible) {
+      return null;
+    }
+    const timeoutDuration = isContentScrolldManually ? 6000 : 3000;
+    timer = setTimeout(() => {
+      scrollContentAutomatically();
+      setIsContentScrolldManually(false);
+    }, timeoutDuration);
+    return () => {
+      clearTimeout(timer);
+    };
+  });
+
   return (
     <div className={classes.HomeContent}>
       <div className={classes.menu}>
         <ul>
           {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
           <li
-            onClick={() => {
-              setSelectedMenuOption('recent');
-              setTimeout(() => {
-                setScrollCommunitiesPosition(0);
-                setScrollFeaturedStoriesPosition(0);
-              }, 500);
-            }}
+            onClick={switchTabsToRecent}
             className={selectedMenuOption === 'recent' ? classes.active : null}
           >
             Recent Nearby
           </li>
           <li
-            onClick={() => {
-              setSelectedMenuOption('featured');
-              setTimeout(() => {
-                setScrollCommunitiesPosition(0);
-                setScrollRecentStoriesPosition(0);
-              }, 500);
-            }}
+            onClick={switchTabsToFeatured}
             className={
               selectedMenuOption === 'featured' ? classes.active : null
             }
@@ -97,13 +139,7 @@ export default function HomeContent() {
             Featured
           </li>
           <li
-            onClick={() => {
-              setSelectedMenuOption('communities');
-              setTimeout(() => {
-                setScrollFeaturedStoriesPosition(0);
-                setScrollRecentStoriesPosition(0);
-              }, 500);
-            }}
+            onClick={switchTabsToCommunities}
             className={
               selectedMenuOption === 'communities' ? classes.active : null
             }
@@ -118,13 +154,19 @@ export default function HomeContent() {
         <div className={classes.arrowIcons}>
           <i
             className={classes.switchPrevious}
-            onClick={() => scrollContent('back')}
+            onClick={() => {
+              scrollContent('back');
+              setIsContentScrolldManually(true);
+            }}
           >
             Left
           </i>
           <i
             className={classes.switchNext}
-            onClick={() => scrollContent('forward')}
+            onClick={() => {
+              scrollContent('forward');
+              setIsContentScrolldManually(true);
+            }}
           >
             Right
           </i>
@@ -145,6 +187,8 @@ export default function HomeContent() {
           isVisible={selectedMenuOption === 'communities'}
           scrollCommunitiesPosition={scrollCommunitiesPosition}
           communitiesRef={communitiesRef}
+          isSearchResultsVisible={isSearchResultsVisible}
+          setIsSearchResultsVisible={setIsSearchResultsVisible}
         />
       </div>
     </div>

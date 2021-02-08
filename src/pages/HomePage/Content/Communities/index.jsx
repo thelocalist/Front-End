@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import axios from 'axios';
 import classnames from 'classnames';
 
 import SearchResultsPopup from '../../../../components/Search/SearchResultsPopup';
 import Spinner from '../../../../components/Spinner';
+import ErrorMessage from '../../ErrorMessage';
 import Community from './Community';
+import useApiRequest from '../../../../helpers/useApiRequest';
+import useApiPaginatedRequest from '../../../../helpers/useSearch';
 import classes from './styles.module.scss';
 
 const PAGESIZE = 6;
@@ -14,66 +16,52 @@ export default function Communities({
   scrollCommunitiesPosition,
   communitiesRef,
   isVisible,
+  isSearchResultsVisible,
+  setIsSearchResultsVisible,
 }) {
-  const [communities, setCommunities] = useState([]);
-  const [currentCommunityId, setCurrentCommunityId] = useState(null);
-  const [stories, setStories] = useState([]);
-  const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
-  const [searchResultsPage, setSearchResultsPage] = useState(0);
-  const [searchResultsCount, setSearchResultsCount] = useState(null);
+  const [
+    fetchedCommunities,
+    fetchCommunities,
+    areCommunitiesFetching,
+    communitiesFetchingError,
+  ] = useApiRequest('get', '/communities');
+
+  const [
+    stories,
+    getStories,
+    areStoriesFetching,
+    storiesFetchingError,
+    storiesCount,
+    getPreviousPage,
+    getNextPage,
+  ] = useApiPaginatedRequest('get', '/stories/search');
+
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/communities`)
-      .then((response) => setCommunities(response.data))
-      .catch((error) => console.log(error));
+    fetchCommunities();
+    console.log(
+      storiesCount,
+      areStoriesFetching,
+      storiesFetchingError,
+      areCommunitiesFetching
+    );
   }, []);
 
-  const fetchStories = (communityId, direction) => {
-    let pageNumber = searchResultsPage;
-
-    if (direction === 'forward') {
-      pageNumber += 1;
-    } else if (direction === 'back') {
-      pageNumber -= 1;
-    }
-
-    if (
-      pageNumber < 0 ||
-      (searchResultsCount - PAGESIZE * pageNumber < 1 && searchResultsCount)
-    ) {
-      return;
-    }
-
+  const fetchStories = async (communityId, direction) => {
     const queryParams = {
       keywords: '',
       filterType: 'communityId',
-      filterValue: communityId || currentCommunityId,
-      pageIndex: pageNumber,
+      filterValue: communityId,
+      // pageIndex: pageNumber,
       pageSize: PAGESIZE,
     };
 
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/stories/search`, {
-        params: queryParams,
-      })
-      .then((response) => {
-        if (!response.data.rows.length) {
-          setStories(['empty']);
-        } else {
-          setStories(response.data.rows);
-          setSearchResultsCount(response.data.count);
-          if (communityId) {
-            setCurrentCommunityId(communityId);
-          }
-          if (direction === 'forward') {
-            setSearchResultsPage((prevState) => prevState + 1);
-          } else if (direction === 'back') {
-            setSearchResultsPage((prevState) => prevState - 1);
-          }
-        }
-        setIsSearchResultsVisible(true);
-      })
-      .catch((error) => console.log(error));
+    if (direction === 'forward') {
+      getNextPage(queryParams);
+    } else if (direction === 'back') {
+      getPreviousPage(queryParams);
+    } else {
+      getStories(queryParams);
+    }
   };
 
   return (
@@ -83,34 +71,42 @@ export default function Communities({
           ? classnames(classes.Communities, classes.visible)
           : classes.Communities
       }
-      style={{ left: scrollCommunitiesPosition }}
+      style={{ left: scrollCommunitiesPosition, zIndex: isVisible ? 1 : 0 }}
       ref={communitiesRef}
     >
-      {communities.length ? (
-        communities.map((community) => (
+      {fetchedCommunities ? (
+        fetchedCommunities.map((community) => (
           <Community
             title={community.title}
+            image={community.imagePath}
             id={community.id}
+            key={community.id}
             click={() => {
               if (!isVisible) {
                 return;
               }
+              setIsSearchResultsVisible(true);
               fetchStories(community.id);
             }}
           />
         ))
       ) : (
         <div className={classes.spinner}>
-          <Spinner />
+          {!communitiesFetchingError ? (
+            <Spinner />
+          ) : (
+            <ErrorMessage message={communitiesFetchingError.message} />
+          )}
         </div>
       )}
       {isSearchResultsVisible && (
         <SearchResultsPopup
           searchResults={stories}
           zIndex={1}
-          setIsSearchResultsVisible={setIsSearchResultsVisible}
           resetSearch={() => null}
-          searchResultsPage={searchResultsPage}
+          error={storiesFetchingError || null}
+          setIsSearchResultsVisible={setIsSearchResultsVisible}
+          // searchResultsPage={searchResultsPage}
           searchStories={fetchStories}
         />
       )}
