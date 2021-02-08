@@ -1,0 +1,22 @@
+.Stories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 273px;
+}
+
+.nothingFound {
+  font-family: Libre Baskerville;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-align: center;
+  color: #c4c4c4;
+}

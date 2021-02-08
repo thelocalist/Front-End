@@ -1,4 +1,23 @@
 .CityMap {
-  width: 100%;
-  height: 100%;
+  display: flex;
+}
+
+.map {
+  width: 50%;
+  overflow: hidden;
+}
+
+.svg {
+  width: 200%;
+  background: linear-gradient(180deg, #4863aa 72.92%, #00030b 100%);
+  path {
+    cursor: pointer;
+    &:hover {
+      fill: #324370;
+    }
+
+    &.noHover:hover {
+      fill: none;
+    }
+  }
 }

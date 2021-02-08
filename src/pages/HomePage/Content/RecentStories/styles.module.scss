@@ -5,10 +5,11 @@
   opacity: 0;
   position: absolute;
   z-index: 0;
+
   &.visible {
     opacity: 1;
   }
-  transition: left 0.3s ease-out, opacity 0.5s ease-out;
+  transition: left 0.5s ease-out, opacity 0.5s ease-in-out;
 }
 
 .searchItem {

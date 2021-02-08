@@ -34,6 +34,7 @@ export default function Communities({
     storiesCount,
     getPreviousPage,
     getNextPage,
+    resetSearch,
   ] = useApiPaginatedRequest('get', '/stories/search');
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function Communities({
     );
   }, []);
 
-  const fetchStories = async (communityId, direction) => {
+  const fetchStories = async (communityId) => {
     const queryParams = {
       keywords: '',
       filterType: 'communityId',
@@ -55,13 +56,7 @@ export default function Communities({
       pageSize: PAGESIZE,
     };
 
-    if (direction === 'forward') {
-      getNextPage(queryParams);
-    } else if (direction === 'back') {
-      getPreviousPage(queryParams);
-    } else {
-      getStories(queryParams);
-    }
+    getStories(queryParams);
   };
 
   return (
@@ -103,11 +98,11 @@ export default function Communities({
         <SearchResultsPopup
           searchResults={stories}
           zIndex={1}
-          resetSearch={() => null}
+          resetSearch={resetSearch}
           error={storiesFetchingError || null}
           setIsSearchResultsVisible={setIsSearchResultsVisible}
-          // searchResultsPage={searchResultsPage}
-          searchStories={fetchStories}
+          getNextPage={getNextPage}
+          getPreviousPage={getPreviousPage}
         />
       )}
     </div>

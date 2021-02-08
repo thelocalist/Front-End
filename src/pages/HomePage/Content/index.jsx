@@ -109,7 +109,7 @@ export default function HomeContent() {
     if (isSearchResultsVisible) {
       return null;
     }
-    const timeoutDuration = isContentScrolldManually ? 6000 : 3000;
+    const timeoutDuration = isContentScrolldManually ? 10000 : 7000;
     timer = setTimeout(() => {
       scrollContentAutomatically();
       setIsContentScrolldManually(false);

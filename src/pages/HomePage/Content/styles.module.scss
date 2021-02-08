@@ -10,6 +10,7 @@
   display: flex;
   justify-content: center;
   position: relative;
+  z-index: 1;
   margin-bottom: 7px;
   ul {
     position: relative;
@@ -89,5 +90,7 @@
 }
 
 .content {
+  height: 100%;
   border-top: 0.25px solid #2f4273;
+  background-color: #03091a;
 }
