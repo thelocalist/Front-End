@@ -40,6 +40,7 @@ export default function RecentStories({
             key={story.id}
             searchResult={story}
             className={classes.searchItem}
+            styles={{ marginLeft: 'auto' }}
           />
         ))
       ) : (

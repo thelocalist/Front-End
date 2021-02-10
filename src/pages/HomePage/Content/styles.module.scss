@@ -94,3 +94,9 @@
   border-top: 0.25px solid #2f4273;
   background-color: #03091a;
 }
+
+@media only screen and (max-width: 1024px) {
+  .HomeContent {
+    display: none;
+  }
+}

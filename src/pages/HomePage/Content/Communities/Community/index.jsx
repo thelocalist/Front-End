@@ -1,11 +1,19 @@
 import React from 'react';
 
+import classnames from 'classnames';
 import classes from './styles.module.scss';
 
-export default function Community({ title, click, image }) {
+export default function Community({ title, click, image, variant }) {
   const imagePath = image.replace(/\\/g, '/');
   return (
-    <div className={classes.Community} onClick={click}>
+    <div
+      className={
+        variant === 'mobile'
+          ? classnames(classes.Community, classes.mobile)
+          : classes.Community
+      }
+      onClick={click}
+    >
       <div
         className={classes.image}
         style={{

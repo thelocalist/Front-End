@@ -8,6 +8,33 @@
   background-color: #030a1b;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 1%;
+
+  &.mobile {
+    width: 50%;
+    min-height: 238px;
+    max-height: 238px;
+    margin: 0;
+    padding-top: 0;
+
+    .image {
+      width: 100%;
+      max-height: 134px;
+    }
+
+    h1 {
+      width: 100%;
+      text-align: left;
+    }
+
+    .footer {
+      flex-direction: row;
+      text-transform: uppercase;
+      span {
+        color: inherit;
+      }
+    }
+  }
 
   h1 {
     font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;

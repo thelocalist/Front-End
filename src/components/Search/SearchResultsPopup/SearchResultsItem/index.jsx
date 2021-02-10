@@ -1,12 +1,24 @@
 import React from 'react';
-import classnames from 'classnames';
 
+import classnames from 'classnames';
 import classes from './styles.module.scss';
 
-export default function SearchResultsItem({ className, searchResult }) {
+export default function SearchResultsItem({
+  className,
+  searchResult,
+  variant,
+  styles,
+}) {
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
   return (
-    <div className={classnames(classes.SearchResultsItem, className)}>
+    <div
+      style={styles}
+      className={
+        variant === 'mobile'
+          ? classnames(classes.SearchResultsItem, className, classes.mobile)
+          : classnames(classes.SearchResultsItem, className)
+      }
+    >
       <div
         className={classes.image}
         style={{

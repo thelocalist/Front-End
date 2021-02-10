@@ -12,7 +12,7 @@ const useApiRequest = (method, path) => {
     return axios({
       method,
       url: `${process.env.REACT_APP_API_URL}${path}`,
-      ...options,
+      params: { ...options },
     })
       .then((response) => {
         setData(response.data);

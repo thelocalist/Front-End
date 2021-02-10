@@ -10,7 +10,7 @@ import classes from './styles.module.scss';
 
 export default function HomeContent() {
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
-  const [selectedMenuOption, setSelectedMenuOption] = useState('communities');
+  const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
   const [
     scrollRecentStoriesPosition,
@@ -95,6 +95,13 @@ export default function HomeContent() {
       setScrollContentPosition((prevState) => prevState - scrollDistance);
     } else {
       if (scrollContentPosition + scrollDistance > 0) {
+        if (selectedMenuOption === 'communities') {
+          switchTabsToFeatured();
+        } else if (selectedMenuOption === 'recent') {
+          switchTabsToCommunities();
+        } else if (selectedMenuOption === 'featured') {
+          switchTabsToRecent();
+        }
         return;
       }
       setScrollContentPosition((prevState) => prevState + scrollDistance);

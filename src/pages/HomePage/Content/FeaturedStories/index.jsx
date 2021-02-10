@@ -41,6 +41,7 @@ export default function FeaturedStories({
             key={story.id}
             searchResult={story}
             className={classes.searchItem}
+            styles={{ marginLeft: 'auto' }}
           />
         ))
       ) : (

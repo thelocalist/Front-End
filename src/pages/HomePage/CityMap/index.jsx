@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
 import Stories from './Stories';
 import classes from './styles.module.scss';
 
-export default function CityMap() {
-  const [stories, setStories] = useState([]);
+export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
+  const mapContainerRef = useRef(null);
+
+  // style={{ width: windowWidth > 1024 ? windowWidth - 100 : '200%' }}
+  // viewBox="0 0 1152 700"
+
+  // const [windowWidth, setWindowWidth] = useState('');
+
+  /*  const measureWindowWidth = () => {
+    setWindowWidth(window.innerWidth);
+  }; */
+
+  /*   useEffect(() => {
+    window.addEventListener('resize', measureWindowWidth);
+  }, []); */
   return (
     <div className={classes.CityMap}>
-      <div className={classes.map}>
+      <div className={classes.map} ref={mapContainerRef}>
         <svg
           onClick={(event) => {
             console.log(event.target.parentNode.firstElementChild.textContent);
-            setStories(['empty']);
+            setLocalStoriesFound(['empty']);
           }}
-          className={classes.svg}
           viewBox="0 0 1152 700"
+          className={classes.svg}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -314,7 +327,7 @@ export default function CityMap() {
           </defs>
         </svg>
       </div>
-      <Stories stories={stories} />
+      <Stories stories={localStoriesFound} />
     </div>
   );
 }

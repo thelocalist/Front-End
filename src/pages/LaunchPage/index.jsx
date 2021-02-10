@@ -4,12 +4,16 @@ import classnames from 'classnames';
 
 import classes from './styles.module.scss';
 import EmailForm from '../../components/EmailForm';
+import mobileMap from '../../assets/images/map_mobile-svg.svg';
 
 export default function LaunchPage() {
   const [isEmailFormVisible, setIsEmailFormVisible] = useState(false);
   const [arrowIconClasses, setArrowIconClasses] = useState(classes.arrowIcon);
+  const [mapScrollPosition, setMapScrollPosition] = useState(0);
 
   const toggleEmailFormVisibility = () => {
+    setMapScrollPosition(window.scrollY);
+
     setArrowIconClasses((prevState) => {
       if (prevState === classes.arrowIcon) {
         return classnames(classes.arrowIcon, classes.clicked);
@@ -17,12 +21,28 @@ export default function LaunchPage() {
       return classes.arrowIcon;
     });
     setIsEmailFormVisible((prevState) => !prevState);
+    setTimeout(() => {
+      window.scrollTo(0, mapScrollPosition);
+    }, 0);
   };
 
   return (
-    <div className={classes.LaunchPage}>
+    <div
+      className={
+        isEmailFormVisible
+          ? classnames(classes.LaunchPage, classes.formIsOpen)
+          : classes.LaunchPage
+      }
+    >
+      <img
+        src={mobileMap}
+        alt="map"
+        className={classes.mobileMap}
+        style={{ top: -mapScrollPosition }}
+      />
       <div className={classes.overlay} />
       <div className={classes.background} />
+
       <div className={classes.content}>
         <div className={classes.heading}>
           <div className={classes.line} />
