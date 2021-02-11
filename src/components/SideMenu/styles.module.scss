@@ -93,6 +93,7 @@
 .menu {
   .areaLi {
     padding-top: 27px;
+    width: 254px;
     padding-bottom: 36px;
     border-bottom: 1px solid #4863aa;
 
@@ -201,7 +202,7 @@
       transform: scale(1.2);
 
       &.clicked {
-        transform: scale(1.2) rotate(90deg) translate(7px);;
+        transform: scale(1.2) rotate(90deg) translate(7px);
       }
     }
   }
