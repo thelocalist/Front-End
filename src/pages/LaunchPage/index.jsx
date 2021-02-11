@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -22,6 +22,7 @@ export default function LaunchPage() {
     });
     setIsEmailFormVisible((prevState) => !prevState);
     setTimeout(() => {
+      console.log(mapScrollPosition);
       window.scrollTo(0, mapScrollPosition);
     }, 0);
   };

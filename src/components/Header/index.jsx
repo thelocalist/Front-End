@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 
+import MediaQuery, { useMediaQuery } from 'react-responsive';
 import classes from './styles.module.scss';
 import Search from '../Search';
+import MobileSearch from '../MobileSearch';
 
 function Header({ setIsSideMenuVisible }) {
   const [isSearchbarVisible, setIsSearchbarVisible] = useState(false);
+  const [isMobileSearchBarVisible, setIsMobileSearchBarVisible] = useState(
+    false
+  );
+
+  const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
   const showSideMenu = () => {
     setIsSideMenuVisible(true);
@@ -15,8 +22,24 @@ function Header({ setIsSideMenuVisible }) {
     setIsSearchbarVisible(true);
   };
 
+  useEffect(() => {
+    if (!isSearchbarVisible) {
+      setTimeout(() => {
+        setIsMobileSearchBarVisible(false);
+      }, 500);
+    } else {
+      setIsMobileSearchBarVisible(true);
+    }
+  }, [isSearchbarVisible]);
+
   return (
-    <header className={classes.Header}>
+    <header
+      className={
+        isMobile && isMobileSearchBarVisible
+          ? classnames(classes.Header, classes.mobileSearchIsOpen)
+          : classes.Header
+      }
+    >
       <i
         role="button"
         className={classnames(
@@ -43,8 +66,18 @@ function Header({ setIsSideMenuVisible }) {
       >
         Menu
       </i>
+      <MediaQuery maxWidth={1024}>
+        <MobileSearch
+          isSearchbarVisible={isSearchbarVisible}
+          setIsSearchbarVisible={setIsSearchbarVisible}
+        />
+      </MediaQuery>
       {isSearchbarVisible && (
-        <Search setIsSearchbarVisible={setIsSearchbarVisible} />
+        <>
+          <MediaQuery minWidth={1025}>
+            <Search setIsSearchbarVisible={setIsSearchbarVisible} />
+          </MediaQuery>
+        </>
       )}
     </header>
   );

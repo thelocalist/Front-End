@@ -122,13 +122,13 @@ export default function ContentContainer({
         {communities && !areCommunitiesLoading
           ? communities.map((community) => (
               <div
+                key={community.id}
                 className={classes.communityContainer}
                 onClick={() => {
                   showStoriesPopup(community);
                 }}
               >
                 <Community
-                  key={community.id}
                   title={community.title}
                   image={community.imagePath}
                   variant="mobile"

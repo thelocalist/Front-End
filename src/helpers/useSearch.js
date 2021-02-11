@@ -19,7 +19,6 @@ const useApiRequest = (method, path) => {
       params: { ...options, pageIndex: currentPage },
     })
       .then((response) => {
-        console.log(response.data);
         if (!response.data.rows.length) {
           setData(['empty']);
         } else {
