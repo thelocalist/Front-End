@@ -1,26 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import Stories from './Stories';
 import classes from './styles.module.scss';
 
-/* const MAP_SIZE = { width: 1152, height: 700 };
+const MAP_SIZE = { width: 660, height: 500 };
 
 const MAP_VIEW_AREA_SIZE = {
-  width: 900,
-  height: 700,
-}; */
-
-/* style={{ width: mapSize.width, height: mapSize.height }}
-          viewBox={`0 0 ${mapSize.width} ${mapSize.height}`}  viewBox="0 0 1152 700" */
+  width: 520,
+  height: 460,
+};
 
 export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
-  // const [mapSize, setMapSize] = useState({});
+  const [mapSize, setMapSize] = useState({});
 
   const mapContainerRef = useRef(null);
-  /* const resizeMap = () => {
+  const resizeMap = () => {
     const ratio = Math.max(
-      MAP_VIEW_AREA_SIZE.width / mapContainerRef.current.scrollWidth,
-      MAP_VIEW_AREA_SIZE.height / mapContainerRef.current.scrollHeight
+      MAP_VIEW_AREA_SIZE.width / mapContainerRef.current.clientWidth,
+      MAP_VIEW_AREA_SIZE.height / mapContainerRef.current.clientHeight
     );
     const newMapSize = {
       width: MAP_SIZE.width / ratio,
@@ -31,7 +28,7 @@ export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
 
   useEffect(() => {
     resizeMap();
-  }, []); */
+  }, []);
 
   return (
     <div className={classes.CityMap}>
@@ -43,7 +40,9 @@ export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
           }}
           className={classes.svg}
           fill="none"
-          viewBox="0 0 1152 700"
+          width={mapSize.width}
+          height={mapSize.height}
+          viewBox={`0 0 ${MAP_SIZE.width} ${MAP_SIZE.height}`}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
