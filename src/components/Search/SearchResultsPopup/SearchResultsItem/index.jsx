@@ -8,10 +8,16 @@ export default function SearchResultsItem({
   searchResult,
   variant,
   styles,
+  showStory,
 }) {
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
   return (
     <div
+      onClick={() => {
+        if (showStory) {
+          showStory(searchResult);
+        }
+      }}
       style={styles}
       className={
         variant === 'mobile'

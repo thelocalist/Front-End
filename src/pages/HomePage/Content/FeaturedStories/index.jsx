@@ -11,6 +11,7 @@ export default function FeaturedStories({
   featuredStoriesPosition,
   featuredStoriesRef,
   isVisible,
+  showStory,
 }) {
   // const [stories, setStories] = useState([]);
 
@@ -38,6 +39,7 @@ export default function FeaturedStories({
       {stories ? (
         stories.data.map((story) => (
           <SearchResultsItem
+            showStory={showStory}
             key={story.id}
             searchResult={story}
             className={classes.searchItem}

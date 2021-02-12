@@ -18,6 +18,7 @@ export default function Communities({
   isVisible,
   isSearchResultsVisible,
   setIsSearchResultsVisible,
+  showStory,
 }) {
   const [
     fetchedCommunities,
@@ -96,6 +97,7 @@ export default function Communities({
       )}
       {isSearchResultsVisible && (
         <SearchResultsPopup
+          showStory={showStory}
           searchResults={stories}
           zIndex={1}
           resetSearch={resetSearch}

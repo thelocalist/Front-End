@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import HomeContent from './Content';
-import StoryPopup from '../../components/StoryPopup';
 import MobileFooter from './MobileFooter';
 import CityMap from './CityMap';
 import classes from './styles.module.scss';
@@ -19,7 +18,6 @@ export default function HomePage() {
   const [localStoriesFound, setLocalStoriesFound] = useState([]);
   return (
     <div className={classes.HomePage}>
-      <StoryPopup />
       <CityMap
         localStoriesFound={localStoriesFound}
         setLocalStoriesFound={setLocalStoriesFound}

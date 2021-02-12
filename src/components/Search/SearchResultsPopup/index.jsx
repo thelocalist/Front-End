@@ -12,6 +12,7 @@ export default function SearchResultsPopup({
   error,
   getNextPage,
   getPreviousPage,
+  showStory,
 }) {
   const hideSearchResultsPopup = () => {
     setIsSearchResultsVisible(false);
@@ -29,7 +30,11 @@ export default function SearchResultsPopup({
     );
   } else {
     content = searchResults.map((searchResult) => (
-      <SearchResultsItem key={searchResult.id} searchResult={searchResult} />
+      <SearchResultsItem
+        key={searchResult.id}
+        searchResult={searchResult}
+        showStory={showStory}
+      />
     ));
   }
 

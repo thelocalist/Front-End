@@ -45,11 +45,6 @@ export default function MobileFooter({
 
   return (
     <div className={classes.MobileFooter}>
-      <ContentContainer
-        content={selectedMenuOption}
-        localStoriesFound={localStoriesFound}
-        setLocalStoriesFound={setLocalStoriesFound}
-      />
       <div
         ref={recentIconRef}
         onClick={() => switchMenuOption('recent')}
@@ -87,6 +82,11 @@ export default function MobileFooter({
         <span>Communities</span>
       </div>
       <div className={classes.line} style={{ left: linePosition }} />
+      <ContentContainer
+        content={selectedMenuOption}
+        localStoriesFound={localStoriesFound}
+        setLocalStoriesFound={setLocalStoriesFound}
+      />
     </div>
   );
 }

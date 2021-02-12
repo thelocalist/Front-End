@@ -11,6 +11,7 @@ export default function RecentStories({
   recentStoriesRef,
   recentStoriesPosition,
   isVisible,
+  showStory,
 }) {
   const [
     stories,
@@ -41,6 +42,7 @@ export default function RecentStories({
             searchResult={story}
             className={classes.searchItem}
             styles={{ marginLeft: 'auto' }}
+            showStory={showStory}
           />
         ))
       ) : (

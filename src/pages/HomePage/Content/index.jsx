@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import Communities from './Communities';
 import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
+import StoryPopup from '../../../components/StoryPopup';
 
 import classes from './styles.module.scss';
 
@@ -23,6 +24,9 @@ export default function HomeContent() {
   const [isContentScrolldManually, setIsContentScrolldManually] = useState(
     false
   );
+  const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
+  const [currentStory, setCurrentStory] = useState(null);
+
   let timer;
 
   const communitiesRef = useRef();
@@ -112,6 +116,11 @@ export default function HomeContent() {
     scrollContent('forward');
   };
 
+  const showStory = (story) => {
+    setCurrentStory(story);
+    setIsStoryPopupVisible(true);
+  };
+
   useEffect(() => {
     if (isSearchResultsVisible) {
       return null;
@@ -181,22 +190,31 @@ export default function HomeContent() {
       </div>
       <div className={classes.content}>
         <FeaturedStories
+          showStory={showStory}
           isVisible={selectedMenuOption === 'featured'}
           featuredStoriesRef={featuredStoriesRef}
           featuredStoriesPosition={scrollFeaturedStoriesPosition}
         />
         <RecentStories
+          showStory={showStory}
           isVisible={selectedMenuOption === 'recent'}
           recentStoriesRef={recentStoriesRef}
           recentStoriesPosition={scrollRecentStoriesPosition}
         />
         <Communities
+          showStory={showStory}
           isVisible={selectedMenuOption === 'communities'}
           scrollCommunitiesPosition={scrollCommunitiesPosition}
           communitiesRef={communitiesRef}
           isSearchResultsVisible={isSearchResultsVisible}
           setIsSearchResultsVisible={setIsSearchResultsVisible}
         />
+        {isStoryPopupVisible && (
+          <StoryPopup
+            setIsStoryPopupVisible={setIsStoryPopupVisible}
+            story={currentStory}
+          />
+        )}
       </div>
     </div>
   );
