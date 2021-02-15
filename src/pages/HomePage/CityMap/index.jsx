@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-import Stories from './Stories';
+import NoLocalStories from './NoLocalStories';
 import classes from './styles.module.scss';
 
 const MAP_SIZE = { width: 1152, height: 723 };
@@ -10,9 +10,12 @@ const MAP_VIEW_AREA_SIZE = {
   height: 400,
 };
 
-export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
+export default function CityMap({
+  areLocalStoriesFound,
+  currentNeighborhood,
+  setCurrentNeighborhood,
+}) {
   const [mapSize, setMapSize] = useState({});
-  const [currentNeighborhood, setCurrentNeighborhood] = useState('');
 
   const mapContainerRef = useRef(null);
   const resizeMap = () => {
@@ -47,17 +50,22 @@ export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
           viewBox={`0 0 ${MAP_SIZE.width} ${MAP_SIZE.height}`}
           onClick={(event) => {
             event.stopPropagation();
-            // console.log(event.target.parentNode.firstElementChild.textContent);
+
             if (
               event.target.parentNode.firstElementChild.textContent.length > 100
             ) {
               return;
             }
-            console.log(event.target.parentNode.firstElementChild.textContent);
-            setCurrentNeighborhood(
-              event.target.parentNode.firstElementChild.textContent
-            );
-            setLocalStoriesFound(['empty']);
+
+            setCurrentNeighborhood((prevState) => {
+              if (
+                prevState ===
+                event.target.parentNode.firstElementChild.textContent
+              ) {
+                return '';
+              }
+              return event.target.parentNode.firstElementChild.textContent;
+            });
           }}
         >
           <path
@@ -403,7 +411,9 @@ export default function CityMap({ localStoriesFound, setLocalStoriesFound }) {
           </defs>
         </svg>
       </div>
-      <Stories stories={localStoriesFound} />
+      {!areLocalStoriesFound && currentNeighborhood !== '' && (
+        <NoLocalStories areLocalStoriesFound={areLocalStoriesFound} />
+      )}
     </div>
   );
 }

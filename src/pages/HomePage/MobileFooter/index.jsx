@@ -6,8 +6,9 @@ import ContentContainer from './ContentContainer';
 import classes from './styles.module.scss';
 
 export default function MobileFooter({
-  localStoriesFound,
-  setLocalStoriesFound,
+  setAreLocalStoriesFound,
+  currentNeighborhood,
+  setCurrentNeighborhood,
 }) {
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [linePosition, setLinePosition] = useState(null);
@@ -23,15 +24,15 @@ export default function MobileFooter({
         break;
       case 'featured':
         ref = featuredIconRef;
+        setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       case 'communities':
         ref = communitiesIconRef;
+        setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       default:
         ref = null;
     }
-
-    setLocalStoriesFound([]);
 
     setSelectedMenuOption(option);
     setLinePosition(
@@ -84,8 +85,9 @@ export default function MobileFooter({
       <div className={classes.line} style={{ left: linePosition }} />
       <ContentContainer
         content={selectedMenuOption}
-        localStoriesFound={localStoriesFound}
-        setLocalStoriesFound={setLocalStoriesFound}
+        setAreLocalStoriesFound={setAreLocalStoriesFound}
+        currentNeighborhood={currentNeighborhood}
+        switchMenuOption={switchMenuOption}
       />
     </div>
   );

@@ -1,15 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import { useParams } from 'react-router-dom';
 import classnames from 'classnames';
+// import axios from 'axios';
 
 import Communities from './Communities';
 import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
 import StoryPopup from '../../../components/StoryPopup';
+import Spinner from '../../../components/Spinner';
+import useApiRequest from '../../../helpers/useApiRequest';
 
 import classes from './styles.module.scss';
 
-export default function HomeContent() {
+export default function HomeContent({
+  currentNeighborhood,
+  setAreLocalStoriesFound,
+}) {
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
@@ -28,6 +35,16 @@ export default function HomeContent() {
   const [currentStory, setCurrentStory] = useState(null);
 
   let timer;
+  const { id } = useParams();
+
+  /* eslint-disable */
+  const [
+    story,
+    requestStory,
+    isStoryLoading,
+    storyLoadingError,
+  ] = useApiRequest('get', `/stories/${id}`);
+  /* eslint-disable */
 
   const communitiesRef = useRef();
   const featuredStoriesRef = useRef();
@@ -122,6 +139,25 @@ export default function HomeContent() {
   };
 
   useEffect(() => {
+    if (id) {
+      requestStory();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isStoryLoading && story) {
+      setCurrentStory(story);
+      setIsStoryPopupVisible(true);
+    }
+  }, [isStoryLoading]);
+
+  useEffect(() => {
+    if (storyLoadingError) {
+      setIsStoryPopupVisible(true);
+    }
+  }, [storyLoadingError]);
+
+  useEffect(() => {
     if (isSearchResultsVisible) {
       return null;
     }
@@ -137,85 +173,102 @@ export default function HomeContent() {
 
   return (
     <div className={classes.HomeContent}>
-      <div className={classes.menu}>
-        <ul>
-          {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
-          <li
-            onClick={switchTabsToRecent}
-            className={selectedMenuOption === 'recent' ? classes.active : null}
-          >
-            Recent Nearby
-          </li>
-          <li
-            onClick={switchTabsToFeatured}
-            className={
-              selectedMenuOption === 'featured' ? classes.active : null
-            }
-          >
-            Featured
-          </li>
-          <li
-            onClick={switchTabsToCommunities}
-            className={
-              selectedMenuOption === 'communities' ? classes.active : null
-            }
-          >
-            Communities
-          </li>
-          <li
-            className={classnames(classes.line, classes[selectedMenuOption])}
-          />
-          {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
-        </ul>
-        <div className={classes.arrowIcons}>
-          <i
-            className={classes.switchPrevious}
-            onClick={() => {
-              scrollContent('back');
-              setIsContentScrolldManually(true);
-            }}
-          >
-            Left
-          </i>
-          <i
-            className={classes.switchNext}
-            onClick={() => {
-              scrollContent('forward');
-              setIsContentScrolldManually(true);
-            }}
-          >
-            Right
-          </i>
+      {isStoryLoading ? (
+        <div className={classes.spinner}>
+          <Spinner />
         </div>
-      </div>
-      <div className={classes.content}>
-        <FeaturedStories
-          showStory={showStory}
-          isVisible={selectedMenuOption === 'featured'}
-          featuredStoriesRef={featuredStoriesRef}
-          featuredStoriesPosition={scrollFeaturedStoriesPosition}
-        />
-        <RecentStories
-          showStory={showStory}
-          isVisible={selectedMenuOption === 'recent'}
-          recentStoriesRef={recentStoriesRef}
-          recentStoriesPosition={scrollRecentStoriesPosition}
-        />
-        <Communities
-          showStory={showStory}
-          isVisible={selectedMenuOption === 'communities'}
-          scrollCommunitiesPosition={scrollCommunitiesPosition}
-          communitiesRef={communitiesRef}
-          isSearchResultsVisible={isSearchResultsVisible}
-          setIsSearchResultsVisible={setIsSearchResultsVisible}
-        />
-        {isStoryPopupVisible && (
-          <StoryPopup
-            setIsStoryPopupVisible={setIsStoryPopupVisible}
-            story={currentStory}
-          />
-        )}
-      </div>
+      ) : (
+        <>
+          <div className={classes.menu}>
+            <ul>
+              {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+              <li
+                onClick={switchTabsToRecent}
+                className={
+                  selectedMenuOption === 'recent' ? classes.active : null
+                }
+              >
+                Recent Nearby
+              </li>
+              <li
+                onClick={switchTabsToFeatured}
+                className={
+                  selectedMenuOption === 'featured' ? classes.active : null
+                }
+              >
+                Featured
+              </li>
+              <li
+                onClick={switchTabsToCommunities}
+                className={
+                  selectedMenuOption === 'communities' ? classes.active : null
+                }
+              >
+                Communities
+              </li>
+              <li
+                className={classnames(
+                  classes.line,
+                  classes[selectedMenuOption]
+                )}
+              />
+              {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+            </ul>
+            <div className={classes.arrowIcons}>
+              <i
+                className={classes.switchPrevious}
+                onClick={() => {
+                  scrollContent('back');
+                  setIsContentScrolldManually(true);
+                }}
+              >
+                Left
+              </i>
+              <i
+                className={classes.switchNext}
+                onClick={() => {
+                  scrollContent('forward');
+                  setIsContentScrolldManually(true);
+                }}
+              >
+                Right
+              </i>
+            </div>
+          </div>
+          <div className={classes.content}>
+            <FeaturedStories
+              showStory={showStory}
+              isVisible={selectedMenuOption === 'featured'}
+              featuredStoriesRef={featuredStoriesRef}
+              featuredStoriesPosition={scrollFeaturedStoriesPosition}
+            />
+            <RecentStories
+              showStory={showStory}
+              isVisible={selectedMenuOption === 'recent'}
+              recentStoriesRef={recentStoriesRef}
+              recentStoriesPosition={scrollRecentStoriesPosition}
+              currentNeighborhood={currentNeighborhood}
+              setAreLocalStoriesFound={setAreLocalStoriesFound}
+              setSelectedMenuOption={setSelectedMenuOption}
+            />
+            <Communities
+              showStory={showStory}
+              isVisible={selectedMenuOption === 'communities'}
+              scrollCommunitiesPosition={scrollCommunitiesPosition}
+              communitiesRef={communitiesRef}
+              isSearchResultsVisible={isSearchResultsVisible}
+              setIsSearchResultsVisible={setIsSearchResultsVisible}
+            />
+            {isStoryPopupVisible && (
+              <StoryPopup
+                setIsStoryPopupVisible={setIsStoryPopupVisible}
+                story={currentStory}
+                error={storyLoadingError}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

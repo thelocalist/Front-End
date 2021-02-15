@@ -37,7 +37,7 @@
     position: relative;
     width: 100%;
     height: calc(100% - 40px);
-    transition: left 0.2s ease-in-out;
+    transition: left 0.5s ease-out;
 
     .text {
       text-indent: 40px;
@@ -99,7 +99,8 @@
             background-image: url('https://ofad.org/files/daily-photo/recent-and-random-portraits_8.jpg');
             background-size: cover;
             background-position: center;
-            &:after {
+            border: 1px solid #56658a;
+            &::after {
               content: '';
               display: block;
               padding-bottom: 100%;
@@ -257,5 +258,129 @@
     background-repeat: no-repeat;
     font-size: 0;
     cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .StoryPopup {
+    display: block !important;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    overflow: auto;
+    columns: auto auto !important;
+    border: 2px solid #56658a;
+
+    .closePopupIcon {
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      left: 14px;
+      width: 30px;
+      height: 28px;
+      background-image: url(../../assets/images/mobileStoryClose.svg);
+    }
+
+    .content {
+      display: block !important;
+      height: auto;
+      .header {
+        height: 280px !important;
+        .heading {
+          flex-direction: row;
+          height: 92px;
+          .author {
+            width: 50%;
+            position: relative;
+            height: 92px;
+            .authorPhoto {
+              position: absolute;
+              left: calc(50% - 64px);
+              bottom: 40px !important;
+              bottom: 100px;
+              width: 127px !important;
+              height: 127px;
+              &::after {
+                content: none;
+              }
+            }
+          }
+          .title {
+            height: 100%;
+            box-sizing: border-box;
+            flex-direction: column;
+            padding-left: 15px;
+            padding-right: 15px;
+            align-items: flex-start;
+            .share {
+              display: none !important;
+            }
+
+            .titleFooter {
+              width: 100%;
+              right: 15px;
+              flex-direction: row;
+              justify-content: flex-end;
+            }
+            h1 {
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 17px;
+              letter-spacing: 0em;
+              text-align: left;
+            }
+          }
+        }
+      }
+      .text {
+        margin-bottom: 15px;
+        padding-left: 10px;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+
+    .footer {
+      width: calc(100% - 20px);
+      margin: auto;
+      position: static;
+    }
+  }
+}
+
+.noStory {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e5e5e5;
+}
+
+@media only screen and (max-width: 414px) {
+  .StoryPopup {
+    .content {
+      .header {
+        .heading {
+          .author {
+            .authorPhoto {
+              left: calc(50% - 50px);
+              bottom: 50px !important;
+              width: 100px !important;
+              height: 100px !important;
+            }
+          }
+        }
+      }
+    }
   }
 }

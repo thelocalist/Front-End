@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
+import { useMediaQuery } from 'react-responsive';
+
 import HomeContent from './Content';
 import MobileFooter from './MobileFooter';
 import CityMap from './CityMap';
 import classes from './styles.module.scss';
 
 export default function HomePage() {
+  const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
   useEffect(() => {
     document.body.style.margin = '0';
     document.body.style.height = '100%';
@@ -15,18 +18,28 @@ export default function HomePage() {
     document.documentElement.style.overflow = 'hidden';
   }, []);
 
-  const [localStoriesFound, setLocalStoriesFound] = useState([]);
+  const [areLocalStoriesFound, setAreLocalStoriesFound] = useState(true);
+  const [currentNeighborhood, setCurrentNeighborhood] = useState('');
   return (
     <div className={classes.HomePage}>
       <CityMap
-        localStoriesFound={localStoriesFound}
-        setLocalStoriesFound={setLocalStoriesFound}
+        areLocalStoriesFound={areLocalStoriesFound}
+        setAreLocalStoriesFound={setAreLocalStoriesFound}
+        currentNeighborhood={currentNeighborhood}
+        setCurrentNeighborhood={setCurrentNeighborhood}
       />
-      <MobileFooter
-        localStoriesFound={localStoriesFound}
-        setLocalStoriesFound={setLocalStoriesFound}
-      />
-      <HomeContent />
+      {isMobile ? (
+        <MobileFooter
+          setAreLocalStoriesFound={setAreLocalStoriesFound}
+          currentNeighborhood={currentNeighborhood}
+          setCurrentNeighborhood={setCurrentNeighborhood}
+        />
+      ) : (
+        <HomeContent
+          currentNeighborhood={currentNeighborhood}
+          setAreLocalStoriesFound={setAreLocalStoriesFound}
+        />
+      )}
     </div>
   );
 }
