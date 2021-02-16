@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 
+import { Context } from '../../../context';
 import NoLocalStories from './NoLocalStories';
 import classes from './styles.module.scss';
 
@@ -10,12 +11,10 @@ const MAP_VIEW_AREA_SIZE = {
   height: 400,
 };
 
-export default function CityMap({
-  areLocalStoriesFound,
-  currentNeighborhood,
-  setCurrentNeighborhood,
-}) {
+export default function CityMap({ areLocalStoriesFound }) {
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
   const [mapSize, setMapSize] = useState({});
+  const [isMouseCursorOnMap, setIsMouseCursorOnMap] = useState(false);
 
   const mapContainerRef = useRef(null);
   const resizeMap = () => {
@@ -38,6 +37,33 @@ export default function CityMap({
     };
   }, []);
 
+  const deselectNeighborhood = (event) => {
+    if (
+      !event.target.getAttribute('preserveNeighborhoodSelection') &&
+      event.target.tagName !== 'path'
+    ) {
+      setCurrentNeighborhood('');
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', deselectNeighborhood);
+    return () => {
+      document.removeEventListener('mousedown', deselectNeighborhood);
+    };
+  }, []);
+
+  const removeActiveClassOnHover = (event) => {
+    console.log(event.target);
+    if (event.target.tagName === 'path') {
+      setIsMouseCursorOnMap(true);
+    }
+  };
+
+  const restorActiveClassOnHover = () => {
+    setIsMouseCursorOnMap(false);
+  };
+
   return (
     <div className={classes.CityMap}>
       <div className={classes.map} ref={mapContainerRef}>
@@ -57,16 +83,12 @@ export default function CityMap({
               return;
             }
 
-            setCurrentNeighborhood((prevState) => {
-              if (
-                prevState ===
-                event.target.parentNode.firstElementChild.textContent
-              ) {
-                return '';
-              }
-              return event.target.parentNode.firstElementChild.textContent;
-            });
+            setCurrentNeighborhood(
+              event.target.parentNode.firstElementChild.textContent
+            );
           }}
+          onMouseOver={removeActiveClassOnHover}
+          onMouseOut={restorActiveClassOnHover}
         >
           <path
             d="M697.644 261.864L764.806 235.188L745.938 196.879L466.767 321.916L387.832 427.375L396.569 441.708L430.582 450.719L469.777 477.758L504.274 449.296L521.649 410.287L614.204 384.329L622.241 362.42L664.523 361.603L670.792 310.724L697.644 261.864Z"
@@ -96,7 +118,9 @@ export default function CityMap({
               <title>Harlem</title>
               <path
                 className={
-                  currentNeighborhood === 'Harlem' ? classes.active : null
+                  currentNeighborhood === 'Harlem' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M599.459 262.25L647.006 361.942L663.919 361.615L671.088 310.416L697.952 262.16L715.335 254.876L695.619 219.605L599.459 262.25Z"
                 fill="#071332"
@@ -107,7 +131,8 @@ export default function CityMap({
               <title>Washington Heights</title>
               <path
                 className={
-                  currentNeighborhood === 'Washington Heights'
+                  currentNeighborhood === 'Washington Heights' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -120,7 +145,9 @@ export default function CityMap({
               <title>FIDI</title>
               <path
                 className={
-                  currentNeighborhood === 'FIDI' ? classes.active : null
+                  currentNeighborhood === 'FIDI' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M388.128 427.067L410.534 398.234L430.57 450.115L396.569 441.708L388.128 427.067Z"
                 fill="#071332"
@@ -131,7 +158,8 @@ export default function CityMap({
               <title>Soho & Tribeca</title>
               <path
                 className={
-                  currentNeighborhood === 'Soho & Tribeca'
+                  currentNeighborhood === 'Soho & Tribeca' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -144,7 +172,8 @@ export default function CityMap({
               <title>Lower East Side</title>
               <path
                 className={
-                  currentNeighborhood === 'Lower East Side'
+                  currentNeighborhood === 'Lower East Side' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -157,7 +186,8 @@ export default function CityMap({
               <title>Greenwich Village</title>
               <path
                 className={
-                  currentNeighborhood === 'Greenwich Village'
+                  currentNeighborhood === 'Greenwich Village' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -170,7 +200,9 @@ export default function CityMap({
               <title>Chelsea</title>
               <path
                 className={
-                  currentNeighborhood === 'Chelsea' ? classes.active : null
+                  currentNeighborhood === 'Chelsea' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M467.661 321.295L481.449 315.59L508.659 379.116L473.005 394.61L449.106 346.126L467.661 321.295Z"
                 fill="#071332"
@@ -181,7 +213,9 @@ export default function CityMap({
               <title>Flatiron</title>
               <path
                 className={
-                  currentNeighborhood === 'Flatiron' ? classes.active : null
+                  currentNeighborhood === 'Flatiron' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M504.878 449.284L522.555 410.27L508.363 379.424L473.609 394.598L501.312 452.374L504.878 449.284Z"
                 fill="#071332"
@@ -192,7 +226,9 @@ export default function CityMap({
               <title>Midtown</title>
               <path
                 className={
-                  currentNeighborhood === 'Midtown' ? classes.active : null
+                  currentNeighborhood === 'Midtown' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M481.751 315.584L520.391 298.221L561.608 398.639L522.555 410.27L481.751 315.584Z"
                 fill="#071332"
@@ -203,7 +239,8 @@ export default function CityMap({
               <title>Upper West Side</title>
               <path
                 className={
-                  currentNeighborhood === 'Upper West Side'
+                  currentNeighborhood === 'Upper West Side' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -216,7 +253,8 @@ export default function CityMap({
               <title>Upper East Side</title>
               <path
                 className={
-                  currentNeighborhood === 'Upper East Side'
+                  currentNeighborhood === 'Upper East Side' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -229,7 +267,8 @@ export default function CityMap({
               <title>Roosevelt Island</title>
               <path
                 className={
-                  currentNeighborhood === 'Roosevelt Island'
+                  currentNeighborhood === 'Roosevelt Island' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -242,7 +281,9 @@ export default function CityMap({
               <title>Bronx</title>
               <path
                 className={
-                  currentNeighborhood === 'Bronx' ? classes.active : null
+                  currentNeighborhood === 'Bronx' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M748.331 195.625L774.192 184.551L856.358 360.617L752.467 409.756L708.94 396.059L701.31 384.132L675.94 383.654L670.662 359.082L677.283 312.377L703.518 266.948L769.981 237.203L748.331 195.625Z"
                 fill="#071332"
@@ -253,7 +294,9 @@ export default function CityMap({
               <title>Astoria</title>
               <path
                 className={
-                  currentNeighborhood === 'Astoria' ? classes.active : null
+                  currentNeighborhood === 'Astoria' && !isMouseCursorOnMap
+                    ? classes.active
+                    : null
                 }
                 d="M682.916 406.568L732.076 417.703L614.746 474.958L577.582 427.939L644.002 409.737L662.123 409.387L658.33 400.698L667.285 395.087L676.95 394.9L682.916 406.568Z"
                 fill="#071332"
@@ -264,7 +307,8 @@ export default function CityMap({
               <title>Dumbo & Downtown</title>
               <path
                 className={
-                  currentNeighborhood === 'Dumbo & Downtown'
+                  currentNeighborhood === 'Dumbo & Downtown' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -277,7 +321,8 @@ export default function CityMap({
               <title>Greenpoint & Williamsburg</title>
               <path
                 className={
-                  currentNeighborhood === 'Greenpoint & Williamsburg'
+                  currentNeighborhood === 'Greenpoint & Williamsburg' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -290,7 +335,8 @@ export default function CityMap({
               <title>Long Island City</title>
               <path
                 className={
-                  currentNeighborhood === 'Long Island City'
+                  currentNeighborhood === 'Long Island City' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -303,7 +349,7 @@ export default function CityMap({
               <title>West New York</title>
               <path
                 className={
-                  currentNeighborhood === 'West New York'
+                  currentNeighborhood === 'West New York' && !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }
@@ -316,7 +362,8 @@ export default function CityMap({
               <title>Jersey City & Hoboken</title>
               <path
                 className={
-                  currentNeighborhood === 'Jersey City & Hoboken'
+                  currentNeighborhood === 'Jersey City & Hoboken' &&
+                  !isMouseCursorOnMap
                     ? classes.active
                     : null
                 }

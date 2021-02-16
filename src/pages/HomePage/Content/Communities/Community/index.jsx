@@ -1,6 +1,7 @@
 import React from 'react';
-
 import classnames from 'classnames';
+
+import { STATIC_URL } from '../../../../../constants/main';
 import classes from './styles.module.scss';
 
 export default function Community({ title, click, image, variant }) {
@@ -17,7 +18,7 @@ export default function Community({ title, click, image, variant }) {
       <div
         className={classes.image}
         style={{
-          backgroundImage: `url(${process.env.REACT_APP_STATIC_URL}${imagePath})`,
+          backgroundImage: `url(${STATIC_URL}${imagePath})`,
         }}
       />
       <div className={classes.heading}>

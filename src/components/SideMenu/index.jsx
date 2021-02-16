@@ -1,12 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
+import { Context } from '../../context';
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
 import { AREAS } from '../../constants/main';
 
 export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
+  const [, setCurrentNeighborhood] = useContext(Context);
+
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [isSubscriptionFormVisible, setIsSubscriptionFormVisible] = useState(
     'false'
@@ -99,9 +102,15 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                   <ul className={classes.areasList}>
                     {AREAS.map((area) => (
                       <li className={classes.areaLi} key={area}>
-                        <Link to="/" className={classes.areaLink}>
+                        <span
+                          className={classes.areaLink}
+                          onClick={() => {
+                            hideSideMenu();
+                            setCurrentNeighborhood(area);
+                          }}
+                        >
                           {area}
-                        </Link>
+                        </span>
                       </li>
                     ))}
                   </ul>

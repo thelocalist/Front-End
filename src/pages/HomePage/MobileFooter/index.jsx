@@ -1,15 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import classnames from 'classnames';
 
+import { Context } from '../../../context';
 import ContentContainer from './ContentContainer';
 import classes from './styles.module.scss';
 
-export default function MobileFooter({
-  setAreLocalStoriesFound,
-  currentNeighborhood,
-  setCurrentNeighborhood,
-}) {
+export default function MobileFooter({ setAreLocalStoriesFound }) {
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [linePosition, setLinePosition] = useState(null);
   const recentIconRef = useRef(null);

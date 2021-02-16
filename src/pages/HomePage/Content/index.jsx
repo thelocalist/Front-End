@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { useParams } from 'react-router-dom';
 import classnames from 'classnames';
-// import axios from 'axios';
 
+import { Context } from '../../../context';
 import Communities from './Communities';
 import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
@@ -13,10 +13,8 @@ import useApiRequest from '../../../helpers/useApiRequest';
 
 import classes from './styles.module.scss';
 
-export default function HomeContent({
-  currentNeighborhood,
-  setAreLocalStoriesFound,
-}) {
+export default function HomeContent({ setAreLocalStoriesFound }) {
+  const [currentNeighborhood] = useContext(Context);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
@@ -108,7 +106,11 @@ export default function HomeContent({
         } else if (selectedMenuOption === 'recent') {
           switchTabsToFeatured();
         } else if (selectedMenuOption === 'featured') {
-          switchTabsToCommunities();
+          if (currentNeighborhood !== '') {
+            switchTabsToRecent();
+          } else {
+            switchTabsToCommunities();
+          }
         }
         return;
       }
@@ -119,7 +121,11 @@ export default function HomeContent({
         if (selectedMenuOption === 'communities') {
           switchTabsToFeatured();
         } else if (selectedMenuOption === 'recent') {
-          switchTabsToCommunities();
+          if (currentNeighborhood !== '') {
+            switchTabsToFeatured();
+          } else {
+            switchTabsToCommunities();
+          }
         } else if (selectedMenuOption === 'featured') {
           switchTabsToRecent();
         }
@@ -185,26 +191,69 @@ export default function HomeContent({
               <li
                 onClick={switchTabsToRecent}
                 className={
-                  selectedMenuOption === 'recent' ? classes.active : null
+                  selectedMenuOption === 'recent' && currentNeighborhood !== ''
+                    ? classnames(
+                        classes.active,
+                        classes.borderAnimation,
+                        classes.locationFilterActive
+                      )
+                    : currentNeighborhood !== ''
+                    ? classnames(
+                        classes.borderAnimation,
+                        classes.locationFilterActive
+                      )
+                    : classes.borderAnimation
                 }
               >
-                Recent Nearby
+                <span
+                  className={classes.borderAnimationInner}
+                  preserveNeighborhoodSelection="true"
+                >
+                  Recent Nearby
+                </span>
               </li>
               <li
                 onClick={switchTabsToFeatured}
                 className={
-                  selectedMenuOption === 'featured' ? classes.active : null
+                  selectedMenuOption === 'featured' &&
+                  currentNeighborhood !== ''
+                    ? classnames(
+                        classes.active,
+                        classes.borderAnimation,
+                        classes.locationFilterActive
+                      )
+                    : currentNeighborhood !== ''
+                    ? classnames(
+                        classes.borderAnimation,
+                        classes.locationFilterActive
+                      )
+                    : classes.borderAnimation
                 }
               >
-                Featured
+                <span
+                  className={classes.borderAnimationInner}
+                  preserveNeighborhoodSelection="true"
+                >
+                  Featured
+                </span>
               </li>
               <li
                 onClick={switchTabsToCommunities}
                 className={
-                  selectedMenuOption === 'communities' ? classes.active : null
+                  selectedMenuOption === 'communities'
+                    ? classnames(classes.active, classes.borderAnimation)
+                    : classes.borderAnimation
                 }
               >
-                Communities
+                <span className={classes.borderAnimationInner}>
+                  Communities
+                </span>
+              </li>
+              <li
+                className={classes.borderAnimation}
+                style={{ display: 'none' }}
+              >
+                <span className={classes.borderAnimationInner}>TEST</span>
               </li>
               <li
                 className={classnames(
@@ -221,6 +270,7 @@ export default function HomeContent({
                   scrollContent('back');
                   setIsContentScrolldManually(true);
                 }}
+                preserveNeighborhoodSelection="true"
               >
                 Left
               </i>
@@ -230,6 +280,7 @@ export default function HomeContent({
                   scrollContent('forward');
                   setIsContentScrolldManually(true);
                 }}
+                preserveNeighborhoodSelection="true"
               >
                 Right
               </i>

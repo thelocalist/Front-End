@@ -2,18 +2,21 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
-import classnames from 'classnames';
+// import classnames from 'classnames';
+import MetaTags from 'react-meta-tags';
 
 import ShareButtonsPopup from '../../modals/ShareButtonsModal';
 import classes from './styles.module.scss';
+import { STATIC_URL, URL } from '../../constants/main';
 
 export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
   const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
-  const [textScrollPosition, setTextScrollPosition] = useState(0);
-  const [isOneColumnLayout, setIsOneColumnLayout] = useState(false);
+  // const [textScrollPosition, setTextScrollPosition] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  // const [isOneColumnLayout, setIsOneColumnLayout] = useState(false);
   const [isShareButtonsPopupVisible, setIsShareButtonsPopupVisible] = useState(
     false
   );
@@ -21,10 +24,14 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   const authorPhotoContainer = useRef();
   const contentRef = useRef();
   const storyPopupRef = useRef();
-  const testBoxRef = useRef();
+  const textContentRef = useRef();
+  // const testBoxRef = useRef();
 
   const authorImage = story ? story.authorImagePath.replace(/\\/g, '/') : null;
   const headerImage = story ? story.headerImagePath.replace(/\\/g, '/') : null;
+  const storyDescription = story
+    ? `${story.content.replace(/(<([^>]+)>)/gi, '').substring(0, 112)}...`
+    : null;
 
   const resizeAuthorPhoto = () => {
     if (isMobile || !story) {
@@ -36,7 +43,7 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
     );
   };
 
-  const switchTextLayout = () => {
+  /* const switchTextLayout = () => {
     if (isMobile || !story) {
       setIsOneColumnLayout(true);
       return;
@@ -49,16 +56,16 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
     } else {
       setIsOneColumnLayout(true);
     }
-  };
+  }; */
 
   useEffect(() => {
     resizeAuthorPhoto();
-    switchTextLayout();
+    // switchTextLayout();
     window.addEventListener('resize', resizeAuthorPhoto);
-    window.addEventListener('resize', switchTextLayout);
+    // window.addEventListener('resize', switchTextLayout);
     return () => {
       window.removeEventListener('resize', resizeAuthorPhoto);
-      window.removeEventListener('resize', switchTextLayout);
+      // window.removeEventListener('resize', switchTextLayout);
     };
   }, []);
 
@@ -66,25 +73,53 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
     setIsStoryPopupVisible(false);
   };
 
-  const switchPage = (direction) => {
+  const switchPageChrome = (direction) => {
     if (direction === 'forward') {
       if (
-        textScrollPosition - contentRef.current.clientWidth * 2 - 32 <
-        -contentRef.current.offsetWidth
+        currentPage ===
+        Math.floor(
+          textContentRef.current.scrollHeight /
+            (contentRef.current.offsetHeight * 2 + 32)
+        )
       ) {
-        setTextScrollPosition(0);
+        setCurrentPage(0);
         return;
       }
-      setTextScrollPosition(
-        (prevPosition) => prevPosition - contentRef.current.clientWidth * 2 - 32
-      );
+      setCurrentPage((prevPage) => prevPage + 1);
     } else if (direction === 'back') {
-      if (textScrollPosition === 0) {
+      if (currentPage === 0) {
         return;
       }
-      setTextScrollPosition(
-        (prevPosition) => prevPosition + contentRef.current.clientWidth * 2 + 32
-      );
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const switchPageFirefox = (direction) => {
+    if (direction === 'forward') {
+      if (
+        currentPage ===
+        Math.floor(
+          contentRef.current.offsetWidth /
+            (contentRef.current.clientWidth * 2 + 32)
+        )
+      ) {
+        setCurrentPage(0);
+        return;
+      }
+      setCurrentPage((prevPage) => prevPage + 1);
+    } else if (direction === 'back') {
+      if (currentPage === 0) {
+        return;
+      }
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const switchPage = (direction) => {
+    if (contentRef.current.offsetWidth > textContentRef.current.scrollHeight) {
+      switchPageFirefox(direction);
+    } else {
+      switchPageChrome(direction);
     }
   };
 
@@ -93,31 +128,41 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   };
 
   return (
-    <div
-      className={classes.StoryPopup}
-      ref={storyPopupRef}
-      style={{ columns: isOneColumnLayout ? '1' : '2' }}
-    >
-      {!isMobile && story && (
+    <div className={classes.StoryPopup} ref={storyPopupRef}>
+      {story && (
+        <MetaTags>
+          <title>{story.title}</title>
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={`${URL}/story/${story.id}`} />
+          <meta property="og:image" content={`${STATIC_URL}${headerImage}`} />
+          <meta property="og:site_name" content="The Localist" />
+          <meta property="og:description" content={storyDescription} />
+        </MetaTags>
+      )}
+      {/* {!isMobile && story && (
         <div
           className={classes.testBox}
           dangerouslySetInnerHTML={{ __html: story.content }}
           ref={testBoxRef}
         />
-      )}
+      )} */}
       <i className={classes.closePopupIcon} onClick={hidePopup}>
         Close
       </i>
       {story ? (
         <div
           className={classes.content}
-          style={{ left: textScrollPosition }}
+          style={{
+            left:
+              contentRef.current &&
+              (-contentRef.current.clientWidth * 2 - 32) * currentPage,
+          }}
           ref={contentRef}
         >
           <div
             className={classes.header}
             style={{
-              backgroundImage: `url(${process.env.REACT_APP_STATIC_URL}/${headerImage})`,
+              backgroundImage: `url(${STATIC_URL}${headerImage})`,
             }}
           >
             <div className={classes.heading}>
@@ -127,7 +172,7 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
                   style={{
                     top: !isMobile ? authorPhotoTopPosition : '',
                     width: !isMobile ? authorPhotoWidth : '',
-                    backgroundImage: `url(${process.env.REACT_APP_STATIC_URL}/${authorImage})`,
+                    backgroundImage: `url(${STATIC_URL}${authorImage})`,
                   }}
                 />
                 <span>{story.authorName}</span>
@@ -152,8 +197,9 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
           <div
             className={classes.text}
             dangerouslySetInnerHTML={{ __html: story.content }}
+            ref={textContentRef}
           />
-          {!isOneColumnLayout && (
+          {/* {!isOneColumnLayout && (
             <div className={classes.shareButtonBlock}>
               <span
                 className={classes.button}
@@ -163,12 +209,12 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
                 <i className={classes.share}>Share</i>
               </span>
             </div>
-          )}
+          )} */}
         </div>
       ) : null}
       {story ? (
         <div className={classes.footer}>
-          {!isOneColumnLayout ? (
+          {/*  {!isOneColumnLayout ? (
             <div className={classes.switchPageButtons}>
               <i
                 className={classes.prevPage}
@@ -197,10 +243,23 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
                 <i className={classes.share}>Share</i>
               </span>
             </div>
-          )}
+          )} */}
+          <div className={classes.switchPageButtons}>
+            <i className={classes.prevPage} onClick={() => switchPage('back')}>
+              Previous Page
+            </i>
+            <i
+              className={classes.nextPage}
+              onClick={() => switchPage('forward')}
+            >
+              Next Page
+            </i>
+          </div>
           <ShareButtonsPopup
             show={isShareButtonsPopupVisible}
             onHide={hideShareButtonsPopup}
+            title={story.title}
+            shareUrl={`https://thelocalist.co/story/${story.id}`}
           />
         </div>
       ) : (

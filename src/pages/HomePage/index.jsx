@@ -19,26 +19,17 @@ export default function HomePage() {
   }, []);
 
   const [areLocalStoriesFound, setAreLocalStoriesFound] = useState(true);
-  const [currentNeighborhood, setCurrentNeighborhood] = useState('');
+
   return (
     <div className={classes.HomePage}>
       <CityMap
         areLocalStoriesFound={areLocalStoriesFound}
         setAreLocalStoriesFound={setAreLocalStoriesFound}
-        currentNeighborhood={currentNeighborhood}
-        setCurrentNeighborhood={setCurrentNeighborhood}
       />
       {isMobile ? (
-        <MobileFooter
-          setAreLocalStoriesFound={setAreLocalStoriesFound}
-          currentNeighborhood={currentNeighborhood}
-          setCurrentNeighborhood={setCurrentNeighborhood}
-        />
+        <MobileFooter setAreLocalStoriesFound={setAreLocalStoriesFound} />
       ) : (
-        <HomeContent
-          currentNeighborhood={currentNeighborhood}
-          setAreLocalStoriesFound={setAreLocalStoriesFound}
-        />
+        <HomeContent setAreLocalStoriesFound={setAreLocalStoriesFound} />
       )}
     </div>
   );

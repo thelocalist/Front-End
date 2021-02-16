@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import classnames from 'classnames';
 
+import { Context } from '../../context';
 import SearchResultsPopup from './SearchResultsPopup';
 import useSearch from '../../helpers/useSearch';
 import useApiRequest from '../../helpers/useApiRequest';
@@ -17,6 +18,7 @@ const FIELDS = {
 };
 
 export default function Search({ setIsSearchbarVisible }) {
+  const [, setCurrentNeighborhood] = useContext(Context);
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
 
@@ -120,7 +122,7 @@ export default function Search({ setIsSearchbarVisible }) {
     };
 
     getStories(queryParams);
-    setSearch('');
+    // setSearch('');
 
     setIsSearchResultsVisible(true);
   };
@@ -191,6 +193,7 @@ export default function Search({ setIsSearchbarVisible }) {
                         value: area,
                         option: area,
                       });
+                      setCurrentNeighborhood(area);
                       toggleOptionsVisibility();
                     }}
                   >

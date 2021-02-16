@@ -112,13 +112,15 @@ export default function MobileSearch({
     };
 
     getStories(queryParams);
-    setSearch('');
+    //setSearch('');
   };
 
   const searchStoriesAfterUserStoppedTyping = () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      searchStories();
+      if (search.trim() !== '') {
+        searchStories();
+      }
     }, 1500);
   };
 
@@ -178,7 +180,12 @@ export default function MobileSearch({
         <i className={classes.closeIcon} onClick={hideSearchbar}>
           close
         </i>
-        <form className={classes.searchForm} onSubmit={searchStories}>
+        <form
+          className={classes.searchForm}
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        >
           <input
             type="text"
             placeholder="Search"

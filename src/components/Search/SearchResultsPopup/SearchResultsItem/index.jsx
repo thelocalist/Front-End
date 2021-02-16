@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import classes from './styles.module.scss';
 
@@ -12,7 +13,8 @@ export default function SearchResultsItem({
 }) {
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
   return (
-    <div
+    <Link
+      to={`/story/${searchResult.id}`}
       onClick={() => {
         if (showStory) {
           showStory(searchResult);
@@ -38,6 +40,6 @@ export default function SearchResultsItem({
         </span>
         <span>{searchResult.authorName}</span>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
+import { Context } from '../../../../context';
 import Spinner from '../../../../components/Spinner';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import ErrorMessage from '../../ErrorMessage';
@@ -13,11 +14,11 @@ export default function RecentStories({
   recentStoriesPosition,
   isVisible,
   showStory,
-  currentNeighborhood,
   setAreLocalStoriesFound,
   setSelectedMenuOption,
 }) {
   /* eslint-disable */
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
   const [
     stories,
     fetchStories,

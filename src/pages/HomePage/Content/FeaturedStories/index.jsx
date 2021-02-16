@@ -13,8 +13,6 @@ export default function FeaturedStories({
   isVisible,
   showStory,
 }) {
-  // const [stories, setStories] = useState([]);
-
   const [
     stories,
     fetchStories,
