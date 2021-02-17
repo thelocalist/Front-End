@@ -74,6 +74,11 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   };
 
   const switchPageChrome = (direction) => {
+    console.log(
+      textContentRef.current.scrollHeight /
+        (contentRef.current.offsetHeight * 2 + 32),
+      currentPage + 1
+    );
     if (direction === 'forward') {
       if (
         currentPage ===
@@ -210,6 +215,15 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
               </span>
             </div>
           )} */}
+          <div className={classes.shareButtonBlock}>
+            <span
+              className={classes.button}
+              onClick={() => setIsShareButtonsPopupVisible(true)}
+            >
+              <span className={classes.buttonTitle}>Share</span>
+              <i className={classes.share}>Share</i>
+            </span>
+          </div>
         </div>
       ) : null}
       {story ? (

@@ -30,13 +30,13 @@
     list-style: none;
     cursor: pointer;
 
-    li.locationFilterActive {
+    li.neighborhoodFilterActive {
       span {
         color: white;
       }
     }
 
-    li.locationFilterActive.active {
+    li.neighborhoodFilterActive.active {
       span {
         color: white;
       }
@@ -174,18 +174,18 @@
     background: var(--color);
   }
 
-  &.locationFilterActive:before,
-  &.locationFilterActiver:before {
+  &.neighborhoodFilterActive:before,
+  &.neighborhoodFilterActiver:before {
     animation: beforeBorders var(--animation-speed) forwards ease-in-out;
   }
 
-  &.locationFilterActive:after,
-  &.locationFilterActive:after {
+  &.neighborhoodFilterActive:after,
+  &.neighborhoodFilterActive:after {
     animation: afterBorders var(--animation-speed) forwards ease-in-out;
   }
 
-  &.locationFilterActive,
-  &.locationFilterActive {
+  &.neighborhoodFilterActive,
+  &.neighborhoodFilterActive {
     animation: borderColors var(--animation-speed) steps(1) forwards;
     outline: none;
 

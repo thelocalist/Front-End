@@ -26,10 +26,10 @@ export default function RecentStories({
     storiesFetchingError,
   ] = useApiRequest('get', '/stories');
   const [
-    storiesByLocation,
-    fetchStoriesByLocation,
-    areStoriesByLocationFetching,
-    storiesByLocationFetchingError,
+    storiesByNeighborhood,
+    fetchStoriesByNeighborhood,
+    areStoriesByNeighborhoodFetching,
+    storiesByNeighborhoodFetchingError,
     storiesCount,
     getPreviousPage,
     getNextPage,
@@ -39,16 +39,27 @@ export default function RecentStories({
   /* eslint-disable */
 
   useEffect(() => {
+    console.log('STORIES');
+    if (currentNeighborhood !== '') {
+      if (storiesByNeighborhood !== null) {
+        if (storiesByNeighborhood && storiesByNeighborhood[0] === 'empty') {
+          setAreLocalStoriesFound(false);
+        }
+      }
+    }
+  }, [currentNeighborhood]);
+
+  useEffect(() => {
     if (currentNeighborhood !== '') {
       setSelectedMenuOption('recent');
       const queryParams = {
         keywords: '',
-        filterType: 'location',
+        filterType: 'neighborhood',
         filterValue: currentNeighborhood.toLowerCase(),
         pageSize: 100,
       };
 
-      fetchStoriesByLocation({
+      fetchStoriesByNeighborhood({
         ...queryParams,
         sortField: 'createdAt',
         sortOrder: 'desc',
@@ -71,18 +82,18 @@ export default function RecentStories({
         sortOrder: 'desc',
       });
     }
-  }, [storiesByLocation]);
+  }, [storiesByNeighborhood]);
 
   let storiesContent;
 
   if (
-    storiesByLocation &&
-    storiesByLocation[0] !== 'empty' &&
-    !areStoriesByLocationFetching &&
+    storiesByNeighborhood &&
+    storiesByNeighborhood[0] !== 'empty' &&
+    !areStoriesByNeighborhoodFetching &&
     currentNeighborhood !== ''
   ) {
-    storiesContent = storiesByLocation.map((story) => {
-      setAreLocalStoriesFound(true);
+    storiesContent = storiesByNeighborhood.map((story) => {
+      //setAreLocalStoriesFound(true);
       return (
         <SearchResultItem
           key={story.id}
@@ -93,11 +104,15 @@ export default function RecentStories({
         />
       );
     });
-  } else if (stories && !areStoriesFetching && !areStoriesByLocationFetching) {
+  } else if (
+    stories &&
+    !areStoriesFetching &&
+    !areStoriesByNeighborhoodFetching
+  ) {
     storiesContent = stories.data.map((story) => {
-      if (currentNeighborhood !== '') {
+      /* if (currentNeighborhood !== '') {
         setAreLocalStoriesFound(false);
-      }
+      } */
       return (
         <SearchResultItem
           key={story.id}

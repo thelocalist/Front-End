@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Context } from '../../context';
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
-import { AREAS } from '../../constants/main';
+import { NEIGHBORHOODS } from '../../constants/main';
 
 export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
   const [, setCurrentNeighborhood] = useContext(Context);
@@ -79,13 +79,13 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
           <h2>MENU</h2>
         </header>
         <div>
-          <ul className={classes.areasList}>
-            <li className={classes.areaLi}>
+          <ul className={classes.neighborhoodsList}>
+            <li className={classes.neighborhoodLi}>
               <span
                 className={classes.submenuButton}
                 onClick={toggleSubmenuVisibility}
               >
-                <span className={classes.areaLink}>Directory</span>
+                <span className={classes.neighborhoodLink}>Directory</span>
                 <i
                   role="button"
                   className={classnames(
@@ -98,18 +98,18 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                 </i>
               </span>
               <li style={{ display: isSubmenuVisible ? 'block' : 'none' }}>
-                <div className={classes.areaListContainer}>
-                  <ul className={classes.areasList}>
-                    {AREAS.map((area) => (
-                      <li className={classes.areaLi} key={area}>
+                <div className={classes.neighborhoodListContainer}>
+                  <ul className={classes.neighborhoodsList}>
+                    {NEIGHBORHOODS.map((neighborhood) => (
+                      <li className={classes.neighborhoodLi} key={neighborhood}>
                         <span
-                          className={classes.areaLink}
+                          className={classes.neighborhoodLink}
                           onClick={() => {
                             hideSideMenu();
-                            setCurrentNeighborhood(area);
+                            setCurrentNeighborhood(neighborhood);
                           }}
                         >
-                          {area}
+                          {neighborhood}
                         </span>
                       </li>
                     ))}
@@ -118,30 +118,30 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
               </li>
             </li>
             <li
-              className={`${classes.areaLi} ${
+              className={`${classes.neighborhoodLi} ${
                 isSubscriptionFormVisible ? classes.expand : null
               }`}
             >
               <span
-                className={classes.areaLink}
+                className={classes.neighborhoodLink}
                 onClick={toggleSubscriptionFormVisibility}
               >
                 Newsletter
               </span>
               <EmailForm show={isSubscriptionFormVisible} small />
             </li>
-            <li className={classes.areaLi}>
-              <Link to="/" className={classes.areaLink}>
+            <li className={classes.neighborhoodLi}>
+              <Link to="/" className={classes.neighborhoodLink}>
                 Account (Coming Soon)
               </Link>
             </li>
-            <li className={classes.areaLi}>
-              <Link to="/" className={classes.areaLink}>
+            <li className={classes.neighborhoodLi}>
+              <Link to="/" className={classes.neighborhoodLink}>
                 Privacy Policy
               </Link>
             </li>
-            <li className={classes.areaLi}>
-              <Link to="/" className={classes.areaLink}>
+            <li className={classes.neighborhoodLi}>
+              <Link to="/" className={classes.neighborhoodLink}>
                 About
               </Link>
             </li>

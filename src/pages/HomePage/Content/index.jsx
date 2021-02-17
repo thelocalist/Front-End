@@ -167,7 +167,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
     if (isSearchResultsVisible) {
       return null;
     }
-    const timeoutDuration = isContentScrolldManually ? 10000 : 7000;
+    const timeoutDuration = isContentScrolldManually ? 10000 : 17000;
     timer = setTimeout(() => {
       scrollContentAutomatically();
       setIsContentScrolldManually(false);
@@ -195,12 +195,12 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
                     ? classnames(
                         classes.active,
                         classes.borderAnimation,
-                        classes.locationFilterActive
+                        classes.neighborhoodFilterActive
                       )
                     : currentNeighborhood !== ''
                     ? classnames(
                         classes.borderAnimation,
-                        classes.locationFilterActive
+                        classes.neighborhoodFilterActive
                       )
                     : classes.borderAnimation
                 }
@@ -220,12 +220,12 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
                     ? classnames(
                         classes.active,
                         classes.borderAnimation,
-                        classes.locationFilterActive
+                        classes.neighborhoodFilterActive
                       )
                     : currentNeighborhood !== ''
                     ? classnames(
                         classes.borderAnimation,
-                        classes.locationFilterActive
+                        classes.neighborhoodFilterActive
                       )
                     : classes.borderAnimation
                 }
@@ -292,6 +292,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
               isVisible={selectedMenuOption === 'featured'}
               featuredStoriesRef={featuredStoriesRef}
               featuredStoriesPosition={scrollFeaturedStoriesPosition}
+              setAreLocalStoriesFound={setAreLocalStoriesFound}
             />
             <RecentStories
               showStory={showStory}

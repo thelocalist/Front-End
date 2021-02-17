@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import SearchResultsItem from '../Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../Spinner';
 import ErrorMessage from '../../pages/HomePage/ErrorMessage';
-import { AREAS } from '../../constants/main';
+import { NEIGHBORHOODS } from '../../constants/main';
 import useApiRequest from '../../helpers/useApiRequest';
 import useSearch from '../../helpers/useSearch';
 import classes from './styles.module.scss';
@@ -16,7 +16,7 @@ const FIELDS = {
   author: 'authorName',
   community: 'communityId',
   keywords: 'keywords',
-  area: 'location',
+  neighborhood: 'neighborhood',
 };
 
 export default function MobileSearch({
@@ -50,7 +50,9 @@ export default function MobileSearch({
     type: 'author',
     value: '',
   });
-  const [isAreasListVisible, setIsAreasListVisible] = useState(false);
+  const [isNeighborhoodsListVisible, setIsNeighborhoodsListVisible] = useState(
+    false
+  );
   const [isCommunitiesListVisible, setIsCommunitiesListVisible] = useState(
     false
   );
@@ -112,7 +114,6 @@ export default function MobileSearch({
     };
 
     getStories(queryParams);
-    //setSearch('');
   };
 
   const searchStoriesAfterUserStoppedTyping = () => {
@@ -132,7 +133,7 @@ export default function MobileSearch({
   const toggleOptionsVisibility = () => {
     setIsOptionsVisible((prevState) => !prevState);
     setIsCommunitiesListVisible(false);
-    setIsAreasListVisible(false);
+    setIsNeighborhoodsListVisible(false);
   };
 
   const toggleCommunitiesListVisibility = (event) => {
@@ -144,11 +145,11 @@ export default function MobileSearch({
     });
   };
 
-  const toggleAreasListVisibility = (event) => {
+  const toggleNeighborhoodsListVisibility = (event) => {
     if (event) {
       event.stopPropagation();
     }
-    setIsAreasListVisible((prevState) => !prevState);
+    setIsNeighborhoodsListVisible((prevState) => !prevState);
   };
 
   const hideOptionsOnOutsideClick = (event) => {
@@ -214,30 +215,30 @@ export default function MobileSearch({
                   <span>author</span>
                 </li>
                 <li
-                  onClick={toggleAreasListVisibility}
+                  onClick={toggleNeighborhoodsListVisibility}
                   className={classes.expandable}
                 >
                   <span>location</span>
                   <ul
                     className={
-                      isAreasListVisible
-                        ? classnames(classes.areasList, classes.expand)
-                        : classes.areasList
+                      isNeighborhoodsListVisible
+                        ? classnames(classes.neighborhoodsList, classes.expand)
+                        : classes.neighborhoodsList
                     }
                   >
-                    {AREAS.map((area) => (
+                    {NEIGHBORHOODS.map((neighborhood) => (
                       <li
                         onClick={(event) => {
                           event.stopPropagation();
                           setSearchFilter({
-                            type: 'area',
-                            value: area,
-                            option: area,
+                            type: 'neighborhood',
+                            value: neighborhood,
+                            option: neighborhood,
                           });
                           toggleOptionsVisibility();
                         }}
                       >
-                        <span>{area}</span>
+                        <span>{neighborhood}</span>
                       </li>
                     ))}
                   </ul>

@@ -66,14 +66,14 @@
   cursor: pointer;
 }
 
-.areaListContainer {
+.neighborhoodListContainer {
   top: 210px;
   width: 300px;
   bottom: 0;
   background-color: #02040a;
 }
 
-.areasList {
+.neighborhoodsList {
   display: block;
   box-sizing: border-box;
   padding: 0;
@@ -83,23 +83,23 @@
   list-style: none;
 }
 
-.menu .areasList {
+.menu .neighborhoodsList {
   border-bottom: none;
 }
 
-.areaLi {
+.neighborhoodLi {
   margin-bottom: 13px;
 }
 
 .menu {
-  .areaLi {
+  .neighborhoodLi {
     padding-top: 27px;
     width: 254px;
     padding-bottom: 36px;
     border-bottom: 1px solid #4863aa;
 
     &:first-child {
-      .areaLi {
+      .neighborhoodLi {
         border: none;
         padding-top: 0;
         padding-bottom: 0;
@@ -119,7 +119,7 @@
       overflow: hidden;
       transition: height 0.1s ease-out;
 
-      .areaLink {
+      .neighborhoodLink {
         display: block;
         margin-bottom: 30px;
         border: none;
@@ -136,7 +136,7 @@
   }
 }
 
-.areaLink {
+.neighborhoodLink {
   text-decoration: none;
   color: #6b7cab;
   font-size: 16px;
@@ -195,7 +195,7 @@
   align-items: center;
 
   &:hover {
-    .areaLink {
+    .neighborhoodLink {
       text-decoration: underline;
     }
 

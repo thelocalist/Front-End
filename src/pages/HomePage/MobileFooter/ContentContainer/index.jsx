@@ -44,14 +44,14 @@ export default function ContentContainer({
   ] = useApiRequest('get', `/communities`);
 
   const [
-    storiesByLocation,
-    fetchStoriesByLocation,
-    areStoriesByLocationFetching,
-    storiesByLocationFetchingError,
+    storiesByNeighborhood,
+    fetchStoriesByNeighborhood,
+    areStoriesByNeighborhoodFetching,
+    storiesByNeighborhoodFetchingError,
     storiesCount,
     getPreviousPage2,
     getNextPage2,
-    resetSearchStoriesByLocation,
+    resetSearchStoriesByNeighborhood,
   ] = useSearch('get', '/stories/search');
 
   const [
@@ -77,12 +77,12 @@ export default function ContentContainer({
       switchMenuOption('recent');
       const queryParams = {
         keywords: '',
-        filterType: 'location',
+        filterType: 'neighborhood',
         filterValue: currentNeighborhood.toLowerCase(),
         pageSize: 100,
       };
 
-      fetchStoriesByLocation({
+      fetchStoriesByNeighborhood({
         ...queryParams,
         sortField: 'createdAt',
         sortOrder: 'desc',
@@ -96,13 +96,13 @@ export default function ContentContainer({
       recentStories[0] === 'empty' &&
       currentNeighborhood !== ''
     ) {
-      resetSearchStoriesByLocation();
+      resetSearchStoriesByNeighborhood();
       requestRecentStories({
         sortField: 'createdAt',
         sortOrder: 'desc',
       });
     }
-  }, [storiesByLocation]);
+  }, [storiesByNeighborhood]);
 
   const showStoriesPopup = (community) => {
     const queryParams = {
@@ -129,12 +129,12 @@ export default function ContentContainer({
 
   let recentStoriesContent;
   if (
-    storiesByLocation &&
-    storiesByLocation[0] !== 'empty' &&
-    !areStoriesByLocationFetching &&
+    storiesByNeighborhood &&
+    storiesByNeighborhood[0] !== 'empty' &&
+    !areStoriesByNeighborhoodFetching &&
     currentNeighborhood !== ''
   ) {
-    recentStoriesContent = storiesByLocation.map((story) => {
+    recentStoriesContent = storiesByNeighborhood.map((story) => {
       setAreLocalStoriesFound(true);
       return (
         <SearchResultItem
@@ -146,8 +146,8 @@ export default function ContentContainer({
       );
     });
   } else if (
-    storiesByLocation &&
-    storiesByLocation[0] === 'empty' &&
+    storiesByNeighborhood &&
+    storiesByNeighborhood[0] === 'empty' &&
     currentNeighborhood !== ''
   ) {
     setAreLocalStoriesFound(false);
@@ -155,7 +155,7 @@ export default function ContentContainer({
   } else if (
     recentStories &&
     !areRecentStoriesLoading &&
-    !areStoriesByLocationFetching
+    !areStoriesByNeighborhoodFetching
   ) {
     recentStoriesContent = recentStories.data.map((story) => {
       if (currentNeighborhood !== '') {

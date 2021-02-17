@@ -20,6 +20,10 @@ export default function HomePage() {
 
   const [areLocalStoriesFound, setAreLocalStoriesFound] = useState(true);
 
+  useEffect(() => {
+    console.log('ARE LOCAL STORIES FOUND?', areLocalStoriesFound);
+  }, [areLocalStoriesFound]);
+
   return (
     <div className={classes.HomePage}>
       <CityMap

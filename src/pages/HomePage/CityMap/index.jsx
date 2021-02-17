@@ -54,7 +54,6 @@ export default function CityMap({ areLocalStoriesFound }) {
   }, []);
 
   const removeActiveClassOnHover = (event) => {
-    console.log(event.target);
     if (event.target.tagName === 'path') {
       setIsMouseCursorOnMap(true);
     }
