@@ -32,7 +32,9 @@
     top: 45%;
     bottom: 53px;
     width: 100%;
-    z-index: 2;
+    &.visible {
+      z-index: 2;
+    }
 
     background: linear-gradient(
       180deg,

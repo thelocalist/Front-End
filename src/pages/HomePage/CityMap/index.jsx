@@ -39,12 +39,14 @@ export default function CityMap({ areLocalStoriesFound }) {
 
   const deselectNeighborhood = (event) => {
     if (
-      !event.target.getAttribute('preserveNeighborhoodSelection') &&
-      event.target.tagName !== 'path'
+      event.target.parentNode.getAttribute('preserveNeighborhoodSelection') ||
+      event.target.tagName === 'path' ||
+      event.target.getAttribute('preserveNeighborhoodSelection')
     ) {
-      console.log('DESELECT');
-      setCurrentNeighborhood('');
+      return;
     }
+    console.log('DESELECT', event.target.parentNode);
+    setCurrentNeighborhood('');
   };
 
   useEffect(() => {

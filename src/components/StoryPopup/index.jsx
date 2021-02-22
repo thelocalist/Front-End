@@ -151,7 +151,11 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
           ref={testBoxRef}
         />
       )} */}
-      <i className={classes.closePopupIcon} onClick={hidePopup}>
+      <i
+        className={classes.closePopupIcon}
+        onClick={hidePopup}
+        preserveNeighborhoodSelection="true"
+      >
         Close
       </i>
       {story ? (
@@ -258,17 +262,22 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
               </span>
             </div>
           )} */}
-          <div className={classes.switchPageButtons}>
-            <i className={classes.prevPage} onClick={() => switchPage('back')}>
-              Previous Page
-            </i>
-            <i
-              className={classes.nextPage}
-              onClick={() => switchPage('forward')}
-            >
-              Next Page
-            </i>
-          </div>
+          {!isMobile && (
+            <div className={classes.switchPageButtons}>
+              <i
+                className={classes.prevPage}
+                onClick={() => switchPage('back')}
+              >
+                Previous Page
+              </i>
+              <i
+                className={classes.nextPage}
+                onClick={() => switchPage('forward')}
+              >
+                Next Page
+              </i>
+            </div>
+          )}
           <ShareButtonsPopup
             show={isShareButtonsPopupVisible}
             onHide={hideShareButtonsPopup}

@@ -14,6 +14,7 @@ export default function SearchResultsItem({
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
   return (
     <Link
+      preserveNeighborhoodSelection="true"
       to={`/story/${searchResult.id}`}
       onClick={() => {
         if (showStory) {
