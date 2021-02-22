@@ -42,6 +42,7 @@ export default function CityMap({ areLocalStoriesFound }) {
       !event.target.getAttribute('preserveNeighborhoodSelection') &&
       event.target.tagName !== 'path'
     ) {
+      console.log('DESELECT');
       setCurrentNeighborhood('');
     }
   };
@@ -457,9 +458,12 @@ export default function CityMap({ areLocalStoriesFound }) {
           </defs>
         </svg>
       </div>
-      {!areLocalStoriesFound && currentNeighborhood !== '' && (
-        <NoLocalStories areLocalStoriesFound={areLocalStoriesFound} />
-      )}
+      {/* {!areLocalStoriesFound && currentNeighborhood !== '' && (
+        <NoLocalStories />
+      )} */}
+      <NoLocalStories
+        visible={!areLocalStoriesFound && currentNeighborhood !== ''}
+      />
     </div>
   );
 }

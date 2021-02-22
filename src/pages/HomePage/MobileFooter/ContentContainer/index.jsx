@@ -55,6 +55,17 @@ export default function ContentContainer({
   ] = useSearch('get', '/stories/search');
 
   const [
+    featuredStoriesByNeighborhood,
+    fetchFeaturedStoriesByNeighborhood,
+    areFeaturedStoriesByNeighborhoodFetching,
+    featuredStoriesByNeighborhoodFetchingError,
+    featuredStoriesByNeighborhoodCount,
+    ,
+    ,
+    resetSearchFeaturedStoriesByNeighborhood,
+  ] = useSearch('get', '/stories/search');
+
+  const [
     storiesByCommunity,
     getStoriesByCommunity,
     areStoriesByCommunityFetching,
@@ -70,7 +81,44 @@ export default function ContentContainer({
     requestRecentStories();
     requestCommunities();
     requestFeaturedStories({ isFeatured: true });
+    setAreLocalStoriesFound(false);
   }, []);
+
+  useEffect(() => {
+    if (
+      !areStoriesByNeighborhoodFetching &&
+      storiesByNeighborhood &&
+      storiesByNeighborhood[0] === 'empty' &&
+      content === 'recent'
+    ) {
+      setAreLocalStoriesFound(false);
+    } else if (
+      !areStoriesByNeighborhoodFetching &&
+      storiesByNeighborhood &&
+      storiesByNeighborhood[0] !== 'empty' &&
+      content === 'recent'
+    ) {
+      setAreLocalStoriesFound(true);
+    }
+  }, [areStoriesByNeighborhoodFetching, content]);
+
+  useEffect(() => {
+    if (
+      !areFeaturedStoriesByNeighborhoodFetching &&
+      featuredStoriesByNeighborhood &&
+      featuredStoriesByNeighborhood[0] === 'empty' &&
+      content === 'featured'
+    ) {
+      setAreLocalStoriesFound(false);
+    } else if (
+      !areFeaturedStoriesByNeighborhoodFetching &&
+      featuredStoriesByNeighborhood &&
+      featuredStoriesByNeighborhood[0] !== 'empty' &&
+      content === 'featured'
+    ) {
+      setAreLocalStoriesFound(true);
+    }
+  }, [areFeaturedStoriesByNeighborhoodFetching, content]);
 
   useEffect(() => {
     if (currentNeighborhood !== '') {
@@ -86,6 +134,13 @@ export default function ContentContainer({
         ...queryParams,
         sortField: 'createdAt',
         sortOrder: 'desc',
+      });
+
+      fetchFeaturedStoriesByNeighborhood({
+        ...queryParams,
+        sortField: 'createdAt',
+        sortOrder: 'desc',
+        isFeatured: true,
       });
     }
   }, [currentNeighborhood]);
@@ -135,7 +190,7 @@ export default function ContentContainer({
     currentNeighborhood !== ''
   ) {
     recentStoriesContent = storiesByNeighborhood.map((story) => {
-      setAreLocalStoriesFound(true);
+      //setAreLocalStoriesFound(true);
       return (
         <SearchResultItem
           key={story.id}
@@ -150,7 +205,7 @@ export default function ContentContainer({
     storiesByNeighborhood[0] === 'empty' &&
     currentNeighborhood !== ''
   ) {
-    setAreLocalStoriesFound(false);
+    //setAreLocalStoriesFound(false);
     recentStoriesContent = '';
   } else if (
     recentStories &&
@@ -158,9 +213,9 @@ export default function ContentContainer({
     !areStoriesByNeighborhoodFetching
   ) {
     recentStoriesContent = recentStories.data.map((story) => {
-      if (currentNeighborhood !== '') {
+      /* if (currentNeighborhood !== '') {
         setAreLocalStoriesFound(false);
-      }
+      } */
       return (
         <SearchResultItem
           key={story.id}
@@ -252,7 +307,20 @@ export default function ContentContainer({
       >
         {!areFeaturedStoriesLoading &&
           featuredStories &&
+          currentNeighborhood === '' &&
           featuredStories.data.map((story) => (
+            <SearchResultItem
+              key={story.id}
+              searchResult={story}
+              variant="mobile"
+              showStory={showStory}
+            />
+          ))}
+        {!areFeaturedStoriesByNeighborhoodFetching &&
+          featuredStoriesByNeighborhood &&
+          currentNeighborhood !== '' &&
+          featuredStoriesByNeighborhood[0] !== 'empty' &&
+          featuredStoriesByNeighborhood.map((story) => (
             <SearchResultItem
               key={story.id}
               searchResult={story}

@@ -14,7 +14,8 @@ export default function FeaturedStories({
   featuredStoriesRef,
   isVisible,
   showStory,
-  // setAreLocalStoriesFound,
+  setAreLocalStoriesFound,
+  selectedMenuOption,
 }) {
   const [currentNeighborhood] = useContext(Context);
   const [
@@ -61,7 +62,12 @@ export default function FeaturedStories({
   }, [currentNeighborhood]);
 
   useEffect(() => {
-    if (stories && stories[0] === 'empty' && currentNeighborhood !== '') {
+    if (
+      stories &&
+      storiesByNeighborhood &&
+      stories[0] === 'empty' &&
+      currentNeighborhood !== ''
+    ) {
       resetSearch();
       fetchStories({
         sortField: 'createdAt',
@@ -69,7 +75,17 @@ export default function FeaturedStories({
         isFeatured: true,
       });
     }
-  }, [storiesByNeighborhood]);
+    if (
+      currentNeighborhood !== '' &&
+      storiesByNeighborhood &&
+      storiesByNeighborhood[0] === 'empty' &&
+      selectedMenuOption === 'featured'
+    ) {
+      setAreLocalStoriesFound(false);
+    } else {
+      setAreLocalStoriesFound(true);
+    }
+  }, [selectedMenuOption]);
 
   let storiesContent;
 

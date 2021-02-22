@@ -293,6 +293,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
               featuredStoriesRef={featuredStoriesRef}
               featuredStoriesPosition={scrollFeaturedStoriesPosition}
               setAreLocalStoriesFound={setAreLocalStoriesFound}
+              selectedMenuOption={selectedMenuOption}
             />
             <RecentStories
               showStory={showStory}
@@ -302,6 +303,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
               currentNeighborhood={currentNeighborhood}
               setAreLocalStoriesFound={setAreLocalStoriesFound}
               setSelectedMenuOption={setSelectedMenuOption}
+              selectedMenuOption={selectedMenuOption}
             />
             <Communities
               showStory={showStory}

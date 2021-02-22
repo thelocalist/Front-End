@@ -16,6 +16,7 @@ export default function RecentStories({
   showStory,
   setAreLocalStoriesFound,
   setSelectedMenuOption,
+  selectedMenuOption,
 }) {
   /* eslint-disable */
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
@@ -37,17 +38,6 @@ export default function RecentStories({
   ] = useSearch('get', '/stories/search');
 
   /* eslint-disable */
-
-  useEffect(() => {
-    console.log('STORIES');
-    if (currentNeighborhood !== '') {
-      if (storiesByNeighborhood !== null) {
-        if (storiesByNeighborhood && storiesByNeighborhood[0] === 'empty') {
-          setAreLocalStoriesFound(false);
-        }
-      }
-    }
-  }, [currentNeighborhood]);
 
   useEffect(() => {
     if (currentNeighborhood !== '') {
@@ -75,12 +65,27 @@ export default function RecentStories({
   }, [currentNeighborhood]);
 
   useEffect(() => {
-    if (stories && stories[0] === 'empty' && currentNeighborhood !== '') {
+    if (
+      stories &&
+      stories[0] === 'empty' &&
+      storiesByNeighborhood &&
+      currentNeighborhood !== ''
+    ) {
       resetSearch();
       fetchStories({
         sortField: 'createdAt',
         sortOrder: 'desc',
       });
+    }
+    if (
+      storiesByNeighborhood &&
+      currentNeighborhood !== '' &&
+      storiesByNeighborhood[0] === 'empty' &&
+      selectedMenuOption === 'recent'
+    ) {
+      setAreLocalStoriesFound(false);
+    } else {
+      setAreLocalStoriesFound(true);
     }
   }, [storiesByNeighborhood]);
 

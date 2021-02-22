@@ -7,7 +7,7 @@ import ContentContainer from './ContentContainer';
 import classes from './styles.module.scss';
 
 export default function MobileFooter({ setAreLocalStoriesFound }) {
-  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+  const [currentNeighborhood] = useContext(Context);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [linePosition, setLinePosition] = useState(null);
   const recentIconRef = useRef(null);
@@ -22,11 +22,11 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         break;
       case 'featured':
         ref = featuredIconRef;
-        setTimeout(() => setCurrentNeighborhood(''), 500);
+        // setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       case 'communities':
         ref = communitiesIconRef;
-        setTimeout(() => setCurrentNeighborhood(''), 500);
+        // setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       default:
         ref = null;
@@ -45,6 +45,7 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
   return (
     <div className={classes.MobileFooter}>
       <div
+        preserveNeighborhoodSelection="true"
         ref={recentIconRef}
         onClick={() => switchMenuOption('recent')}
         className={
@@ -53,10 +54,11 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
             : classes.recent
         }
       >
-        <i>Recent Nearby</i>
-        <span>Recent Nearby</span>
+        <i preserveNeighborhoodSelection="true">Recent Nearby</i>
+        <span preserveNeighborhoodSelection="true">Recent Nearby</span>
       </div>
       <div
+        preserveNeighborhoodSelection="true"
         ref={featuredIconRef}
         onClick={() => switchMenuOption('featured')}
         className={
@@ -65,8 +67,8 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
             : classes.featured
         }
       >
-        <i>Featured Stories</i>
-        <span>Featured Stories</span>
+        <i preserveNeighborhoodSelection="true">Featured Stories</i>
+        <span preserveNeighborhoodSelection="true">Featured Stories</span>
       </div>
       <div
         ref={communitiesIconRef}
