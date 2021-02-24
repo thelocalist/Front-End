@@ -7,12 +7,20 @@ import SideMenu from '../SideMenu';
 
 const Layout = ({ location, children }) => {
   const [currentNeighborhood, setCurrentNeighborhood] = useState('');
+  const [isMobileStoryOpened, setIsMobileStoryOpened] = useState(false);
   const [isSideMenuVisible, setIsSideMenuVisible] = useState(false);
 
   const isLaunchPage = location.pathname === '/';
 
   return (
-    <Context.Provider value={[currentNeighborhood, setCurrentNeighborhood]}>
+    <Context.Provider
+      value={[
+        currentNeighborhood,
+        setCurrentNeighborhood,
+        isMobileStoryOpened,
+        setIsMobileStoryOpened,
+      ]}
+    >
       {!isLaunchPage && <Header setIsSideMenuVisible={setIsSideMenuVisible} />}
       <SideMenu
         isSideMenuVisible={isSideMenuVisible}

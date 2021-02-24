@@ -9,11 +9,21 @@ import ShareButtonsPopup from '../../modals/ShareButtonsModal';
 import classes from './styles.module.scss';
 import { STATIC_URL, URL } from '../../constants/main';
 
-export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
+export default function StoryPopup({
+  setIsStoryPopupVisible,
+  story,
+  error,
+  history,
+}) {
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
+  const isChrome =
+    !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+  console.log('IS CHROME?', isChrome);
 
   const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
+  const [headingContainerHeight, setHeadingContainerHeight] = useState(0);
   // const [textScrollPosition, setTextScrollPosition] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   // const [isOneColumnLayout, setIsOneColumnLayout] = useState(false);
@@ -22,10 +32,11 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   );
 
   const authorPhotoContainer = useRef();
+  const authorPhotoRef = useRef();
   const contentRef = useRef();
   const storyPopupRef = useRef();
   const textContentRef = useRef();
-  // const testBoxRef = useRef();
+  const headingContainer = useRef();
 
   const authorImage = story ? story.authorImagePath.replace(/\\/g, '/') : null;
   const headerImage = story ? story.headerImagePath.replace(/\\/g, '/') : null;
@@ -33,47 +44,41 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
     ? `${story.content.replace(/(<([^>]+)>)/gi, '').substring(0, 112)}...`
     : null;
 
-  const resizeAuthorPhoto = () => {
-    if (isMobile || !story) {
+  const resizeHeader = () => {
+    if (!story) {
       return;
     }
-    setAuthorPhotoWidth(authorPhotoContainer.current.clientHeight * 1.35);
-    setAuthorPhotoTopPosition(
-      (-authorPhotoContainer.current.clientHeight * 1.35) / 1.9 - 12
-    );
+    setHeadingContainerHeight(headingContainer.current.clientHeight);
+    setAuthorPhotoWidth(authorPhotoContainer.current.clientWidth * 0.65);
+
+    setTimeout(() => {
+      if (authorPhotoRef) {
+        setAuthorPhotoTopPosition(
+          -authorPhotoRef.current.clientHeight / 2 -
+            authorPhotoRef.current.clientHeight * (isMobile ? 0.1 : 0.05)
+        );
+      }
+    }, 0);
   };
 
-  /* const switchTextLayout = () => {
-    if (isMobile || !story) {
-      setIsOneColumnLayout(true);
-      return;
-    }
-    if (
-      testBoxRef.current.scrollHeight * 2 + 120 >
-      contentRef.current.scrollHeight
-    ) {
-      setIsOneColumnLayout(false);
-    } else {
-      setIsOneColumnLayout(true);
-    }
-  }; */
-
   useEffect(() => {
-    resizeAuthorPhoto();
+    resizeHeader();
     // switchTextLayout();
-    window.addEventListener('resize', resizeAuthorPhoto);
+    window.addEventListener('resize', resizeHeader);
     // window.addEventListener('resize', switchTextLayout);
     return () => {
-      window.removeEventListener('resize', resizeAuthorPhoto);
+      window.removeEventListener('resize', resizeHeader);
       // window.removeEventListener('resize', switchTextLayout);
     };
   }, []);
 
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
+    history.push('/home');
   };
 
   const switchPageChrome = (direction) => {
+    console.log('SWITCH');
     console.log(
       textContentRef.current.scrollHeight /
         (contentRef.current.offsetHeight * 2 + 32),
@@ -83,7 +88,7 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
       if (
         currentPage ===
         Math.floor(
-          textContentRef.current.scrollHeight /
+          (textContentRef.current.scrollHeight + 280) /
             (contentRef.current.offsetHeight * 2 + 32)
         )
       ) {
@@ -121,7 +126,21 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
   };
 
   const switchPage = (direction) => {
-    if (contentRef.current.offsetWidth > textContentRef.current.scrollHeight) {
+    /* console.log(
+      'contentRef.current.offsetWidth:',
+      contentRef.current.offsetWidth
+    );
+    console.log(
+      'textContentRef.current.scrollHeight:',
+      textContentRef.current.scrollHeight
+    ); */
+    /* if (contentRef.current.offsetWidth > textContentRef.current.scrollHeight) {
+      switchPageFirefox(direction);
+    } else {
+      switchPageChrome(direction);
+    } */
+
+    if (!isChrome) {
       switchPageFirefox(direction);
     } else {
       switchPageChrome(direction);
@@ -174,12 +193,29 @@ export default function StoryPopup({ setIsStoryPopupVisible, story, error }) {
               backgroundImage: `url(${STATIC_URL}${headerImage})`,
             }}
           >
-            <div className={classes.heading}>
-              <div className={classes.author} ref={authorPhotoContainer}>
+            <div
+              className={classes.heading}
+              ref={headingContainer}
+              style={{
+                // Chrome positioning bug fix
+                top: `calc(100% - ${headingContainerHeight}px)`,
+              }}
+            >
+              <div
+                className={classes.author}
+                ref={authorPhotoContainer}
+                style={{
+                  height:
+                    isMobile && headingContainer.current
+                      ? headingContainer.current.clientHeight
+                      : '',
+                }}
+              >
                 <div
                   className={classes.authorPhoto}
+                  ref={authorPhotoRef}
                   style={{
-                    top: !isMobile ? authorPhotoTopPosition : '',
+                    top: authorPhotoTopPosition,
                     width: !isMobile ? authorPhotoWidth : '',
                     backgroundImage: `url(${STATIC_URL}${authorImage})`,
                   }}

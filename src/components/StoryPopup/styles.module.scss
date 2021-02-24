@@ -1,7 +1,7 @@
 .StoryPopup {
   position: fixed;
   z-index: 3;
-  top: 20px;
+  top: 10px;
   left: 20px;
   right: 35px;
   bottom: 20px;
@@ -68,9 +68,10 @@
       .heading {
         position: absolute;
         bottom: 0;
+        left: 0;
         display: flex;
+        min-height: 30%;
         width: 100%;
-        height: 28%;
         background: rgba(2, 6, 18, 0.81);
         .author {
           display: flex;
@@ -94,7 +95,7 @@
           }
 
           .authorPhoto {
-            position: relative;
+            position: absolute;
             width: 60%;
             border-radius: 50%;
             background-image: url('https://ofad.org/files/daily-photo/recent-and-random-portraits_8.jpg');
@@ -111,8 +112,11 @@
         .title {
           position: relative;
           width: 67%;
-
           h1 {
+            margin: 0;
+            padding-top: 14px;
+            padding-right: 25px;
+            padding-bottom: 35px;
             font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
             font-size: 20px;
             font-style: normal;
@@ -163,7 +167,7 @@
                 width: 13px;
                 height: 10px;
                 margin-right: 3px;
-                background-image: url(../../assets/images/views.svg);
+                background-image: url(../../assets/images/views-light.svg);
               }
             }
           }
@@ -290,11 +294,12 @@
         height: 280px !important;
         .heading {
           flex-direction: row;
-          height: 92px;
+          height: auto;
           .author {
-            width: 50%;
             position: relative;
-            height: 92px;
+            span {
+              white-space: nowrap;
+            }
             .authorPhoto {
               position: absolute;
               left: calc(50% - 64px);
@@ -308,12 +313,14 @@
             }
           }
           .title {
-            height: 100%;
+            min-height: 92px !important;
+            position: static;
             box-sizing: border-box;
+            padding-bottom: 0;
             flex-direction: column;
             padding-left: 15px;
             padding-right: 15px;
-            align-items: flex-start;
+
             .share {
               display: none !important;
             }
@@ -325,6 +332,9 @@
               justify-content: flex-end;
             }
             h1 {
+              box-sizing: border-box;
+              padding-right: 0;
+              padding-bottom: 30px !important;
               font-size: 14px;
               font-style: normal;
               font-weight: 700;
@@ -367,7 +377,7 @@
   color: #e5e5e5;
 }
 
-@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 460px) {
   .StoryPopup {
     .content {
       .header {
@@ -375,7 +385,6 @@
           .author {
             .authorPhoto {
               left: calc(50% - 50px);
-              bottom: 50px !important;
               width: 100px !important;
               height: 100px !important;
             }

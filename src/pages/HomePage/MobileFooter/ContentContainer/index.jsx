@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import Community from '../../Content/Communities/Community';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import StoriesPopup from './StoriesPopup';
-import StoryPopup from '../../../../components/StoryPopup';
+
 import Spinner from '../../../../components/Spinner';
 import ErrorMessage from '../../ErrorMessage';
 import useApiRequest from '../../../../helpers/useApiRequest';
@@ -18,9 +18,8 @@ export default function ContentContainer({
   switchMenuOption,
 }) {
   const [isStoriesPopupVisible, setIsStoriesPopupVisible] = useState(false);
-  const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
+
   const [storiesPopupTitle, setStoriesPopupTitle] = useState('');
-  const [currentStory, setCurrentStory] = useState(null);
 
   /* eslint-disable */
 
@@ -332,12 +331,6 @@ export default function ContentContainer({
           <ErrorMessage message={featuredStoriesLoadError.message} />
         )}
       </div>
-      {isStoryPopupVisible && (
-        <StoryPopup
-          story={currentStory}
-          setIsStoryPopupVisible={setIsStoryPopupVisible}
-        />
-      )}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 
-import { useParams } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { Context } from '../../../context';
@@ -13,7 +12,11 @@ import useApiRequest from '../../../helpers/useApiRequest';
 
 import classes from './styles.module.scss';
 
-export default function HomeContent({ setAreLocalStoriesFound }) {
+export default function HomeContent({
+  setAreLocalStoriesFound,
+  storyId,
+  history,
+}) {
   const [currentNeighborhood] = useContext(Context);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
@@ -33,7 +36,6 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
   const [currentStory, setCurrentStory] = useState(null);
 
   let timer;
-  const { id } = useParams();
 
   /* eslint-disable */
   const [
@@ -41,7 +43,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
     requestStory,
     isStoryLoading,
     storyLoadingError,
-  ] = useApiRequest('get', `/stories/${id}`);
+  ] = useApiRequest('get', `/stories/${storyId}`);
   /* eslint-disable */
 
   const communitiesRef = useRef();
@@ -145,10 +147,10 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
   };
 
   useEffect(() => {
-    if (id) {
+    if (storyId) {
       requestStory();
     }
-  }, []);
+  }, [storyId]);
 
   useEffect(() => {
     if (!isStoryLoading && story) {
@@ -294,6 +296,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
               featuredStoriesPosition={scrollFeaturedStoriesPosition}
               setAreLocalStoriesFound={setAreLocalStoriesFound}
               selectedMenuOption={selectedMenuOption}
+              history={history}
             />
             <RecentStories
               showStory={showStory}
@@ -304,6 +307,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
               setAreLocalStoriesFound={setAreLocalStoriesFound}
               setSelectedMenuOption={setSelectedMenuOption}
               selectedMenuOption={selectedMenuOption}
+              history={history}
             />
             <Communities
               showStory={showStory}
@@ -318,6 +322,7 @@ export default function HomeContent({ setAreLocalStoriesFound }) {
                 setIsStoryPopupVisible={setIsStoryPopupVisible}
                 story={currentStory}
                 error={storyLoadingError}
+                history={history}
               />
             )}
           </div>

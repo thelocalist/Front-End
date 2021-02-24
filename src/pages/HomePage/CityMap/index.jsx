@@ -45,7 +45,6 @@ export default function CityMap({ areLocalStoriesFound }) {
     ) {
       return;
     }
-    console.log('DESELECT', event.target.parentNode);
     setCurrentNeighborhood('');
   };
 

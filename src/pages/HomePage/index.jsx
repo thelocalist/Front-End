@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
+import { useParams } from 'react-router-dom';
 
 import HomeContent from './Content';
 import MobileFooter from './MobileFooter';
 import CityMap from './CityMap';
 import classes from './styles.module.scss';
 
-export default function HomePage() {
+export default function HomePage({ history }) {
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
   useEffect(() => {
     document.body.style.margin = '0';
@@ -20,6 +21,8 @@ export default function HomePage() {
 
   const [areLocalStoriesFound, setAreLocalStoriesFound] = useState(true);
 
+  const { id } = useParams();
+
   return (
     <div className={classes.HomePage}>
       <CityMap
@@ -27,9 +30,17 @@ export default function HomePage() {
         setAreLocalStoriesFound={setAreLocalStoriesFound}
       />
       {isMobile ? (
-        <MobileFooter setAreLocalStoriesFound={setAreLocalStoriesFound} />
+        <MobileFooter
+          setAreLocalStoriesFound={setAreLocalStoriesFound}
+          history={history}
+          storyId={id}
+        />
       ) : (
-        <HomeContent setAreLocalStoriesFound={setAreLocalStoriesFound} />
+        <HomeContent
+          history={history}
+          setAreLocalStoriesFound={setAreLocalStoriesFound}
+          storyId={id}
+        />
       )}
     </div>
   );

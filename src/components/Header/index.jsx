@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
 import MediaQuery, { useMediaQuery } from 'react-responsive';
-import classes from './styles.module.scss';
+
+import { Context } from '../../context/index';
 import Search from '../Search';
 import MobileSearch from '../MobileSearch';
+import classes from './styles.module.scss';
 
 function Header({ setIsSideMenuVisible }) {
   const [isSearchbarVisible, setIsSearchbarVisible] = useState(false);
   const [isMobileSearchBarVisible, setIsMobileSearchBarVisible] = useState(
     false
   );
+
+  const [, , isMobileStoryOpened] = useContext(Context);
 
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
@@ -35,7 +39,7 @@ function Header({ setIsSideMenuVisible }) {
   return (
     <header
       className={
-        isMobile && isMobileSearchBarVisible
+        isMobile && isMobileSearchBarVisible && !isMobileStoryOpened
           ? classnames(classes.Header, classes.mobileSearchIsOpen)
           : classes.Header
       }

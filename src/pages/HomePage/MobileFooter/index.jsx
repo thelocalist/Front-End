@@ -2,17 +2,35 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import classnames from 'classnames';
 
+import StoryPopup from '../../../components/StoryPopup';
+import useApiRequest from '../../../helpers/useApiRequest';
 import { Context } from '../../../context';
 import ContentContainer from './ContentContainer';
 import classes from './styles.module.scss';
 
-export default function MobileFooter({ setAreLocalStoriesFound }) {
-  const [currentNeighborhood] = useContext(Context);
+export default function MobileFooter({
+  setAreLocalStoriesFound,
+  storyId,
+  history,
+}) {
+  const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(Context);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
+  const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
   const [linePosition, setLinePosition] = useState(null);
+  const [currentStory, setCurrentStory] = useState(null);
+
   const recentIconRef = useRef(null);
   const featuredIconRef = useRef(null);
   const communitiesIconRef = useRef(null);
+
+  /* eslint-disable */
+  const [
+    story,
+    requestStory,
+    isStoryLoading,
+    storyLoadingError,
+  ] = useApiRequest('get', `/stories/${storyId}`);
+  /* eslint-disable */
 
   const switchMenuOption = (option) => {
     let ref;
@@ -22,11 +40,9 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         break;
       case 'featured':
         ref = featuredIconRef;
-        // setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       case 'communities':
         ref = communitiesIconRef;
-        // setTimeout(() => setCurrentNeighborhood(''), 500);
         break;
       default:
         ref = null;
@@ -42,6 +58,33 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
     switchMenuOption(selectedMenuOption);
   }, []);
 
+  useEffect(() => {
+    if (storyId) {
+      requestStory();
+    }
+  }, [storyId]);
+
+  useEffect(() => {
+    if (!isStoryLoading && story) {
+      setCurrentStory(story);
+      setIsStoryPopupVisible(true);
+    }
+  }, [isStoryLoading]);
+
+  useEffect(() => {
+    if (storyLoadingError) {
+      setIsStoryPopupVisible(true);
+    }
+  }, [storyLoadingError]);
+
+  useEffect(() => {
+    if (isStoryPopupVisible) {
+      setIsMobileStoryOpened(true);
+    } else {
+      setIsMobileStoryOpened(false);
+    }
+  }, [isStoryPopupVisible]);
+
   return (
     <div className={classes.MobileFooter}>
       <div
@@ -55,7 +98,12 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         }
       >
         <i preserveNeighborhoodSelection="true">Recent Nearby</i>
-        <span preserveNeighborhoodSelection="true">Recent Nearby</span>
+        <span
+          className={classes.buttonText}
+          preserveNeighborhoodSelection="true"
+        >
+          Recent Nearby
+        </span>
       </div>
       <div
         preserveNeighborhoodSelection="true"
@@ -68,7 +116,12 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         }
       >
         <i preserveNeighborhoodSelection="true">Featured Stories</i>
-        <span preserveNeighborhoodSelection="true">Featured Stories</span>
+        <span
+          className={classes.buttonText}
+          preserveNeighborhoodSelection="true"
+        >
+          Featured Stories
+        </span>
       </div>
       <div
         ref={communitiesIconRef}
@@ -80,7 +133,7 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         }
       >
         <i>Communities</i>
-        <span>Communities</span>
+        <span className={classes.buttonText}>Communities</span>
       </div>
       <div className={classes.line} style={{ left: linePosition }} />
       <ContentContainer
@@ -89,6 +142,14 @@ export default function MobileFooter({ setAreLocalStoriesFound }) {
         currentNeighborhood={currentNeighborhood}
         switchMenuOption={switchMenuOption}
       />
+      {isStoryPopupVisible && (
+        <StoryPopup
+          setIsStoryPopupVisible={setIsStoryPopupVisible}
+          story={currentStory}
+          error={storyLoadingError}
+          history={history}
+        />
+      )}
     </div>
   );
 }
