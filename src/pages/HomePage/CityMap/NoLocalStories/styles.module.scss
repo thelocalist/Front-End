@@ -7,9 +7,13 @@
   z-index: 1;
   top: 0;
   right: 0;
-  bottom: 273px;
+  bottom: 313px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  background: #00030b !important;
+  border-left: 0.25px solid #2f4273;
+  border-bottom: 0.25px solid #2f4273;
+
   &.visible {
     opacity: 1;
   }

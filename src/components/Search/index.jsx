@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
 import { Context } from '../../context';
+import { SearchContext } from '../../context/searchContext';
 import SearchResultsPopup from './SearchResultsPopup';
 import useSearch from '../../helpers/useSearch';
 import useApiRequest from '../../helpers/useApiRequest';
@@ -18,7 +19,6 @@ const FIELDS = {
 };
 
 export default function Search({ setIsSearchbarVisible }) {
-  const [, setCurrentNeighborhood] = useContext(Context);
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
 
@@ -37,6 +37,18 @@ export default function Search({ setIsSearchbarVisible }) {
   });
 
   /* eslint-disable no-unused-vars */
+  const [
+    currentNeighborhood,
+    setCurrentNeighborhood,
+    isMobileStoryOpened,
+    setIsMobileStoryOpened,
+  ] = useContext(Context);
+
+  const [
+    isSearchByNeighborhoodActive,
+    setIsSearchByNeighborhoodActive,
+  ] = useContext(SearchContext);
+
   const [
     stories,
     getStories,
@@ -57,11 +69,19 @@ export default function Search({ setIsSearchbarVisible }) {
 
   useEffect(() => {
     fetchCommunities();
-    console.log(areCommunitiesFetching, communitiesFetchingError);
   }, []);
+
+  console.log('SEARCH HAS RENDERED');
 
   const optionsRef = useRef();
   const selectRef = useRef();
+
+  useEffect(() => {
+    if (searchFilter.type === 'neighborhood') {
+      console.log('setting search by neighborhood to active');
+      setIsSearchByNeighborhoodActive(true);
+    }
+  }, [searchFilter]);
 
   const hideOptionsOnOutsideClick = (event) => {
     if (!optionsRef.current) {
@@ -124,7 +144,6 @@ export default function Search({ setIsSearchbarVisible }) {
     };
 
     getStories(queryParams);
-    // setSearch('');
 
     setIsSearchResultsVisible(true);
   };
@@ -188,6 +207,7 @@ export default function Search({ setIsSearchbarVisible }) {
               >
                 {NEIGHBORHOODS.map((neighborhood) => (
                   <li
+                    key={neighborhood}
                     onClick={(event) => {
                       event.stopPropagation();
                       setSearchFilter({

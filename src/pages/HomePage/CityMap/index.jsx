@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 
 import { Context } from '../../../context';
+import { SearchContext } from '../../../context/searchContext';
 import NoLocalStories from './NoLocalStories';
 import classes from './styles.module.scss';
 
@@ -13,6 +14,13 @@ const MAP_VIEW_AREA_SIZE = {
 
 export default function CityMap({ areLocalStoriesFound }) {
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+  /* eslint-disable */
+  const [
+    isSearchByNeighborhoodActive,
+    setIsSearchByNeighborhoodActive,
+  ] = useContext(SearchContext);
+  /* eslint-disable */
+
   const [mapSize, setMapSize] = useState({});
   const [isMouseCursorOnMap, setIsMouseCursorOnMap] = useState(false);
 
@@ -37,11 +45,18 @@ export default function CityMap({ areLocalStoriesFound }) {
     };
   }, []);
 
+  console.log('CITYMAP HAS RENDERED');
+
   const deselectNeighborhood = (event) => {
+    console.log(
+      'FRROM CITYMAP: isSearchByNeighborhoodActive =',
+      isSearchByNeighborhoodActive
+    );
     if (
       event.target.parentNode.getAttribute('preserveNeighborhoodSelection') ||
       event.target.tagName === 'path' ||
-      event.target.getAttribute('preserveNeighborhoodSelection')
+      event.target.getAttribute('preserveNeighborhoodSelection') ||
+      isSearchByNeighborhoodActive
     ) {
       return;
     }
@@ -104,14 +119,14 @@ export default function CityMap({ areLocalStoriesFound }) {
           <path
             className={classes.noHover}
             d="M207.997 564.693L368.346 497.846L407.723 577.433L732.709 419.202L759.549 432.279L750.677 457.83L772.26 464.664L777.419 481.484L809.571 456.692L1151.5 456.692L1151.5 571.649L1151.5 723L-3.99983 723L-3.99999 662L207.997 564.693Z"
-            fill="url(#paint0_linear)"
+            fill="#02050c"
             stroke="#7284B6"
             strokeWidth="0.5"
           />
           <path
             className={classes.noHover}
             d="M287.885 336.551L314.578 388.908L0.755562 526.238L0.755421 -1.00013L1127.5 -1.00013L754.333 146.563L739.624 120.26L287.885 336.551Z"
-            fill="url(#paint1_linear)"
+            fill="#02050c"
             stroke="#7284B6"
           />
           <g filter="url(#filter0_d)">
@@ -377,7 +392,7 @@ export default function CityMap({ areLocalStoriesFound }) {
           <path
             className={classes.noHover}
             d="M774.988 183.629L1154.5 37.5L1154.5 409.75L864.548 409.75L752.769 409.75L811.776 383.232L858.158 359.978L844.924 331.833L830.785 303.706L803.662 244.71L774.988 183.629Z"
-            fill="url(#paint2_linear)"
+            fill="#02050c"
             stroke="#7284B6"
             strokeWidth="0.5"
           />

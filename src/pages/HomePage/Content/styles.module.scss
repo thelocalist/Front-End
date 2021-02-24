@@ -12,6 +12,7 @@
   position: relative;
   z-index: 1;
   margin-bottom: 7px;
+
   ul {
     position: relative;
     width: 480px;
@@ -33,6 +34,7 @@
     li.neighborhoodFilterActive {
       span {
         color: white;
+        background: #02050c;
       }
     }
 
@@ -162,7 +164,7 @@
 
     cursor: pointer;
     // background: rgba(50, 50, 50, 0.5);
-    background: #02050c;
+    //background: #02050c;
 
     z-index: 1;
     border: solid var(--border-width) transparent;

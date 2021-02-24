@@ -19,14 +19,9 @@ export default function StoryPopup({
   const isChrome =
     !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
-  console.log('IS CHROME?', isChrome);
-
   const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
-  const [headingContainerHeight, setHeadingContainerHeight] = useState(0);
-  // const [textScrollPosition, setTextScrollPosition] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  // const [isOneColumnLayout, setIsOneColumnLayout] = useState(false);
   const [isShareButtonsPopupVisible, setIsShareButtonsPopupVisible] = useState(
     false
   );
@@ -48,7 +43,7 @@ export default function StoryPopup({
     if (!story) {
       return;
     }
-    setHeadingContainerHeight(headingContainer.current.clientHeight);
+
     setAuthorPhotoWidth(authorPhotoContainer.current.clientWidth * 0.65);
 
     setTimeout(() => {
@@ -63,12 +58,9 @@ export default function StoryPopup({
 
   useEffect(() => {
     resizeHeader();
-    // switchTextLayout();
     window.addEventListener('resize', resizeHeader);
-    // window.addEventListener('resize', switchTextLayout);
     return () => {
       window.removeEventListener('resize', resizeHeader);
-      // window.removeEventListener('resize', switchTextLayout);
     };
   }, []);
 
@@ -78,12 +70,6 @@ export default function StoryPopup({
   };
 
   const switchPageChrome = (direction) => {
-    console.log('SWITCH');
-    console.log(
-      textContentRef.current.scrollHeight /
-        (contentRef.current.offsetHeight * 2 + 32),
-      currentPage + 1
-    );
     if (direction === 'forward') {
       if (
         currentPage ===
@@ -126,20 +112,6 @@ export default function StoryPopup({
   };
 
   const switchPage = (direction) => {
-    /* console.log(
-      'contentRef.current.offsetWidth:',
-      contentRef.current.offsetWidth
-    );
-    console.log(
-      'textContentRef.current.scrollHeight:',
-      textContentRef.current.scrollHeight
-    ); */
-    /* if (contentRef.current.offsetWidth > textContentRef.current.scrollHeight) {
-      switchPageFirefox(direction);
-    } else {
-      switchPageChrome(direction);
-    } */
-
     if (!isChrome) {
       switchPageFirefox(direction);
     } else {
@@ -163,13 +135,6 @@ export default function StoryPopup({
           <meta property="og:description" content={storyDescription} />
         </MetaTags>
       )}
-      {/* {!isMobile && story && (
-        <div
-          className={classes.testBox}
-          dangerouslySetInnerHTML={{ __html: story.content }}
-          ref={testBoxRef}
-        />
-      )} */}
       <i
         className={classes.closePopupIcon}
         onClick={hidePopup}
@@ -193,14 +158,7 @@ export default function StoryPopup({
               backgroundImage: `url(${STATIC_URL}${headerImage})`,
             }}
           >
-            <div
-              className={classes.heading}
-              ref={headingContainer}
-              style={{
-                // Chrome positioning bug fix
-                top: `calc(100% - ${headingContainerHeight}px)`,
-              }}
-            >
+            <div className={classes.heading} ref={headingContainer}>
               <div
                 className={classes.author}
                 ref={authorPhotoContainer}
@@ -244,17 +202,6 @@ export default function StoryPopup({
             dangerouslySetInnerHTML={{ __html: story.content }}
             ref={textContentRef}
           />
-          {/* {!isOneColumnLayout && (
-            <div className={classes.shareButtonBlock}>
-              <span
-                className={classes.button}
-                onClick={() => setIsShareButtonsPopupVisible(true)}
-              >
-                <span className={classes.buttonTitle}>Share</span>
-                <i className={classes.share}>Share</i>
-              </span>
-            </div>
-          )} */}
           <div className={classes.shareButtonBlock}>
             <span
               className={classes.button}
@@ -268,36 +215,6 @@ export default function StoryPopup({
       ) : null}
       {story ? (
         <div className={classes.footer}>
-          {/*  {!isOneColumnLayout ? (
-            <div className={classes.switchPageButtons}>
-              <i
-                className={classes.prevPage}
-                onClick={() => switchPage('back')}
-              >
-                Previous Page
-              </i>
-              <i
-                className={classes.nextPage}
-                onClick={() => switchPage('forward')}
-              >
-                Next Page
-              </i>
-            </div>
-          ) : (
-            <div
-              className={classnames(classes.shareButtonBlock, classes.bottom)}
-            >
-              <span
-                className={classes.button}
-                onClick={() => {
-                  setIsShareButtonsPopupVisible(true);
-                }}
-              >
-                <span className={classes.buttonTitle}>Share</span>
-                <i className={classes.share}>Share</i>
-              </span>
-            </div>
-          )} */}
           {!isMobile && (
             <div className={classes.switchPageButtons}>
               <i

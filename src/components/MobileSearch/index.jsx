@@ -125,6 +125,12 @@ export default function MobileSearch({
     }, 1500);
   };
 
+  useEffect(() => {
+    if (search) {
+      searchStories();
+    }
+  }, [searchFilter]);
+
   const hideSearchbar = () => {
     setIsSearchbarVisible(false);
     setIsOptionsVisible(false);

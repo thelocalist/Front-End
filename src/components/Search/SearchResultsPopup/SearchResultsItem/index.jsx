@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
@@ -13,15 +13,18 @@ export default function SearchResultsItem({
   styles,
 }) {
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
+
+  const searchResultItemRef = useRef();
+
+  useEffect(() => {
+    console.log(searchResultItemRef.current.clientHeight);
+  }, []);
+
   return (
     <Link
       preserveNeighborhoodSelection="true"
       to={`/story/${searchResult.id}`}
-      // onClick={() => {
-      //  if (showStory) {
-      //    showStory(searchResult);
-      //  }
-      // }}
+      ref={searchResultItemRef}
       style={styles}
       className={
         variant === 'mobile'
@@ -36,7 +39,15 @@ export default function SearchResultsItem({
         }}
       />
       <h1>
-        <Truncate lines={2} ellipsis={<span>...</span>}>
+        <Truncate
+          lines={
+            searchResultItemRef.current &&
+            searchResultItemRef.current.clientHeight < 248
+              ? 1
+              : 2
+          }
+          ellipsis={<span>...</span>}
+        >
           {searchResult.title}
         </Truncate>
       </h1>
