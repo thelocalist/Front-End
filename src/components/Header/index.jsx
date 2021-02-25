@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
+import { useLocation } from 'react-router-dom';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
 import { Context } from '../../context/index';
@@ -26,6 +27,14 @@ function Header({ setIsSideMenuVisible }) {
     setIsSearchbarVisible(true);
   };
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/home/search') {
+      showSearchbar();
+    }
+  }, []);
+
   useEffect(() => {
     if (!isSearchbarVisible) {
       setTimeout(() => {
@@ -35,6 +44,14 @@ function Header({ setIsSideMenuVisible }) {
       setIsMobileSearchBarVisible(true);
     }
   }, [isSearchbarVisible]);
+
+  useEffect(() => {
+    if (location.pathname === '/home/search' && isMobile) {
+      setTimeout(() => {
+        setIsMobileSearchBarVisible(true);
+      }, 500);
+    }
+  }, []);
 
   return (
     <header

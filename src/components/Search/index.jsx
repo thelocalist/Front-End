@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 
+import { useHistory, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { Context } from '../../context';
-import { SearchContext } from '../../context/searchContext';
 import SearchResultsPopup from './SearchResultsPopup';
 import useSearch from '../../helpers/useSearch';
 import useApiRequest from '../../helpers/useApiRequest';
 import { NEIGHBORHOODS } from '../../constants/main';
+import useOnClickOutside from '../../helpers/useOnClickOutside';
 import classes from './styles.module.scss';
 
 const PAGESIZE = 6;
@@ -21,7 +22,7 @@ const FIELDS = {
 export default function Search({ setIsSearchbarVisible }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
-
+  const [isSearchExecutionNeeded, setIsSearchExecutionNeeded] = useState(false);
   const [isCommunitiesListVisible, setIsCommunitiesListVisible] = useState(
     false
   );
@@ -36,6 +37,9 @@ export default function Search({ setIsSearchbarVisible }) {
     value: '',
   });
 
+  const history = useHistory();
+  const location = useLocation();
+
   /* eslint-disable no-unused-vars */
   const [
     currentNeighborhood,
@@ -44,10 +48,30 @@ export default function Search({ setIsSearchbarVisible }) {
     setIsMobileStoryOpened,
   ] = useContext(Context);
 
-  const [
-    isSearchByNeighborhoodActive,
-    setIsSearchByNeighborhoodActive,
-  ] = useContext(SearchContext);
+  const changeNeighborhoodSelectionOnURLChange = () => {
+    if (!location.search) {
+      return;
+    }
+    const params = new URLSearchParams(location.search);
+    if (params.get('filterType') === 'neighborhood') {
+      // Fix selection of neighborhoods with ampersand containing titles
+      if (params.get('filterValue').trim() === 'Greenpoint') {
+        setCurrentNeighborhood('Greenpoint & Williamsburg');
+      } else if (params.get('filterValue').trim() === 'Dumbo') {
+        setCurrentNeighborhood('Dumbo & Downtown');
+      } else if (params.get('filterValue').trim() === 'Jersey City') {
+        setCurrentNeighborhood('Jersey City & Hoboken');
+      } else {
+        setCurrentNeighborhood(params.get('filterValue'));
+      }
+    } else {
+      setCurrentNeighborhood('');
+    }
+  };
+
+  useEffect(() => {
+    changeNeighborhoodSelectionOnURLChange();
+  }, [location.search]);
 
   const [
     stories,
@@ -68,22 +92,24 @@ export default function Search({ setIsSearchbarVisible }) {
   ] = useApiRequest('get', '/communities');
 
   useEffect(() => {
+    if (!communities) {
+      return;
+    }
+    history.push(
+      `/home/search?keywords=${search}&filterType=${
+        FIELDS[searchFilter.type]
+      }&filterValue=${searchFilter.value}&pageSize=${PAGESIZE}&pageIndex=0`
+    );
+  }, [searchFilter, search]);
+
+  useEffect(() => {
     fetchCommunities();
   }, []);
-
-  console.log('SEARCH HAS RENDERED');
 
   const optionsRef = useRef();
   const selectRef = useRef();
 
-  useEffect(() => {
-    if (searchFilter.type === 'neighborhood') {
-      console.log('setting search by neighborhood to active');
-      setIsSearchByNeighborhoodActive(true);
-    }
-  }, [searchFilter]);
-
-  const hideOptionsOnOutsideClick = (event) => {
+  /* const hideOptionsOnOutsideClick = (event) => {
     if (!optionsRef.current) {
       return;
     }
@@ -94,11 +120,16 @@ export default function Search({ setIsSearchbarVisible }) {
     ) {
       setIsOptionsVisible(false);
     }
-  };
+  }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     document.addEventListener('mousedown', hideOptionsOnOutsideClick);
-  }, []);
+    return () => {
+      document.removeEventListener('mousedown', hideOptionsOnOutsideClick);
+    };
+  }, []); */
+
+  useOnClickOutside(optionsRef, () => setIsOptionsVisible(false));
 
   const toggleOptionsVisibility = () => {
     setIsOptionsVisible((prevState) => !prevState);
@@ -124,16 +155,21 @@ export default function Search({ setIsSearchbarVisible }) {
 
   const hideSearchbar = () => {
     setIsSearchbarVisible(false);
+    history.push('/home');
+    setCurrentNeighborhood('');
   };
 
   const searchStories = (event) => {
     if (event) {
       event.preventDefault();
-      if (search.trim() === '') {
-        return;
-      }
       resetSearch();
     }
+
+    if (search.trim() === '') {
+      return;
+    }
+
+    setIsSearchExecutionNeeded(false);
 
     const queryParams = {
       keywords: search,
@@ -147,6 +183,69 @@ export default function Search({ setIsSearchbarVisible }) {
 
     setIsSearchResultsVisible(true);
   };
+
+  const setInitialQueryParamsAndSearchStories = () => {
+    if (!location.search) {
+      return;
+    }
+    const params = new URLSearchParams(location.search);
+
+    const reversedFields = {};
+
+    Object.entries(FIELDS).forEach((entry) => {
+      const key = entry[0];
+      const value = entry[1];
+      reversedFields[value] = key;
+    });
+
+    let option;
+    if (params.get('filterValue')) {
+      if (params.get('filterType') === 'communityId') {
+        option = '';
+        option = communities.find((community) => {
+          return community.id === +params.get('filterValue');
+        }).title;
+      } else {
+        // Fix selection of neighborhoods with ampersand containing titles
+        option = params.get('filterValue');
+        if (params.get('filterValue').trim() === 'Greenpoint') {
+          option = 'Greenpoint & Williamsburg';
+        } else if (params.get('filterValue').trim() === 'Dumbo') {
+          option = 'Dumbo & Downtown';
+        } else if (params.get('filterValue').trim() === 'Jersey City') {
+          option = 'Jersey City & Hoboken';
+        }
+      }
+    } else if (params.get('filterType') === 'authorName') {
+      option = 'author';
+    } else if (params.get('filterType') === 'keywords') {
+      option = 'keywords';
+    }
+
+    setSearchFilter({
+      type: reversedFields[params.get('filterType')],
+      value: params.get('filterValue'),
+      option,
+    });
+
+    setSearch(params.get('keywords'));
+
+    if (params.get('keywords')) {
+      setIsSearchExecutionNeeded(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isSearchExecutionNeeded) {
+      searchStories();
+    }
+  }, [search]);
+
+  useEffect(() => {
+    if (communities) {
+      setInitialQueryParamsAndSearchStories();
+    }
+  }, [communities]);
 
   return (
     <form className={classes.Search} onSubmit={searchStories}>
@@ -215,7 +314,6 @@ export default function Search({ setIsSearchbarVisible }) {
                         value: neighborhood,
                         option: neighborhood,
                       });
-                      setCurrentNeighborhood(neighborhood);
                       toggleOptionsVisibility();
                     }}
                   >

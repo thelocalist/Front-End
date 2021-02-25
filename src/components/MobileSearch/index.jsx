@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import { useHistory } from 'react-router-dom';
 import classnames from 'classnames';
 
 import SearchResultsItem from '../Search/SearchResultsPopup/SearchResultsItem';
@@ -56,6 +57,72 @@ export default function MobileSearch({
   const [isCommunitiesListVisible, setIsCommunitiesListVisible] = useState(
     false
   );
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!communities || !isSearchbarVisible) {
+      return;
+    }
+    history.push(
+      `/home/search?keywords=${search}&filterType=${
+        FIELDS[searchFilter.type]
+      }&filterValue=${searchFilter.value}&pageSize=${PAGESIZE}&pageIndex=0`
+    );
+  }, [searchFilter, search]);
+
+  const setInitialQueryParamsAndSearchStories = () => {
+    if (!location.search) {
+      return;
+    }
+    const params = new URLSearchParams(location.search);
+
+    const reversedFields = {};
+
+    Object.entries(FIELDS).forEach((entry) => {
+      const key = entry[0];
+      const value = entry[1];
+      reversedFields[value] = key;
+    });
+
+    let option;
+    if (params.get('filterValue')) {
+      if (params.get('filterType') === 'communityId') {
+        option = '';
+        option = communities.find((community) => {
+          return community.id === +params.get('filterValue');
+        }).title;
+      } else {
+        // Fix selection of neighborhoods with ampersand containing titles
+        option = params.get('filterValue');
+        if (params.get('filterValue').trim() === 'Greenpoint') {
+          option = 'Greenpoint & Williamsburg';
+        } else if (params.get('filterValue').trim() === 'Dumbo') {
+          option = 'Dumbo & Downtown';
+        } else if (params.get('filterValue').trim() === 'Jersey City') {
+          option = 'Jersey City & Hoboken';
+        }
+      }
+    } else if (params.get('filterType') === 'authorName') {
+      option = 'author';
+    } else if (params.get('filterType') === 'keywords') {
+      option = 'keywords';
+    }
+
+    setSearchFilter({
+      type: reversedFields[params.get('filterType')],
+      value: params.get('filterValue'),
+      option,
+    });
+
+    setSearch(params.get('keywords'));
+  };
+
+  useEffect(() => {
+    if (communities) {
+      setInitialQueryParamsAndSearchStories();
+    }
+  }, [communities]);
 
   useEffect(() => {
     fetchCommunities();
@@ -134,6 +201,9 @@ export default function MobileSearch({
   const hideSearchbar = () => {
     setIsSearchbarVisible(false);
     setIsOptionsVisible(false);
+    resetSearch();
+    history.push('/home');
+    setSearch('');
   };
 
   const toggleOptionsVisibility = () => {
@@ -234,6 +304,7 @@ export default function MobileSearch({
                   >
                     {NEIGHBORHOODS.map((neighborhood) => (
                       <li
+                        key={neighborhood.id}
                         onClick={(event) => {
                           event.stopPropagation();
                           setSearchFilter({

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 import Truncate from 'react-truncate';
 
@@ -15,6 +15,7 @@ export default function SearchResultsItem({
   const imagePath = searchResult.headerImagePath.replace(/\\/g, '/');
 
   const searchResultItemRef = useRef();
+  const location = useLocation();
 
   useEffect(() => {
     console.log(searchResultItemRef.current.clientHeight);
@@ -23,7 +24,10 @@ export default function SearchResultsItem({
   return (
     <Link
       preserveNeighborhoodSelection="true"
-      to={`/story/${searchResult.id}`}
+      to={{
+        pathname: `/story/${searchResult.id}`,
+        state: { from: location.pathname },
+      }}
       ref={searchResultItemRef}
       style={styles}
       className={

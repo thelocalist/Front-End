@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
-// import classnames from 'classnames';
 import MetaTags from 'react-meta-tags';
 
 import ShareButtonsPopup from '../../modals/ShareButtonsModal';
@@ -39,6 +39,8 @@ export default function StoryPopup({
     ? `${story.content.replace(/(<([^>]+)>)/gi, '').substring(0, 112)}...`
     : null;
 
+  const location = useLocation();
+
   const resizeHeader = () => {
     if (!story) {
       return;
@@ -50,7 +52,7 @@ export default function StoryPopup({
       if (authorPhotoRef) {
         setAuthorPhotoTopPosition(
           -authorPhotoRef.current.clientHeight / 2 -
-            authorPhotoRef.current.clientHeight * (isMobile ? 0.1 : 0.05)
+            authorPhotoRef.current.clientHeight * 0.1
         );
       }
     }, 0);
@@ -66,7 +68,11 @@ export default function StoryPopup({
 
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
-    history.push('/home');
+    if (location.state && location.state.from === '/home/search') {
+      history.goBack();
+    } else {
+      history.push('/home');
+    }
   };
 
   const switchPageChrome = (direction) => {

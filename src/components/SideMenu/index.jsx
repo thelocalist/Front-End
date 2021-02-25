@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
@@ -6,6 +6,7 @@ import { Context } from '../../context';
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
 import { NEIGHBORHOODS } from '../../constants/main';
+import useOnClickOutside from '../../helpers/useOnClickOutside';
 
 export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
   const [, setCurrentNeighborhood] = useContext(Context);
@@ -33,11 +34,11 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
     setIsSubscriptionFormVisible(false);
   };
 
-  const hideSideMenuOnOutsideClick = (event) => {
+  /*  const hideSideMenuOnOutsideClick = (event) => {
     if (!menuRef.current.contains(event.target)) {
       hideSideMenu();
     }
-  };
+  }; */
 
   const hideSideMenuOnClick = (event) => {
     if (event.target.tagName === 'A') {
@@ -49,12 +50,14 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
     setIsSubscriptionFormVisible((prevState) => !prevState);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     document.addEventListener('mousedown', hideSideMenuOnOutsideClick);
     return () => {
       document.removeEventListener('mousedown', hideSideMenuOnOutsideClick);
     };
-  }, []);
+  }, []); */
+
+  useOnClickOutside(menuRef, hideSideMenu);
 
   const sideMenuClasses = `${classes.SideMenu} ${
     isSideMenuVisible ? classes.show : classes.hide

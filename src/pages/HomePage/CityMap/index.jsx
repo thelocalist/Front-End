@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 
+// import { useLocation } from 'react-router-dom';
+
 import { Context } from '../../../context';
-import { SearchContext } from '../../../context/searchContext';
 import NoLocalStories from './NoLocalStories';
 import classes from './styles.module.scss';
+// import useOnClickOutside from '../../../helpers/useOnClickOutside';
 
 const MAP_SIZE = { width: 1152, height: 723 };
 
@@ -12,14 +14,8 @@ const MAP_VIEW_AREA_SIZE = {
   height: 400,
 };
 
-export default function CityMap({ areLocalStoriesFound }) {
+export default function CityMap({ areLocalStoriesFound, location }) {
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
-  /* eslint-disable */
-  const [
-    isSearchByNeighborhoodActive,
-    setIsSearchByNeighborhoodActive,
-  ] = useContext(SearchContext);
-  /* eslint-disable */
 
   const [mapSize, setMapSize] = useState({});
   const [isMouseCursorOnMap, setIsMouseCursorOnMap] = useState(false);
@@ -45,18 +41,14 @@ export default function CityMap({ areLocalStoriesFound }) {
     };
   }, []);
 
-  console.log('CITYMAP HAS RENDERED');
-
   const deselectNeighborhood = (event) => {
-    console.log(
-      'FRROM CITYMAP: isSearchByNeighborhoodActive =',
-      isSearchByNeighborhoodActive
-    );
+    const params = new URLSearchParams(location.search);
+    const filterType = params.get('filterType');
     if (
       event.target.parentNode.getAttribute('preserveNeighborhoodSelection') ||
       event.target.tagName === 'path' ||
       event.target.getAttribute('preserveNeighborhoodSelection') ||
-      isSearchByNeighborhoodActive
+      filterType === 'neighborhood'
     ) {
       return;
     }
@@ -68,7 +60,9 @@ export default function CityMap({ areLocalStoriesFound }) {
     return () => {
       document.removeEventListener('mousedown', deselectNeighborhood);
     };
-  }, []);
+  }, [location.search]);
+
+  // useOnClickOutside(mapContainerRef, deselectNeighborhood);
 
   const removeActiveClassOnHover = (event) => {
     if (event.target.tagName === 'path') {

@@ -19,7 +19,7 @@ const Routes = () => {
       {/* <Route exact path="/error" component={ErrorPage} /> */}
 
       <Route path="/" exact component={LaunchPage} />
-      <Route path="/home" exact component={HomePage} />
+      <Route path="/home" component={HomePage} />
       <Route path="/story/:id" exact component={HomePage} />
     </Switch>
   );

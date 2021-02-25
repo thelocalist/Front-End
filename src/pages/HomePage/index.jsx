@@ -8,7 +8,7 @@ import MobileFooter from './MobileFooter';
 import CityMap from './CityMap';
 import classes from './styles.module.scss';
 
-export default function HomePage({ history }) {
+export default function HomePage({ history, location }) {
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
   useEffect(() => {
     document.body.style.margin = '0';
@@ -28,6 +28,7 @@ export default function HomePage({ history }) {
       <CityMap
         areLocalStoriesFound={areLocalStoriesFound}
         setAreLocalStoriesFound={setAreLocalStoriesFound}
+        location={location}
       />
       {isMobile ? (
         <MobileFooter
