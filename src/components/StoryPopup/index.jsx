@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-
 import MetaTags from 'react-meta-tags';
 
 import ShareButtonsPopup from '../../modals/ShareButtonsModal';
@@ -241,7 +240,7 @@ export default function StoryPopup({
             show={isShareButtonsPopupVisible}
             onHide={hideShareButtonsPopup}
             title={story.title}
-            shareUrl={`https://thelocalist.co/story/${story.id}`}
+            shareUrl={`${URL}/story/${story.id}`}
           />
         </div>
       ) : (

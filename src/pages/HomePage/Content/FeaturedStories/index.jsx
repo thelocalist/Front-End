@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
 import { Context } from '../../../../context';
+import NoLocalStoriesMessage from '../NoLocalStoriesMessage';
 import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
 import ErrorMessage from '../../ErrorMessage';
@@ -16,6 +17,8 @@ export default function FeaturedStories({
   showStory,
   setAreLocalStoriesFound,
   selectedMenuOption,
+  setShouldSlidingBeStopped,
+  setAreLocalFeaturedStoriesFound,
 }) {
   const [currentNeighborhood] = useContext(Context);
   const [
@@ -87,6 +90,27 @@ export default function FeaturedStories({
     }
   }, [selectedMenuOption]);
 
+  useEffect(() => {
+    if (
+      areStoriesByNeighborhoodFetching ||
+      areStoriesFetching ||
+      storiesByNeighborhoodFetchingError ||
+      storiesFetchingError ||
+      (currentNeighborhood !== '' &&
+        storiesByNeighborhood &&
+        storiesByNeighborhood[0] === 'empty')
+    ) {
+      setShouldSlidingBeStopped(true);
+    } else {
+      setShouldSlidingBeStopped(false);
+    }
+  }, [
+    areStoriesByNeighborhoodFetching,
+    areStoriesFetching,
+    storiesByNeighborhoodFetchingError,
+    storiesFetchingError,
+  ]);
+
   let storiesContent;
 
   if (
@@ -95,6 +119,7 @@ export default function FeaturedStories({
     !areStoriesByNeighborhoodFetching &&
     currentNeighborhood !== ''
   ) {
+    setAreLocalFeaturedStoriesFound(true);
     storiesContent = storiesByNeighborhood.map((story) => {
       return (
         <SearchResultsItem
@@ -109,8 +134,10 @@ export default function FeaturedStories({
   } else if (
     stories &&
     !areStoriesFetching &&
-    !areStoriesByNeighborhoodFetching
+    !areStoriesByNeighborhoodFetching &&
+    currentNeighborhood === ''
   ) {
+    setAreLocalFeaturedStoriesFound(false);
     storiesContent = stories.data.map((story) => {
       return (
         <SearchResultsItem
@@ -123,15 +150,28 @@ export default function FeaturedStories({
       );
     });
   } else {
+    /* eslint-disable */
+    setAreLocalFeaturedStoriesFound(false);
     storiesContent = (
       <div className={classes.spinner}>
         {storiesFetchingError || storiesByNeighborhoodFetchingError ? (
-          <ErrorMessage message={storiesFetchingError.message} />
+          <ErrorMessage
+            message={
+              storiesFetchingError
+                ? storiesFetchingError.message
+                : storiesByNeighborhoodFetchingError
+                ? storiesByNeighborhoodFetchingError.message
+                : null
+            }
+          />
+        ) : storiesByNeighborhood && storiesByNeighborhood[0] === 'empty' ? (
+          <NoLocalStoriesMessage />
         ) : (
           <Spinner />
         )}
       </div>
     );
+    /* eslint-disable */
   }
 
   return (
@@ -143,25 +183,6 @@ export default function FeaturedStories({
       style={{ left: featuredStoriesPosition, zIndex: isVisible ? 1 : 0 }}
       ref={featuredStoriesRef}
     >
-      {/* {stories ? (
-        stories.data.map((story) => (
-          <SearchResultsItem
-            showStory={showStory}
-            key={story.id}
-            searchResult={story}
-            className={classes.searchItem}
-            styles={{ marginLeft: 'auto' }}
-          />
-        ))
-      ) : (
-        <div className={classes.spinner}>
-          {storiesFetchingError ? (
-            <ErrorMessage message={storiesFetchingError.message} />
-          ) : (
-            <Spinner />
-          )}
-        </div>
-      )} */}
       {storiesContent}
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
 import { Context } from '../../../../context';
+import NoLocalStoriesMessage from '../NoLocalStoriesMessage';
 import Spinner from '../../../../components/Spinner';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import ErrorMessage from '../../ErrorMessage';
@@ -17,6 +18,8 @@ export default function RecentStories({
   setAreLocalStoriesFound,
   setSelectedMenuOption,
   selectedMenuOption,
+  setShouldSlidingBeStopped,
+  setAreLocalRecentStoriesFound,
 }) {
   /* eslint-disable */
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
@@ -89,6 +92,27 @@ export default function RecentStories({
     }
   }, [storiesByNeighborhood]);
 
+  useEffect(() => {
+    if (
+      areStoriesByNeighborhoodFetching ||
+      areStoriesFetching ||
+      storiesByNeighborhoodFetchingError ||
+      storiesFetchingError ||
+      (currentNeighborhood !== '' &&
+        storiesByNeighborhood &&
+        storiesByNeighborhood[0] === 'empty')
+    ) {
+      setShouldSlidingBeStopped(true);
+    } else {
+      setShouldSlidingBeStopped(false);
+    }
+  }, [
+    areStoriesByNeighborhoodFetching,
+    areStoriesFetching,
+    storiesByNeighborhoodFetchingError,
+    storiesFetchingError,
+  ]);
+
   let storiesContent;
 
   if (
@@ -97,8 +121,8 @@ export default function RecentStories({
     !areStoriesByNeighborhoodFetching &&
     currentNeighborhood !== ''
   ) {
+    setAreLocalRecentStoriesFound(true);
     storiesContent = storiesByNeighborhood.map((story) => {
-      //setAreLocalStoriesFound(true);
       return (
         <SearchResultItem
           key={story.id}
@@ -109,15 +133,10 @@ export default function RecentStories({
         />
       );
     });
-  } else if (
-    stories &&
-    !areStoriesFetching &&
-    !areStoriesByNeighborhoodFetching
-  ) {
+  } else if (currentNeighborhood === '' && stories && !areStoriesFetching) {
+    setAreLocalRecentStoriesFound(false);
     storiesContent = stories.data.map((story) => {
-      /* if (currentNeighborhood !== '') {
-        setAreLocalStoriesFound(false);
-      } */
+      setAreLocalRecentStoriesFound(false);
       return (
         <SearchResultItem
           key={story.id}
@@ -129,10 +148,21 @@ export default function RecentStories({
       );
     });
   } else {
+    setAreLocalRecentStoriesFound(false);
     storiesContent = (
       <div className={classes.spinner}>
-        {storiesFetchingError ? (
-          <ErrorMessage message={storiesFetchingError.message} />
+        {storiesFetchingError || storiesByNeighborhoodFetchingError ? (
+          <ErrorMessage
+            message={
+              storiesFetchingError
+                ? storiesFetchingError.message
+                : storiesByNeighborhoodFetchingError
+                ? storiesByNeighborhoodFetchingError.message
+                : null
+            }
+          />
+        ) : storiesByNeighborhood && storiesByNeighborhood[0] === 'empty' ? (
+          <NoLocalStoriesMessage />
         ) : (
           <Spinner />
         )}

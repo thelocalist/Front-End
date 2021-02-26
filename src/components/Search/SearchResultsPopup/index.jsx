@@ -39,7 +39,11 @@ export default function SearchResultsPopup({
 
   return (
     <div className={classes.SearchResultsPopup} style={{ zIndex }}>
-      <i className={classes.closeIcon} onClick={hideSearchResultsPopup}>
+      <i
+        className={classes.closeIcon}
+        onClick={hideSearchResultsPopup}
+        preserveNeighborhoodSelection="true"
+      >
         Close
       </i>
       <div className={classes.content}>

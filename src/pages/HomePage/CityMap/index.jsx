@@ -85,10 +85,14 @@ export default function CityMap({ areLocalStoriesFound, location }) {
           className={classes.svg}
           viewBox={`0 0 ${MAP_SIZE.width} ${MAP_SIZE.height}`}
           onClick={(event) => {
+            const params = new URLSearchParams(location.search);
+            const filterType = params.get('filterType');
             event.stopPropagation();
 
             if (
-              event.target.parentNode.firstElementChild.textContent.length > 100
+              event.target.parentNode.firstElementChild.textContent.length >
+                100 ||
+              filterType === 'neighborhood'
             ) {
               return;
             }

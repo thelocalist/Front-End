@@ -1,8 +1,7 @@
 import React from 'react';
 
-// import classnames from 'classnames';
-
 import Modal from 'react-bootstrap/Modal';
+
 import '../../assets/bootstrap-modal.css';
 
 import {

@@ -14,6 +14,7 @@ export default function Community({ title, click, image, variant }) {
           : classes.Community
       }
       onClick={click}
+      preserveNeighborhoodSelection="true"
     >
       <div
         className={classes.image}

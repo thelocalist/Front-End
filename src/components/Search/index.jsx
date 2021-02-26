@@ -109,26 +109,6 @@ export default function Search({ setIsSearchbarVisible }) {
   const optionsRef = useRef();
   const selectRef = useRef();
 
-  /* const hideOptionsOnOutsideClick = (event) => {
-    if (!optionsRef.current) {
-      return;
-    }
-
-    if (
-      !optionsRef.current.contains(event.target) &&
-      event.target !== selectRef.current
-    ) {
-      setIsOptionsVisible(false);
-    }
-  }; */
-
-  /* useEffect(() => {
-    document.addEventListener('mousedown', hideOptionsOnOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', hideOptionsOnOutsideClick);
-    };
-  }, []); */
-
   useOnClickOutside(optionsRef, () => setIsOptionsVisible(false));
 
   const toggleOptionsVisibility = () => {
