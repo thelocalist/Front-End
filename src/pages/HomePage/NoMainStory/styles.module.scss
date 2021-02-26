@@ -5,7 +5,7 @@
   width: 50%;
   position: fixed;
   z-index: 1;
-  top: 0;
+  top: 56px;
   right: 0;
   bottom: 313px;
   opacity: 0;
@@ -13,6 +13,7 @@
   background: #00030b !important;
   border-left: 0.25px solid #2f4273;
   border-bottom: 0.25px solid #2f4273;
+  opacity: 0;
 
   &.visible {
     opacity: 1;

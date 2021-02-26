@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import classes from './styles.module.scss';
 
-export default function Stories({ visible }) {
+export default function NoMainStory({ visible }) {
   return (
     <div
       className={

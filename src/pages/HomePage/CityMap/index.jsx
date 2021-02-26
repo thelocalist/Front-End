@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 
-// import { useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 import { Context } from '../../../context';
-import NoLocalStories from './NoLocalStories';
+import NoLocalStories from '../NoMainStory';
+import MainStory from '../MainStory';
 import classes from './styles.module.scss';
 // import useOnClickOutside from '../../../helpers/useOnClickOutside';
 
@@ -14,7 +15,7 @@ const MAP_VIEW_AREA_SIZE = {
   height: 400,
 };
 
-export default function CityMap({ areLocalStoriesFound, location }) {
+export default function CityMap({ location, areLocalStoriesFound }) {
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
 
   const [mapSize, setMapSize] = useState({});
@@ -32,6 +33,8 @@ export default function CityMap({ areLocalStoriesFound, location }) {
     };
     setMapSize(newMapSize);
   };
+
+  const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
   useEffect(() => {
     resizeMap();
@@ -472,12 +475,12 @@ export default function CityMap({ areLocalStoriesFound, location }) {
           </defs>
         </svg>
       </div>
-      {/* {!areLocalStoriesFound && currentNeighborhood !== '' && (
-        <NoLocalStories />
-      )} */}
-      <NoLocalStories
-        visible={!areLocalStoriesFound && currentNeighborhood !== ''}
-      />
+      {isMobile && (
+        <NoLocalStories
+          visible={!areLocalStoriesFound && currentNeighborhood !== ''}
+        />
+      )}
+      {!isMobile && <MainStory />}
     </div>
   );
 }

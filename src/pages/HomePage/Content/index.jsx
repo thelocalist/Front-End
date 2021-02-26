@@ -12,11 +12,7 @@ import useApiRequest from '../../../helpers/useApiRequest';
 
 import classes from './styles.module.scss';
 
-export default function HomeContent({
-  setAreLocalStoriesFound,
-  storyId,
-  history,
-}) {
+export default function HomeContent({ storyId, history }) {
   const [currentNeighborhood] = useContext(Context);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
@@ -380,7 +376,6 @@ export default function HomeContent({
               isVisible={selectedMenuOption === 'featured'}
               featuredStoriesRef={featuredStoriesRef}
               featuredStoriesPosition={scrollFeaturedStoriesPosition}
-              setAreLocalStoriesFound={setAreLocalStoriesFound}
               selectedMenuOption={selectedMenuOption}
               history={history}
               setShouldSlidingBeStopped={
@@ -394,7 +389,6 @@ export default function HomeContent({
               recentStoriesRef={recentStoriesRef}
               recentStoriesPosition={scrollRecentStoriesPosition}
               currentNeighborhood={currentNeighborhood}
-              setAreLocalStoriesFound={setAreLocalStoriesFound}
               setSelectedMenuOption={setSelectedMenuOption}
               selectedMenuOption={selectedMenuOption}
               history={history}

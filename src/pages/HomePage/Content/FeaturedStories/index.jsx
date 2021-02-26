@@ -15,7 +15,6 @@ export default function FeaturedStories({
   featuredStoriesRef,
   isVisible,
   showStory,
-  setAreLocalStoriesFound,
   selectedMenuOption,
   setShouldSlidingBeStopped,
   setAreLocalFeaturedStoriesFound,
@@ -77,16 +76,6 @@ export default function FeaturedStories({
         sortOrder: 'desc',
         isFeatured: true,
       });
-    }
-    if (
-      currentNeighborhood !== '' &&
-      storiesByNeighborhood &&
-      storiesByNeighborhood[0] === 'empty' &&
-      selectedMenuOption === 'featured'
-    ) {
-      setAreLocalStoriesFound(false);
-    } else {
-      setAreLocalStoriesFound(true);
     }
   }, [selectedMenuOption]);
 

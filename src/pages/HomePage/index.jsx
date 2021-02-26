@@ -27,7 +27,6 @@ export default function HomePage({ history, location }) {
     <div className={classes.HomePage}>
       <CityMap
         areLocalStoriesFound={areLocalStoriesFound}
-        setAreLocalStoriesFound={setAreLocalStoriesFound}
         location={location}
       />
       {isMobile ? (
@@ -37,11 +36,7 @@ export default function HomePage({ history, location }) {
           storyId={id}
         />
       ) : (
-        <HomeContent
-          history={history}
-          setAreLocalStoriesFound={setAreLocalStoriesFound}
-          storyId={id}
-        />
+        <HomeContent history={history} storyId={id} />
       )}
     </div>
   );

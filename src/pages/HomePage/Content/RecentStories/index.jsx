@@ -15,9 +15,7 @@ export default function RecentStories({
   recentStoriesPosition,
   isVisible,
   showStory,
-  setAreLocalStoriesFound,
   setSelectedMenuOption,
-  selectedMenuOption,
   setShouldSlidingBeStopped,
   setAreLocalRecentStoriesFound,
 }) {
@@ -79,16 +77,6 @@ export default function RecentStories({
         sortField: 'createdAt',
         sortOrder: 'desc',
       });
-    }
-    if (
-      storiesByNeighborhood &&
-      currentNeighborhood !== '' &&
-      storiesByNeighborhood[0] === 'empty' &&
-      selectedMenuOption === 'recent'
-    ) {
-      setAreLocalStoriesFound(false);
-    } else {
-      setAreLocalStoriesFound(true);
     }
   }, [storiesByNeighborhood]);
 
