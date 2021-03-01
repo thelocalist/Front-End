@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 import classes from './styles.module.scss';
@@ -7,6 +7,7 @@ import NoMainStory from '../NoMainStory';
 import Spinner from '../../../components/Spinner';
 import ErrorMessage from '../ErrorMessage';
 
+import { Context } from '../../../context/index';
 import { STATIC_URL } from '../../../constants/main';
 import useSearch from '../../../helpers/useSearch';
 
@@ -20,8 +21,11 @@ export default function MainStory() {
   ] = useSearch('get', '/stories/search');
   /* eslint-disable */
 
-  useEffect(() => {
-    console.log('GET MAIN STORY');
+  const [currentNeighborhood, , , , , setCurrentMainStory] = useContext(
+    Context
+  );
+
+  /* useEffect(() => {
     const queryParams = {
       isMainStory: true,
       pageSize: 1,
@@ -29,11 +33,42 @@ export default function MainStory() {
 
     fetchStories({ ...queryParams });
   }, []);
+ */
+  useEffect(() => {
+    if (currentNeighborhood !== '') {
+      const queryParams = {
+        keywords: '',
+        filterType: 'neighborhood',
+        filterValue: currentNeighborhood.toLowerCase(),
+        pageSize: 1,
+      };
+
+      fetchStories({
+        ...queryParams,
+        sortField: 'createdAt',
+        sortOrder: 'desc',
+      });
+    } else {
+      const queryParams = {
+        isMainStory: true,
+        pageSize: 1,
+      };
+
+      fetchStories({ ...queryParams });
+    }
+  }, [currentNeighborhood]);
+
+  useEffect(() => {
+    if (stories && stories[0] !== 'empty') {
+      setCurrentMainStory(stories[0]);
+    }
+  }, [stories]);
 
   const location = useLocation();
 
   return (
     <Link
+      preserveNeighborhoodSelection="true"
       className={classes.MainStory}
       to={
         stories

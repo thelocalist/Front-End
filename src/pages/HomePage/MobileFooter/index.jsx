@@ -125,6 +125,7 @@ export default function MobileFooter({
       </div>
       <div
         ref={communitiesIconRef}
+        preserveNeighborhoodSelection="true"
         onClick={() => switchMenuOption('communities')}
         className={
           selectedMenuOption === 'communities'

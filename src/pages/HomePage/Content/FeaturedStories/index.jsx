@@ -19,7 +19,7 @@ export default function FeaturedStories({
   setShouldSlidingBeStopped,
   setAreLocalFeaturedStoriesFound,
 }) {
-  const [currentNeighborhood] = useContext(Context);
+  const [currentNeighborhood, , , , currentMainStory] = useContext(Context);
   const [
     stories,
     fetchStories,
@@ -110,6 +110,9 @@ export default function FeaturedStories({
   ) {
     setAreLocalFeaturedStoriesFound(true);
     storiesContent = storiesByNeighborhood.map((story) => {
+      if (story.id === currentMainStory.id) {
+        return null;
+      }
       return (
         <SearchResultsItem
           key={story.id}
@@ -161,6 +164,20 @@ export default function FeaturedStories({
       </div>
     );
     /* eslint-disable */
+  }
+
+  if (
+    storiesByNeighborhood &&
+    storiesByNeighborhood[0] !== 'empty' &&
+    storiesByNeighborhood.length === 1 &&
+    !areStoriesByNeighborhoodFetching &&
+    currentNeighborhood !== ''
+  ) {
+    storiesContent = (
+      <div className={classnames(classes.spinner, classes.onlyOneStory)}>
+        <NoLocalStoriesMessage isOnlyOneStoryPublished />
+      </div>
+    );
   }
 
   return (

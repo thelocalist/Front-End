@@ -10,6 +10,7 @@ const Layout = ({ location, children }) => {
   const [currentNeighborhood, setCurrentNeighborhood] = useState('');
   const [isMobileStoryOpened, setIsMobileStoryOpened] = useState(false);
   const [isSideMenuVisible, setIsSideMenuVisible] = useState(false);
+  const [currentMainStory, setCurrentMainStory] = useState({});
 
   const isLaunchPage = location.pathname === '/';
 
@@ -20,6 +21,8 @@ const Layout = ({ location, children }) => {
         setCurrentNeighborhood,
         isMobileStoryOpened,
         setIsMobileStoryOpened,
+        currentMainStory,
+        setCurrentMainStory,
       ]}
     >
       {!isLaunchPage && <Header setIsSideMenuVisible={setIsSideMenuVisible} />}

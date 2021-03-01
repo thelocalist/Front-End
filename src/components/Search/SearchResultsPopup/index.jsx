@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { useHistory, useLocation } from 'react-router-dom';
+
 import Spinner from '../../Spinner';
 import SearchResultsItem from './SearchResultsItem';
 import classes from './styles.module.scss';
 
 export default function SearchResultsPopup({
-  setIsSearchResultsVisible,
+  // setIsSearchResultsVisible,
   searchResults,
   resetSearch,
   zIndex,
@@ -13,11 +15,18 @@ export default function SearchResultsPopup({
   getNextPage,
   getPreviousPage,
 }) {
+  const history = useHistory();
+  const location = useLocation();
   const hideSearchResultsPopup = () => {
-    setIsSearchResultsVisible(false);
+    // setIsSearchResultsVisible(false);
+    if (location.state && location.state.from) {
+      history.goBack();
+    } else {
+      history.push('/home');
+    }
     resetSearch();
   };
-
+  console.log(location.state);
   let content;
   if (!searchResults) {
     content = <Spinner className={classes.spinner} />;

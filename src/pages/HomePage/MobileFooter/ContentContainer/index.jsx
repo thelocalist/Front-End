@@ -65,6 +65,13 @@ export default function ContentContainer({
   ] = useSearch('get', '/stories/search');
 
   const [
+    communitiesByNeighborhood,
+    fetchCommunitiesByNeighborhood,
+    areCommunitiesByNeighborhoodFetching,
+    communitiesByNeighborhoodFetchingError,
+  ] = useSearch('get', '/communities/search');
+
+  const [
     storiesByCommunity,
     getStoriesByCommunity,
     areStoriesByCommunityFetching,
@@ -80,7 +87,7 @@ export default function ContentContainer({
     requestRecentStories();
     requestCommunities();
     requestFeaturedStories({ isFeatured: true });
-    setAreLocalStoriesFound(false);
+    //setAreLocalStoriesFound(false);
   }, []);
 
   useEffect(() => {
@@ -100,6 +107,24 @@ export default function ContentContainer({
       setAreLocalStoriesFound(true);
     }
   }, [areStoriesByNeighborhoodFetching, content]);
+
+  useEffect(() => {
+    if (
+      !areCommunitiesByNeighborhoodFetching &&
+      communitiesByNeighborhood &&
+      communitiesByNeighborhood[0] === 'empty' &&
+      content === 'communities'
+    ) {
+      setAreLocalStoriesFound(false);
+    } else if (
+      !areCommunitiesByNeighborhoodFetching &&
+      communitiesByNeighborhood &&
+      communitiesByNeighborhood[0] !== 'empty' &&
+      content === 'communities'
+    ) {
+      setAreLocalStoriesFound(true);
+    }
+  }, [areCommunitiesByNeighborhoodFetching, content]);
 
   useEffect(() => {
     if (
@@ -140,6 +165,12 @@ export default function ContentContainer({
         sortField: 'createdAt',
         sortOrder: 'desc',
         isFeatured: true,
+      });
+
+      fetchCommunitiesByNeighborhood({
+        ...queryParams,
+        sortField: 'createdAt',
+        sortOrder: 'desc',
       });
     }
   }, [currentNeighborhood]);
@@ -204,7 +235,6 @@ export default function ContentContainer({
     storiesByNeighborhood[0] === 'empty' &&
     currentNeighborhood !== ''
   ) {
-    //setAreLocalStoriesFound(false);
     recentStoriesContent = '';
   } else if (
     recentStories &&
@@ -229,6 +259,74 @@ export default function ContentContainer({
       <div className={classes.spinner}>
         {recentStoriesLoadError ? (
           <ErrorMessage message={recentStoriesLoadError.message} />
+        ) : (
+          <Spinner />
+        )}
+      </div>
+    );
+  }
+
+  let communitiesContent;
+  if (
+    communitiesByNeighborhood &&
+    communitiesByNeighborhood[0] !== 'empty' &&
+    !areCommunitiesByNeighborhoodFetching &&
+    currentNeighborhood !== ''
+  ) {
+    communitiesContent = communitiesByNeighborhood.map((community) => {
+      return (
+        <div
+          key={community.id}
+          className={classes.communityContainer}
+          onClick={() => {
+            showStoriesPopup(community);
+          }}
+        >
+          <Community
+            title={community.title}
+            image={community.imagePath}
+            variant="mobile"
+          />
+        </div>
+      );
+    });
+  } else if (
+    communitiesByNeighborhood &&
+    communitiesByNeighborhood[0] === 'empty' &&
+    currentNeighborhood !== ''
+  ) {
+    communitiesContent = '';
+  } else if (
+    communities &&
+    !areCommunitiesLoading &&
+    !areCommunitiesByNeighborhoodFetching
+  ) {
+    communitiesContent = communities.map((community) => {
+      return (
+        <div
+          key={community.id}
+          className={classes.communityContainer}
+          onClick={() => {
+            showStoriesPopup(community);
+          }}
+        >
+          <Community
+            title={community.title}
+            image={community.imagePath}
+            variant="mobile"
+          />
+        </div>
+      );
+    });
+  } else {
+    communitiesContent = (
+      <div className={classes.spinner}>
+        {communitiesLoadError ? (
+          <ErrorMessage message={communitiesLoadError.message} />
+        ) : communitiesByNeighborhoodFetchingError ? (
+          <ErrorMessage
+            message={communitiesByNeighborhoodFetchingError.message}
+          />
         ) : (
           <Spinner />
         )}
@@ -263,7 +361,7 @@ export default function ContentContainer({
             : classnames(classes.listContainer, classes.communities)
         }
       >
-        {communities && !areCommunitiesLoading
+        {/* {communities && !areCommunitiesLoading
           ? communities.map((community) => (
               <div
                 key={community.id}
@@ -282,7 +380,8 @@ export default function ContentContainer({
           : null}
         {communitiesLoadError && (
           <ErrorMessage message={communitiesLoadError.message} />
-        )}
+        )} */}
+        {communitiesContent}
       </div>
       <div
         className={

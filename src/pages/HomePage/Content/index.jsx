@@ -4,15 +4,19 @@ import classnames from 'classnames';
 
 import { Context } from '../../../context';
 import Communities from './Communities';
+import SearchResultsPopup from '../../../components/Search/SearchResultsPopup';
 import FeaturedStories from './FeaturedStories';
 import RecentStories from './RecentStories';
 import StoryPopup from '../../../components/StoryPopup';
 import Spinner from '../../../components/Spinner';
+import useSearch from '../../../helpers/useSearch';
 import useApiRequest from '../../../helpers/useApiRequest';
 
 import classes from './styles.module.scss';
 
-export default function HomeContent({ storyId, history }) {
+const PAGESIZE = 6;
+
+export default function HomeContent({ storyId, communityId, history }) {
   const [currentNeighborhood] = useContext(Context);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
@@ -29,7 +33,14 @@ export default function HomeContent({ storyId, history }) {
     false
   );
   const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
+  const [
+    isSearchResultsPopupVisible,
+    setIsSearchResultsPopupVisible,
+  ] = useState(false);
   const [currentStory, setCurrentStory] = useState(null);
+
+  // Content for SearchResultItemsPopup (stories by community)
+  const [currentStories, setCurrentStories] = useState(null);
   const [
     shouldRecentStoriesSlidingBeStopped,
     setShouldRecentStoriesSlidingBeStopped,
@@ -62,6 +73,16 @@ export default function HomeContent({ storyId, history }) {
     isStoryLoading,
     storyLoadingError,
   ] = useApiRequest('get', `/stories/${storyId}`);
+  const [
+    stories,
+    getStories,
+    areStoriesFetching,
+    storiesFetchingError,
+    storiesCount,
+    getPreviousPage,
+    getNextPage,
+    resetSearch,
+  ] = useSearch('get', '/stories/search');
   /* eslint-disable */
 
   const communitiesRef = useRef();
@@ -93,6 +114,9 @@ export default function HomeContent({ storyId, history }) {
   };
 
   const scrollContent = (direction) => {
+    if (isStoryPopupVisible || isSearchResultsVisible) {
+      return;
+    }
     let ref;
     let scrollContentPosition;
     let setScrollContentPosition;
@@ -116,6 +140,8 @@ export default function HomeContent({ storyId, history }) {
       default:
         ref = null;
     }
+
+    console.log('SCROLLWIDTH', ref.current.scrollWidth);
 
     const scrollDistance = Math.trunc(window.innerWidth / 320) * 320;
 
@@ -240,11 +266,36 @@ export default function HomeContent({ storyId, history }) {
     setIsStoryPopupVisible(true);
   };
 
+  const showStories = () => {
+    setIsSearchResultsPopupVisible(true);
+  };
+
   useEffect(() => {
     if (storyId) {
       requestStory();
     }
   }, [storyId]);
+
+  const fetchStories = async (communityId) => {
+    const queryParams = {
+      keywords: '',
+      filterType: 'communityId',
+      filterValue: communityId,
+      // pageIndex: pageNumber,
+      pageSize: PAGESIZE,
+    };
+
+    getStories(queryParams);
+  };
+
+  useEffect(() => {
+    if (communityId) {
+      fetchStories(communityId);
+      showStories();
+    } else {
+      setIsSearchResultsPopupVisible(false);
+    }
+  }, [communityId]);
 
   useEffect(() => {
     if (!isStoryLoading && story) {
@@ -252,6 +303,12 @@ export default function HomeContent({ storyId, history }) {
       setIsStoryPopupVisible(true);
     }
   }, [isStoryLoading]);
+
+  useEffect(() => {
+    if (!storiesFetchingError && stories) {
+      setCurrentStories(stories);
+    }
+  }, [areStoriesFetching]);
 
   useEffect(() => {
     if (storyLoadingError) {
@@ -411,6 +468,17 @@ export default function HomeContent({ storyId, history }) {
                 story={currentStory}
                 error={storyLoadingError}
                 history={history}
+              />
+            )}
+            {isSearchResultsPopupVisible && (
+              <SearchResultsPopup
+                searchResults={currentStories}
+                zIndex={1}
+                resetSearch={resetSearch}
+                error={storiesFetchingError || null}
+                setIsSearchResultsVisible={setIsSearchResultsPopupVisible}
+                getNextPage={getNextPage}
+                getPreviousPage={getPreviousPage}
               />
             )}
           </div>

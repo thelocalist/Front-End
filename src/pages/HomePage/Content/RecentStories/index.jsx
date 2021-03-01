@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+
 import classnames from 'classnames';
 
 import { Context } from '../../../../context';
@@ -110,7 +111,10 @@ export default function RecentStories({
     currentNeighborhood !== ''
   ) {
     setAreLocalRecentStoriesFound(true);
-    storiesContent = storiesByNeighborhood.map((story) => {
+    storiesContent = storiesByNeighborhood.map((story, index) => {
+      if (index === 0) {
+        return null;
+      }
       return (
         <SearchResultItem
           key={story.id}
@@ -154,6 +158,20 @@ export default function RecentStories({
         ) : (
           <Spinner />
         )}
+      </div>
+    );
+  }
+
+  if (
+    storiesByNeighborhood &&
+    storiesByNeighborhood[0] !== 'empty' &&
+    storiesByNeighborhood.length === 1 &&
+    !areStoriesByNeighborhoodFetching &&
+    currentNeighborhood !== ''
+  ) {
+    storiesContent = (
+      <div className={classnames(classes.spinner, classes.onlyOneStory)}>
+        <NoLocalStoriesMessage isOnlyOneStoryPublished />
       </div>
     );
   }

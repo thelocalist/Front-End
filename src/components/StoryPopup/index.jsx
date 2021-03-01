@@ -24,6 +24,8 @@ export default function StoryPopup({
   const [isShareButtonsPopupVisible, setIsShareButtonsPopupVisible] = useState(
     false
   );
+  // Fix Chrome positioning bug
+  const [headingBottomPosition, setHeadingBottomPosition] = useState(1);
 
   const authorPhotoContainer = useRef();
   const authorPhotoRef = useRef();
@@ -57,17 +59,40 @@ export default function StoryPopup({
     }, 0);
   };
 
+  const fixChromePositioningBug = () => {
+    if (!isChrome) {
+      return;
+    }
+
+    setTimeout(() => {
+      setHeadingBottomPosition((prevState) => {
+        if (prevState === 0) {
+          return 1;
+        }
+        return prevState;
+      });
+      setHeadingBottomPosition(0);
+    }, 10);
+  };
+
   useEffect(() => {
+    fixChromePositioningBug();
+
     resizeHeader();
     window.addEventListener('resize', resizeHeader);
+    window.addEventListener('resize', fixChromePositioningBug);
     return () => {
       window.removeEventListener('resize', resizeHeader);
+      window.removeEventListener('resize', fixChromePositioningBug);
     };
   }, []);
 
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
-    if (location.state && location.state.from === '/home/search') {
+    if (
+      (location.state && location.state.from === '/home/search') ||
+      location.state.from.includes('community')
+    ) {
       history.goBack();
     } else {
       history.push('/home');
@@ -163,7 +188,11 @@ export default function StoryPopup({
               backgroundImage: `url(${STATIC_URL}${headerImage})`,
             }}
           >
-            <div className={classes.heading} ref={headingContainer}>
+            <div
+              className={classes.heading}
+              ref={headingContainer}
+              style={{ bottom: headingBottomPosition }}
+            >
               <div
                 className={classes.author}
                 ref={authorPhotoContainer}
@@ -240,7 +269,7 @@ export default function StoryPopup({
             show={isShareButtonsPopupVisible}
             onHide={hideShareButtonsPopup}
             title={story.title}
-            shareUrl={`${URL}/story/${story.id}`}
+            shareUrl={`${window.location.hostname}/story/${story.id}`}
           />
         </div>
       ) : (

@@ -3,7 +3,6 @@ import React, { useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
 import NoLocalStoriesMessage from '../NoLocalStoriesMessage';
-import SearchResultsPopup from '../../../../components/Search/SearchResultsPopup';
 import Spinner from '../../../../components/Spinner';
 import ErrorMessage from '../../ErrorMessage';
 import Community from './Community';
@@ -18,9 +17,9 @@ export default function Communities({
   scrollCommunitiesPosition,
   communitiesRef,
   isVisible,
-  isSearchResultsVisible,
+  /* isSearchResultsVisible,
   setIsSearchResultsVisible,
-  showStory,
+  showStory, */
   setShouldSlidingBeStopped,
   setAreLocalCommunitiesFound,
 }) {
@@ -107,13 +106,13 @@ export default function Communities({
         image={community.imagePath}
         id={community.id}
         key={community.id}
-        click={() => {
-          if (!isVisible) {
-            return;
-          }
-          setIsSearchResultsVisible(true);
-          fetchStories(community.id);
-        }}
+        // click={() => {
+        //   if (!isVisible) {
+        //     return;
+        //   }
+        //   setIsSearchResultsVisible(true);
+        //   fetchStories(community.id);
+        // }}
       />
     ));
   } else if (
@@ -131,13 +130,13 @@ export default function Communities({
         image={community.imagePath}
         id={community.id}
         key={community.id}
-        click={() => {
-          if (!isVisible) {
-            return;
-          }
-          setIsSearchResultsVisible(true);
-          fetchStories(community.id);
-        }}
+        // click={() => {
+        //   if (!isVisible) {
+        //     return;
+        //   }
+        //   setIsSearchResultsVisible(true);
+        //   fetchStories(community.id);
+        // }}
       />
     ));
   } else if (areCommunitiesByNeighborhoodFetching || areCommunitiesFetching) {
@@ -180,7 +179,7 @@ export default function Communities({
       ref={communitiesRef}
     >
       {communitiesContent}
-      {isSearchResultsVisible && (
+      {/* {isSearchResultsVisible && (
         <SearchResultsPopup
           showStory={showStory}
           searchResults={stories}
@@ -191,7 +190,7 @@ export default function Communities({
           getNextPage={getNextPage}
           getPreviousPage={getPreviousPage}
         />
-      )}
+      )} */}
     </div>
   );
 }

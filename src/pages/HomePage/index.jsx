@@ -36,7 +36,11 @@ export default function HomePage({ history, location }) {
           storyId={id}
         />
       ) : (
-        <HomeContent history={history} storyId={id} />
+        <HomeContent
+          history={history}
+          storyId={location.pathname.includes('story') ? id : null}
+          communityId={location.pathname.includes('community') ? id : null}
+        />
       )}
     </div>
   );
