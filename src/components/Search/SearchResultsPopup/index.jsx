@@ -18,7 +18,7 @@ export default function SearchResultsPopup({
   currentPage,
   storiesCount,
   pageSize,
-  setCurrentStories,
+  // setCurrentStories,
 }) {
   const history = useHistory();
   const location = useLocation();
@@ -30,12 +30,14 @@ export default function SearchResultsPopup({
     } else {
       history.push('/home');
     }
-    if (setCurrentStories) {
+    /* if (setCurrentStories) {
       setTimeout(() => {
         setCurrentStories(null);
       }, 100);
-    }
-    resetSearch();
+    } */
+    setTimeout(() => {
+      resetSearch();
+    }, 100);
   };
 
   let content;
@@ -82,7 +84,7 @@ export default function SearchResultsPopup({
             </i>
             <i
               className={
-                (currentPage + 1) * pageSize >= storiesCount
+                currentPage + 1 >= storiesCount / pageSize
                   ? classnames(classes.switchNext, classes.disabled)
                   : classes.switchNext
               }

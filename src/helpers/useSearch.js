@@ -24,7 +24,6 @@ const useApiRequest = (method, path) => {
         } else {
           setData(response.data.rows);
         }
-
         setItemsCount(response.data.count);
         setIsloading(false);
       })
@@ -80,6 +79,7 @@ const useApiRequest = (method, path) => {
   const resetSearch = () => {
     setData(null);
     setCurrentPage(0);
+    setItemsCount(null);
   };
 
   return [

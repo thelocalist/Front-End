@@ -40,7 +40,8 @@ export default function HomeContent({ storyId, communityId, history }) {
   const [currentStory, setCurrentStory] = useState(null);
 
   // Content for SearchResultItemsPopup (stories by community)
-  const [currentStories, setCurrentStories] = useState(null);
+  // const [currentStories, setCurrentStories] = useState(null);
+  // const [currentStoriesCount, setCurrentStoriesCount] = useState(null);
   const [
     shouldRecentStoriesSlidingBeStopped,
     setShouldRecentStoriesSlidingBeStopped,
@@ -143,12 +144,6 @@ export default function HomeContent({ storyId, communityId, history }) {
     }
 
     const scrollDistance = Math.trunc(window.innerWidth / 320) * 320;
-
-    console.log(
-      'SCROLLWIDTH',
-      ref.current.scrollWidth + scrollContentPosition,
-      window.innerWidth + 25
-    );
 
     if (direction === 'forward') {
       if (
@@ -315,11 +310,12 @@ export default function HomeContent({ storyId, communityId, history }) {
     }
   }, [isStoryLoading]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!storiesFetchingError && stories) {
       setCurrentStories(stories);
+      setCurrentStoriesCount(storiesCount);
     }
-  }, [areStoriesFetching]);
+  }, [areStoriesFetching]); */
 
   useEffect(() => {
     if (storyLoadingError) {
@@ -483,10 +479,12 @@ export default function HomeContent({ storyId, communityId, history }) {
             )}
             {isSearchResultsPopupVisible && (
               <SearchResultsPopup
-                searchResults={currentStories}
-                setCurrentStories={setCurrentStories}
+                searchResults={stories}
+                storiesCount={storiesCount}
+                //setCurrentStories={setCurrentStories}
                 zIndex={1}
                 resetSearch={resetSearch}
+                pageSize={PAGESIZE}
                 error={storiesFetchingError || null}
                 setIsSearchResultsVisible={setIsSearchResultsPopupVisible}
                 getNextPage={getNextPage}

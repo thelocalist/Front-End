@@ -86,6 +86,9 @@ export default function StoryPopup({
   }, []);
 
   useEffect(() => {
+    if (isMobile) {
+      return;
+    }
     if (isChrome) {
       setPagesCount(
         Math.floor(
