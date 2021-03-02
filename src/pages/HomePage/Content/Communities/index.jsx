@@ -17,9 +17,6 @@ export default function Communities({
   scrollCommunitiesPosition,
   communitiesRef,
   isVisible,
-  /* isSearchResultsVisible,
-  setIsSearchResultsVisible,
-  showStory, */
   setShouldSlidingBeStopped,
   setAreLocalCommunitiesFound,
 }) {
@@ -106,13 +103,6 @@ export default function Communities({
         image={community.imagePath}
         id={community.id}
         key={community.id}
-        // click={() => {
-        //   if (!isVisible) {
-        //     return;
-        //   }
-        //   setIsSearchResultsVisible(true);
-        //   fetchStories(community.id);
-        // }}
       />
     ));
   } else if (
@@ -130,13 +120,6 @@ export default function Communities({
         image={community.imagePath}
         id={community.id}
         key={community.id}
-        // click={() => {
-        //   if (!isVisible) {
-        //     return;
-        //   }
-        //   setIsSearchResultsVisible(true);
-        //   fetchStories(community.id);
-        // }}
       />
     ));
   } else if (areCommunitiesByNeighborhoodFetching || areCommunitiesFetching) {
@@ -179,18 +162,6 @@ export default function Communities({
       ref={communitiesRef}
     >
       {communitiesContent}
-      {/* {isSearchResultsVisible && (
-        <SearchResultsPopup
-          showStory={showStory}
-          searchResults={stories}
-          zIndex={1}
-          resetSearch={resetSearch}
-          error={storiesFetchingError || null}
-          setIsSearchResultsVisible={setIsSearchResultsVisible}
-          getNextPage={getNextPage}
-          getPreviousPage={getPreviousPage}
-        />
-      )} */}
     </div>
   );
 }

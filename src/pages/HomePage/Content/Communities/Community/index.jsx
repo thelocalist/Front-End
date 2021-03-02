@@ -20,7 +20,6 @@ export default function Community({ title, image, variant, id }) {
           ? classnames(classes.Community, classes.mobile)
           : classes.Community
       }
-      // onClick={click}
       preserveNeighborhoodSelection="true"
     >
       <div

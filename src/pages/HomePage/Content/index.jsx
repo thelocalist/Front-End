@@ -279,9 +279,12 @@ export default function HomeContent({ storyId, communityId, history }) {
   const fetchStories = async (communityId) => {
     const queryParams = {
       keywords: '',
-      filterType: 'communityId',
-      filterValue: communityId,
-      // pageIndex: pageNumber,
+      filterType:
+        currentNeighborhood === '' ? 'communityId' : 'communityId,neighborhood',
+      filterValue:
+        currentNeighborhood === ''
+          ? communityId
+          : `${communityId},${currentNeighborhood}`,
       pageSize: PAGESIZE,
     };
 
