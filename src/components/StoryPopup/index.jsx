@@ -60,10 +60,6 @@ export default function StoryPopup({
   };
 
   const fixChromePositioningBug = () => {
-    if (!isChrome) {
-      return;
-    }
-
     setTimeout(() => {
       setHeadingBottomPosition((prevState) => {
         if (prevState === 0) {
@@ -72,7 +68,7 @@ export default function StoryPopup({
         return prevState;
       });
       setHeadingBottomPosition(0);
-    }, 10);
+    }, 30);
   };
 
   useEffect(() => {
@@ -91,7 +87,7 @@ export default function StoryPopup({
     setIsStoryPopupVisible(false);
     if (
       (location.state && location.state.from === '/home/search') ||
-      location.state.from.includes('community')
+      (location.state && location.state.from.includes('community'))
     ) {
       history.goBack();
     } else {
