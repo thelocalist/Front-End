@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import MetaTags from 'react-meta-tags';
+import classnames from 'classnames';
 
 import ShareButtonsPopup from '../../modals/ShareButtonsModal';
 import classes from './styles.module.scss';
@@ -21,6 +22,7 @@ export default function StoryPopup({
   const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [pagesCount, setPagesCount] = useState(null);
   const [isShareButtonsPopupVisible, setIsShareButtonsPopupVisible] = useState(
     false
   );
@@ -83,6 +85,24 @@ export default function StoryPopup({
     };
   }, []);
 
+  useEffect(() => {
+    if (isChrome) {
+      setPagesCount(
+        Math.floor(
+          (textContentRef.current.scrollHeight + 280) /
+            (contentRef.current.offsetHeight * 2 + 32)
+        )
+      );
+    } else {
+      setPagesCount(
+        Math.floor(
+          contentRef.current.offsetWidth /
+            (contentRef.current.clientWidth * 2 + 32)
+        )
+      );
+    }
+  }, []);
+
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
     if (
@@ -95,7 +115,7 @@ export default function StoryPopup({
     }
   };
 
-  const switchPageChrome = (direction) => {
+  /* const switchPageChrome = (direction) => {
     if (direction === 'forward') {
       if (
         currentPage ===
@@ -135,13 +155,20 @@ export default function StoryPopup({
       }
       setCurrentPage((prevPage) => prevPage - 1);
     }
-  };
+  }; */
 
   const switchPage = (direction) => {
-    if (!isChrome) {
-      switchPageFirefox(direction);
-    } else {
-      switchPageChrome(direction);
+    if (direction === 'forward') {
+      if (currentPage === pagesCount) {
+        setCurrentPage(0);
+        return;
+      }
+      setCurrentPage((prevPage) => prevPage + 1);
+    } else if (direction === 'back') {
+      if (currentPage === 0) {
+        return;
+      }
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -248,13 +275,21 @@ export default function StoryPopup({
           {!isMobile && (
             <div className={classes.switchPageButtons}>
               <i
-                className={classes.prevPage}
+                className={
+                  currentPage === 0
+                    ? classnames(classes.prevPage, classes.disabled)
+                    : classes.prevPage
+                }
                 onClick={() => switchPage('back')}
               >
                 Previous Page
               </i>
               <i
-                className={classes.nextPage}
+                className={
+                  currentPage === pagesCount
+                    ? classnames(classes.nextPage, classes.disabled)
+                    : classes.nextPage
+                }
                 onClick={() => switchPage('forward')}
               >
                 Next Page

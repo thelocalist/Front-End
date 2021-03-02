@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
 import { Context } from '../../context/index';
@@ -72,10 +72,12 @@ function Header({ setIsSideMenuVisible }) {
       >
         Menu
       </i>
-      <h1>
-        <span className={classes.capitalLetter}>T</span>HE{' '}
-        <span className={classes.capitalLetter}>L</span>OCALIST
-      </h1>
+      <Link to="/home" className={classes.logoLink}>
+        <h1>
+          <span className={classes.capitalLetter}>T</span>HE{' '}
+          <span className={classes.capitalLetter}>L</span>OCALIST
+        </h1>
+      </Link>
       <i
         role="button"
         className={classnames(

@@ -14,15 +14,18 @@
   background-color: #02050c;
   border-bottom: 1px solid #2f4273;
 
-  > h1 {
-    font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 27px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #9499a6;
+  .logoLink {
+    text-decoration: none;
+    h1 {
+      font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 27px;
+      letter-spacing: 0em;
+      text-align: center;
+      color: #9499a6;
+    }
   }
 }
 

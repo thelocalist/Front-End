@@ -200,10 +200,18 @@
         cursor: pointer;
         &.prevPage {
           background-image: url(../../assets/images/switchPrevious.svg);
+          &.disabled {
+            background-image: url(../../assets/images/switchPreviousDisabled.svg);
+            cursor: auto;
+          }
         }
 
         &.nextPage {
           background-image: url(../../assets/images/switchNext.svg);
+          &.disabled {
+            background-image: url(../../assets/images/switchNextDisabled.svg);
+            cursor: auto;
+          }
         }
       }
     }
