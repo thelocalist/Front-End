@@ -82,6 +82,7 @@ export default function Search({ setIsSearchbarVisible }) {
     getPreviousPage,
     getNextPage,
     resetSearch,
+    currentPage,
   ] = useSearch('get', '/stories/search');
   /* eslint-disable no-unused-vars */
   const [
@@ -236,6 +237,9 @@ export default function Search({ setIsSearchbarVisible }) {
           resetSearch={resetSearch}
           getNextPage={getNextPage}
           getPreviousPage={getPreviousPage}
+          currentPage={currentPage}
+          storiesCount={storiesCount}
+          pageSize={PAGESIZE}
         />
       )}
       <i

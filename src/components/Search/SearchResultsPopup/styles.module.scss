@@ -65,9 +65,17 @@
 
     .switchNext {
       background-image: url(../../../assets/images/switchNext.svg);
+      &.disabled {
+        background-image: url(../../../assets/images/switchNextDisabled.svg);
+        cursor: auto;
+      }
     }
     .switchPrevious {
       background-image: url(../../../assets/images/switchPrevious.svg);
+      &.disabled {
+        background-image: url(../../../assets/images/switchPreviousDisabled.svg);
+        cursor: auto;
+      }
     }
   }
 }

@@ -82,6 +82,7 @@ export default function HomeContent({ storyId, communityId, history }) {
     getPreviousPage,
     getNextPage,
     resetSearch,
+    currentPage,
   ] = useSearch('get', '/stories/search');
   /* eslint-disable */
 
@@ -141,12 +142,19 @@ export default function HomeContent({ storyId, communityId, history }) {
         ref = null;
     }
 
-    console.log('SCROLLWIDTH', ref.current.scrollWidth);
-
     const scrollDistance = Math.trunc(window.innerWidth / 320) * 320;
 
+    console.log(
+      'SCROLLWIDTH',
+      ref.current.scrollWidth + scrollContentPosition,
+      window.innerWidth + 25
+    );
+
     if (direction === 'forward') {
-      if (ref.current.scrollWidth + scrollContentPosition < window.innerWidth) {
+      if (
+        ref.current.scrollWidth + scrollContentPosition <=
+        window.innerWidth + 25
+      ) {
         if (selectedMenuOption === 'communities') {
           if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
             switchTabsToRecent();
@@ -476,12 +484,14 @@ export default function HomeContent({ storyId, communityId, history }) {
             {isSearchResultsPopupVisible && (
               <SearchResultsPopup
                 searchResults={currentStories}
+                setCurrentStories={setCurrentStories}
                 zIndex={1}
                 resetSearch={resetSearch}
                 error={storiesFetchingError || null}
                 setIsSearchResultsVisible={setIsSearchResultsPopupVisible}
                 getNextPage={getNextPage}
                 getPreviousPage={getPreviousPage}
+                currentPage={currentPage}
               />
             )}
           </div>

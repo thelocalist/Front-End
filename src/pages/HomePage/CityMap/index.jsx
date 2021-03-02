@@ -45,7 +45,6 @@ export default function CityMap({ location, areLocalStoriesFound }) {
   }, []);
 
   const deselectNeighborhood = (event) => {
-    console.log('DESELECT', event.target);
     const params = new URLSearchParams(location.search);
     const filterType = params.get('filterType');
     if (

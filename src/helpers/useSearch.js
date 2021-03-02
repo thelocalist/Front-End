@@ -36,7 +36,7 @@ const useApiRequest = (method, path) => {
   };
 
   const getNextPage = () => {
-    if ((currentPage + 1) * savedOptions.pageSize > itemsCount) {
+    if ((currentPage + 1) * savedOptions.pageSize >= itemsCount) {
       return null;
     }
     return axios({
@@ -91,6 +91,7 @@ const useApiRequest = (method, path) => {
     getPreviousPage,
     getNextPage,
     resetSearch,
+    currentPage,
   ];
 };
 

@@ -1,32 +1,41 @@
 import React from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
+import classnames from 'classnames';
 
 import Spinner from '../../Spinner';
 import SearchResultsItem from './SearchResultsItem';
 import classes from './styles.module.scss';
 
 export default function SearchResultsPopup({
-  // setIsSearchResultsVisible,
+  setIsSearchResultsVisible,
   searchResults,
   resetSearch,
   zIndex,
   error,
   getNextPage,
   getPreviousPage,
+  currentPage,
+  storiesCount,
+  pageSize,
+  setCurrentStories,
 }) {
   const history = useHistory();
   const location = useLocation();
   const hideSearchResultsPopup = () => {
-    // setIsSearchResultsVisible(false);
     if (location.state && location.state.from) {
       history.goBack();
+    } else if (setIsSearchResultsVisible) {
+      setIsSearchResultsVisible(false);
     } else {
       history.push('/home');
     }
     resetSearch();
+    if (setCurrentStories) {
+      setCurrentStories(null);
+    }
   };
-  console.log(location.state);
+
   let content;
   if (!searchResults) {
     content = <Spinner className={classes.spinner} />;
@@ -59,10 +68,24 @@ export default function SearchResultsPopup({
         {content}
         <div className={classes.footer}>
           <div className={classes.switchPageButtons}>
-            <i className={classes.switchPrevious} onClick={getPreviousPage}>
+            <i
+              className={
+                currentPage === 0
+                  ? classnames(classes.switchPrevious, classes.disabled)
+                  : classes.switchPrevious
+              }
+              onClick={getPreviousPage}
+            >
               Left
             </i>
-            <i className={classes.switchNext} onClick={getNextPage}>
+            <i
+              className={
+                (currentPage + 1) * pageSize >= storiesCount
+                  ? classnames(classes.switchNext, classes.disabled)
+                  : classes.switchNext
+              }
+              onClick={getNextPage}
+            >
               Right
             </i>
           </div>
