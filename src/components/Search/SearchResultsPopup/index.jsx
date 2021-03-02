@@ -30,10 +30,12 @@ export default function SearchResultsPopup({
     } else {
       history.push('/home');
     }
-    resetSearch();
     if (setCurrentStories) {
-      setCurrentStories(null);
+      setTimeout(() => {
+        setCurrentStories(null);
+      }, 100);
     }
+    resetSearch();
   };
 
   let content;
