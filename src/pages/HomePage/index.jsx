@@ -33,7 +33,8 @@ export default function HomePage({ history, location }) {
         <MobileFooter
           setAreLocalStoriesFound={setAreLocalStoriesFound}
           history={history}
-          storyId={id}
+          storyId={location.pathname.includes('story') ? id : null}
+          communityId={location.pathname.includes('community') ? id : null}
         />
       ) : (
         <HomeContent

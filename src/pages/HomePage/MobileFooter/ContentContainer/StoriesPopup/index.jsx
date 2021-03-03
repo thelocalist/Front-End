@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useHistory, useLocation } from 'react-router-dom';
+
 import SearchResultsItem from '../../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../../components/Spinner';
 import ErrorMessage from '../../../ErrorMessage';
@@ -12,15 +14,22 @@ export default function StoriesPopup({
   areStoriesByCommunityFetching,
   storiesByCommunityFetchingError,
 }) {
-  console.log('FROM STORIES POPUP', storiesByCommunity);
+  const history = useHistory();
+  const location = useLocation();
   return (
     <div className={classes.StoriesPopup}>
       <div className={classes.header}>
         <h1>{storiesPopupTitle}</h1>
         <i
+          preserveNeighborhoodSelection="true"
           className={classes.closeIcon}
           onClick={() => {
             closeStoriesPopup();
+            if (location.state && location.state.from) {
+              history.goBack();
+            } else {
+              history.push('/home');
+            }
           }}
         >
           Close

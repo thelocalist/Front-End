@@ -16,9 +16,9 @@ export default function RecentStories({
   recentStoriesPosition,
   isVisible,
   showStory,
-  setSelectedMenuOption,
   setShouldSlidingBeStopped,
   setAreLocalRecentStoriesFound,
+  areAnimationsDisabled,
 }) {
   /* eslint-disable */
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
@@ -43,7 +43,6 @@ export default function RecentStories({
 
   useEffect(() => {
     if (currentNeighborhood !== '') {
-      setSelectedMenuOption('recent');
       const queryParams = {
         keywords: '',
         filterType: 'neighborhood',
@@ -128,6 +127,9 @@ export default function RecentStories({
   } else if (currentNeighborhood === '' && stories && !areStoriesFetching) {
     setAreLocalRecentStoriesFound(false);
     storiesContent = stories.data.map((story) => {
+      if (story.isMainStory) {
+        return;
+      }
       setAreLocalRecentStoriesFound(false);
       return (
         <SearchResultItem
@@ -178,11 +180,11 @@ export default function RecentStories({
 
   return (
     <div
-      className={
-        isVisible
-          ? classnames(classes.RecentStories, classes.visible)
-          : classes.RecentStories
-      }
+      className={classnames(
+        classes.RecentStories,
+        isVisible && classes.visible,
+        areAnimationsDisabled && classes.noAnimations
+      )}
       ref={recentStoriesRef}
       style={{ left: recentStoriesPosition, zIndex: isVisible ? 1 : 0 }}
     >

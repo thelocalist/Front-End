@@ -18,6 +18,7 @@ const PAGESIZE = 6;
 
 export default function HomeContent({ storyId, communityId, history }) {
   const [currentNeighborhood] = useContext(Context);
+  const [areAnimationsDisabled, setAreAnimationsDisabled] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
@@ -39,9 +40,6 @@ export default function HomeContent({ storyId, communityId, history }) {
   ] = useState(false);
   const [currentStory, setCurrentStory] = useState(null);
 
-  // Content for SearchResultItemsPopup (stories by community)
-  // const [currentStories, setCurrentStories] = useState(null);
-  // const [currentStoriesCount, setCurrentStoriesCount] = useState(null);
   const [
     shouldRecentStoriesSlidingBeStopped,
     setShouldRecentStoriesSlidingBeStopped,
@@ -90,6 +88,17 @@ export default function HomeContent({ storyId, communityId, history }) {
   const communitiesRef = useRef();
   const featuredStoriesRef = useRef();
   const recentStoriesRef = useRef();
+
+  useEffect(() => {
+    setAreAnimationsDisabled(true);
+    setSelectedMenuOption('recent');
+    setScrollCommunitiesPosition(0);
+    setScrollRecentStoriesPosition(0);
+    setScrollFeaturedStoriesPosition(0);
+    setTimeout(() => {
+      setAreAnimationsDisabled(false);
+    }, 100);
+  }, [currentNeighborhood]);
 
   const switchTabsToRecent = () => {
     setSelectedMenuOption('recent');
@@ -458,6 +467,7 @@ export default function HomeContent({ storyId, communityId, history }) {
               history={history}
               setShouldSlidingBeStopped={setShouldRecentStoriesSlidingBeStopped}
               setAreLocalRecentStoriesFound={setAreLocalRecentStoriesFound}
+              areAnimationsDisabled={areAnimationsDisabled}
             />
             <Communities
               showStory={showStory}

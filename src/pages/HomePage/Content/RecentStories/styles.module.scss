@@ -10,6 +10,10 @@
     opacity: 1;
   }
   transition: left 0.5s ease-out, opacity 0.5s ease-in-out;
+
+  &.noAnimations {
+    transition: none;
+  }
 }
 
 .searchItem {

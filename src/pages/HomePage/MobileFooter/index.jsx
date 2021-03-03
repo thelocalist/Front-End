@@ -11,6 +11,7 @@ import classes from './styles.module.scss';
 export default function MobileFooter({
   setAreLocalStoriesFound,
   storyId,
+  communityId,
   history,
 }) {
   const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(Context);
@@ -142,6 +143,7 @@ export default function MobileFooter({
         setAreLocalStoriesFound={setAreLocalStoriesFound}
         currentNeighborhood={currentNeighborhood}
         switchMenuOption={switchMenuOption}
+        communityId={communityId}
       />
       {isStoryPopupVisible && (
         <StoryPopup

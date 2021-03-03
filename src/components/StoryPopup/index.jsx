@@ -70,7 +70,7 @@ export default function StoryPopup({
         return prevState;
       });
       setHeadingBottomPosition(0);
-    }, 30);
+    }, 90);
   };
 
   useEffect(() => {
@@ -117,48 +117,6 @@ export default function StoryPopup({
       history.push('/home');
     }
   };
-
-  /* const switchPageChrome = (direction) => {
-    if (direction === 'forward') {
-      if (
-        currentPage ===
-        Math.floor(
-          (textContentRef.current.scrollHeight + 280) /
-            (contentRef.current.offsetHeight * 2 + 32)
-        )
-      ) {
-        setCurrentPage(0);
-        return;
-      }
-      setCurrentPage((prevPage) => prevPage + 1);
-    } else if (direction === 'back') {
-      if (currentPage === 0) {
-        return;
-      }
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const switchPageFirefox = (direction) => {
-    if (direction === 'forward') {
-      if (
-        currentPage ===
-        Math.floor(
-          contentRef.current.offsetWidth /
-            (contentRef.current.clientWidth * 2 + 32)
-        )
-      ) {
-        setCurrentPage(0);
-        return;
-      }
-      setCurrentPage((prevPage) => prevPage + 1);
-    } else if (direction === 'back') {
-      if (currentPage === 0) {
-        return;
-      }
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  }; */
 
   const switchPage = (direction) => {
     if (direction === 'forward') {
@@ -217,7 +175,10 @@ export default function StoryPopup({
             <div
               className={classes.heading}
               ref={headingContainer}
-              style={{ bottom: headingBottomPosition }}
+              style={{
+                bottom: headingBottomPosition,
+                visibility: headingBottomPosition !== 0 ? 'hidden' : 'visible',
+              }}
             >
               <div
                 className={classes.author}

@@ -138,7 +138,15 @@ export default function Communities({
     setShouldSlidingBeStopped(true);
     communitiesContent = (
       <div className={classes.spinner}>
-        <ErrorMessage message={communitiesFetchingError.message} />
+        <ErrorMessage
+          message={
+            communitiesFetchingError
+              ? communitiesFetchingError.message
+              : communitiesByNeighborhoodFetchingError
+              ? communitiesByNeighborhoodFetchingError.message
+              : null
+          }
+        />
       </div>
     );
   } else {

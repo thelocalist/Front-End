@@ -16,6 +16,7 @@ export default function ContentContainer({
   currentNeighborhood,
   setAreLocalStoriesFound,
   switchMenuOption,
+  communityId,
 }) {
   const [isStoriesPopupVisible, setIsStoriesPopupVisible] = useState(false);
 
@@ -41,6 +42,12 @@ export default function ContentContainer({
     areCommunitiesLoading,
     communitiesLoadError,
   ] = useApiRequest('get', `/communities`);
+  const [
+    community,
+    requestCommunity,
+    isCommunityLoading,
+    communityLoadError,
+  ] = useApiRequest('get', `/communities/${communityId}`);
 
   const [
     storiesByNeighborhood,
@@ -84,11 +91,19 @@ export default function ContentContainer({
   /* eslint-disable */
 
   useEffect(() => {
-    requestRecentStories();
+    requestRecentStories({
+      sortField: 'createdAt',
+      sortOrder: 'desc',
+    });
     requestCommunities();
     requestFeaturedStories({ isFeatured: true });
-    //setAreLocalStoriesFound(false);
   }, []);
+
+  useEffect(() => {
+    if (communityId) {
+      showStoriesPopup(communityId);
+    }
+  }, [communityId]);
 
   useEffect(() => {
     if (
@@ -185,25 +200,37 @@ export default function ContentContainer({
       requestRecentStories({
         sortField: 'createdAt',
         sortOrder: 'desc',
+        isMainStory: true,
       });
     }
   }, [storiesByNeighborhood]);
 
-  const showStoriesPopup = (community) => {
+  const showStoriesPopup = (communityId) => {
     const queryParams = {
       keywords: '',
-      filterType: 'communityId',
-      filterValue: community.id,
+      filterType:
+        currentNeighborhood === '' ? 'communityId' : 'communityId,neighborhood',
+      filterValue:
+        currentNeighborhood === ''
+          ? communityId
+          : `${communityId},${currentNeighborhood}`,
       pageSize: 100,
     };
 
     setIsStoriesPopupVisible(true);
-    setStoriesPopupTitle(community.title);
+    requestCommunity();
     getStoriesByCommunity(queryParams);
   };
 
+  useEffect(() => {
+    if (community) {
+      setStoriesPopupTitle(community.title);
+    }
+  }, [community]);
+
   const closeStoriesPopup = () => {
     setIsStoriesPopupVisible(false);
+    setStoriesPopupTitle('');
     resetSearch();
   };
 
@@ -220,7 +247,6 @@ export default function ContentContainer({
     currentNeighborhood !== ''
   ) {
     recentStoriesContent = storiesByNeighborhood.map((story) => {
-      //setAreLocalStoriesFound(true);
       return (
         <SearchResultItem
           key={story.id}
@@ -242,9 +268,6 @@ export default function ContentContainer({
     !areStoriesByNeighborhoodFetching
   ) {
     recentStoriesContent = recentStories.data.map((story) => {
-      /* if (currentNeighborhood !== '') {
-        setAreLocalStoriesFound(false);
-      } */
       return (
         <SearchResultItem
           key={story.id}
@@ -279,12 +302,13 @@ export default function ContentContainer({
           key={community.id}
           className={classes.communityContainer}
           onClick={() => {
-            showStoriesPopup(community);
+            //showStoriesPopup(community);
           }}
         >
           <Community
             title={community.title}
             image={community.imagePath}
+            id={community.id}
             variant="mobile"
           />
         </div>
@@ -307,12 +331,13 @@ export default function ContentContainer({
           key={community.id}
           className={classes.communityContainer}
           onClick={() => {
-            showStoriesPopup(community);
+            //showStoriesPopup(community);
           }}
         >
           <Community
             title={community.title}
             image={community.imagePath}
+            id={community.id}
             variant="mobile"
           />
         </div>
@@ -361,26 +386,6 @@ export default function ContentContainer({
             : classnames(classes.listContainer, classes.communities)
         }
       >
-        {/* {communities && !areCommunitiesLoading
-          ? communities.map((community) => (
-              <div
-                key={community.id}
-                className={classes.communityContainer}
-                onClick={() => {
-                  showStoriesPopup(community);
-                }}
-              >
-                <Community
-                  title={community.title}
-                  image={community.imagePath}
-                  variant="mobile"
-                />
-              </div>
-            ))
-          : null}
-        {communitiesLoadError && (
-          <ErrorMessage message={communitiesLoadError.message} />
-        )} */}
         {communitiesContent}
       </div>
       <div
