@@ -50,9 +50,14 @@
       letter-spacing: 0em;
       text-align: left;
       color: #e5e5e5;
+
       p {
         margin-top: 0;
         margin-bottom: 0;
+      }
+
+      * {
+        color: #e5e5e5 !important;
       }
     }
 
