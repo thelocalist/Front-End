@@ -48,7 +48,7 @@ export default function ShareButtonsPopup({ show, onHide, title, shareUrl }) {
           <EmailShareButton
             url={shareUrl}
             subject={title}
-            body="body"
+            body={title}
             className="Demo__some-network__share-button"
           >
             <EmailIcon size={38} round />
