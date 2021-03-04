@@ -57,7 +57,8 @@ export default function SearchResultsItem({
       </h1>
       <div className={classes.footer}>
         <span className={classes.views}>
-          <i className={classes.viewsIcon}>views</i>1202
+          <i className={classes.viewsIcon}>views</i>
+          {searchResult.viewCount}
         </span>
         <span>{searchResult.authorName}</span>
       </div>

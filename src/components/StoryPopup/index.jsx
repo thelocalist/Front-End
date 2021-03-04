@@ -213,7 +213,7 @@ export default function StoryPopup({
                     Share
                   </i>
                   <i className={classes.views}>Views count</i>
-                  <span>1202</span>
+                  <span>{story.viewCount}</span>
                 </div>
               </div>
             </div>
