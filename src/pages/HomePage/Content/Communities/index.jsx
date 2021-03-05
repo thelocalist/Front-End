@@ -17,7 +17,7 @@ export default function Communities({
   scrollCommunitiesPosition,
   communitiesRef,
   isVisible,
-  setShouldSlidingBeStopped,
+  // setShouldSlidingBeStopped,
   setAreLocalCommunitiesFound,
 }) {
   /* eslint-disable */
@@ -96,7 +96,7 @@ export default function Communities({
     !communitiesFetchingError
   ) {
     setAreLocalCommunitiesFound(false);
-    setShouldSlidingBeStopped(false);
+    //setShouldSlidingBeStopped(false);
     communitiesContent = fetchedCommunities.map((community) => (
       <Community
         title={community.title}
@@ -113,7 +113,7 @@ export default function Communities({
     !communitiesByNeighborhoodFetchingError
   ) {
     setAreLocalCommunitiesFound(true);
-    setShouldSlidingBeStopped(false);
+    //setShouldSlidingBeStopped(false);
     communitiesContent = communitiesByNeighborhood.map((community) => (
       <Community
         title={community.title}
@@ -124,7 +124,7 @@ export default function Communities({
     ));
   } else if (areCommunitiesByNeighborhoodFetching || areCommunitiesFetching) {
     setAreLocalCommunitiesFound(false);
-    setShouldSlidingBeStopped(true);
+    //setShouldSlidingBeStopped(true);
     communitiesContent = (
       <div className={classes.spinner}>
         <Spinner />
@@ -135,7 +135,7 @@ export default function Communities({
     communitiesByNeighborhoodFetchingError
   ) {
     setAreLocalCommunitiesFound(false);
-    setShouldSlidingBeStopped(true);
+    //setShouldSlidingBeStopped(true);
     communitiesContent = (
       <div className={classes.spinner}>
         <ErrorMessage
@@ -151,7 +151,7 @@ export default function Communities({
     );
   } else {
     setAreLocalCommunitiesFound(false);
-    setShouldSlidingBeStopped(true);
+    //setShouldSlidingBeStopped(true);
     communitiesContent = (
       <div className={classes.spinner}>
         <NoLocalStoriesMessage />

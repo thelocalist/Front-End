@@ -16,7 +16,7 @@ export default function RecentStories({
   recentStoriesPosition,
   isVisible,
   showStory,
-  setShouldSlidingBeStopped,
+  // setShouldSlidingBeStopped,
   setAreLocalRecentStoriesFound,
   areAnimationsDisabled,
 }) {
@@ -80,7 +80,7 @@ export default function RecentStories({
     }
   }, [storiesByNeighborhood]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (
       areStoriesByNeighborhoodFetching ||
       areStoriesFetching ||
@@ -99,7 +99,7 @@ export default function RecentStories({
     areStoriesFetching,
     storiesByNeighborhoodFetchingError,
     storiesFetchingError,
-  ]);
+  ]); */
 
   let storiesContent;
 

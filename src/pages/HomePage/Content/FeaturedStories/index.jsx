@@ -16,8 +16,9 @@ export default function FeaturedStories({
   isVisible,
   showStory,
   selectedMenuOption,
-  setShouldSlidingBeStopped,
+  // setShouldSlidingBeStopped,
   setAreLocalFeaturedStoriesFound,
+  areAnimationsDisabled,
 }) {
   const [currentNeighborhood, , , , currentMainStory] = useContext(Context);
   const [
@@ -79,7 +80,7 @@ export default function FeaturedStories({
     }
   }, [selectedMenuOption]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (
       areStoriesByNeighborhoodFetching ||
       areStoriesFetching ||
@@ -98,7 +99,7 @@ export default function FeaturedStories({
     areStoriesFetching,
     storiesByNeighborhoodFetchingError,
     storiesFetchingError,
-  ]);
+  ]); */
 
   let storiesContent;
 
@@ -184,7 +185,8 @@ export default function FeaturedStories({
     <div
       className={classnames(
         classes.FeaturedStories,
-        isVisible && classes.visible
+        isVisible && classes.visible,
+        areAnimationsDisabled && classes.noAnimations
       )}
       style={{ left: featuredStoriesPosition, zIndex: isVisible ? 1 : 0 }}
       ref={featuredStoriesRef}

@@ -20,7 +20,7 @@ export default function HomeContent({ storyId, communityId, history }) {
   const [currentNeighborhood] = useContext(Context);
   const [areAnimationsDisabled, setAreAnimationsDisabled] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
-  const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
+  const [selectedMenuOption, setSelectedMenuOption] = useState('featured');
   const [scrollCommunitiesPosition, setScrollCommunitiesPosition] = useState(0);
   const [
     scrollRecentStoriesPosition,
@@ -40,7 +40,7 @@ export default function HomeContent({ storyId, communityId, history }) {
   ] = useState(false);
   const [currentStory, setCurrentStory] = useState(null);
 
-  const [
+  /* const [
     shouldRecentStoriesSlidingBeStopped,
     setShouldRecentStoriesSlidingBeStopped,
   ] = useState(false);
@@ -51,7 +51,7 @@ export default function HomeContent({ storyId, communityId, history }) {
   const [
     shouldCommunitiesSlidingBeStopped,
     setShouldCommunitiesSlidingBeStopped,
-  ] = useState(false);
+  ] = useState(false); */
   const [areLocalRecentStoriesFound, setAreLocalRecentStoriesFound] = useState(
     false
   );
@@ -91,7 +91,7 @@ export default function HomeContent({ storyId, communityId, history }) {
 
   useEffect(() => {
     setAreAnimationsDisabled(true);
-    setSelectedMenuOption('recent');
+    setSelectedMenuOption('featured');
     setScrollCommunitiesPosition(0);
     setScrollRecentStoriesPosition(0);
     setScrollFeaturedStoriesPosition(0);
@@ -160,7 +160,7 @@ export default function HomeContent({ storyId, communityId, history }) {
         window.innerWidth + 25
       ) {
         if (selectedMenuOption === 'communities') {
-          if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
+          /* if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
             switchTabsToRecent();
             return;
           } else if (
@@ -171,10 +171,11 @@ export default function HomeContent({ storyId, communityId, history }) {
             return;
           } else if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
             return;
-          }
-          switchTabsToRecent();
+          } */
+          //switchTabsToRecent();
+          switchTabsToFeatured();
         } else if (selectedMenuOption === 'recent') {
-          if (currentNeighborhood !== '' && areLocalFeaturedStoriesFound) {
+          /* if (currentNeighborhood !== '' && areLocalFeaturedStoriesFound) {
             switchTabsToFeatured();
             return;
           } else if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
@@ -182,10 +183,10 @@ export default function HomeContent({ storyId, communityId, history }) {
             return;
           } else if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
             return;
-          }
+          } */
           switchTabsToFeatured();
         } else if (selectedMenuOption === 'featured') {
-          if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
+          /* if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
             switchTabsToCommunities();
             return;
           } else if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
@@ -196,12 +197,13 @@ export default function HomeContent({ storyId, communityId, history }) {
             areLocalFeaturedStoriesFound
           ) {
             return;
-          }
-          switchTabsToCommunities();
+          } */
+          //switchTabsToCommunities();
+          setScrollFeaturedStoriesPosition(0);
         }
         return;
       }
-      if (
+      /* if (
         selectedMenuOption === 'communities' &&
         shouldCommunitiesSlidingBeStopped
       ) {
@@ -219,12 +221,12 @@ export default function HomeContent({ storyId, communityId, history }) {
       ) {
         switchTabsToCommunities();
         return;
-      }
+      } */
       setScrollContentPosition((prevState) => prevState - scrollDistance);
     } else {
       if (scrollContentPosition + scrollDistance > 0) {
         if (selectedMenuOption === 'communities') {
-          if (currentNeighborhood !== '' && areLocalFeaturedStoriesFound) {
+          /* if (currentNeighborhood !== '' && areLocalFeaturedStoriesFound) {
             switchTabsToFeatured();
             return;
           } else if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
@@ -232,10 +234,10 @@ export default function HomeContent({ storyId, communityId, history }) {
             return;
           } else if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
             return;
-          }
+          } */
           switchTabsToFeatured();
         } else if (selectedMenuOption === 'recent') {
-          if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
+          /* if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
             switchTabsToCommunities();
             return;
           } else if (
@@ -246,10 +248,11 @@ export default function HomeContent({ storyId, communityId, history }) {
             return;
           } else if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
             return;
-          }
-          switchTabsToCommunities();
+          } */
+          //switchTabsToCommunities();
+          switchTabsToFeatured();
         } else if (selectedMenuOption === 'featured') {
-          if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
+          /* if (currentNeighborhood !== '' && areLocalRecentStoriesFound) {
             switchTabsToRecent();
             return;
           } else if (currentNeighborhood !== '' && areLocalCommunitiesFound) {
@@ -260,8 +263,8 @@ export default function HomeContent({ storyId, communityId, history }) {
             areLocalFeaturedStoriesFound
           ) {
             return;
-          }
-          switchTabsToRecent();
+          } */
+          //switchTabsToRecent();
         }
         return;
       }
@@ -298,6 +301,7 @@ export default function HomeContent({ storyId, communityId, history }) {
           ? communityId
           : `${communityId},${currentNeighborhood}`,
       pageSize: PAGESIZE,
+      sortField: 'createdAt',
     };
 
     getStories(queryParams);
@@ -318,13 +322,6 @@ export default function HomeContent({ storyId, communityId, history }) {
       setIsStoryPopupVisible(true);
     }
   }, [isStoryLoading]);
-
-  /* useEffect(() => {
-    if (!storiesFetchingError && stories) {
-      setCurrentStories(stories);
-      setCurrentStoriesCount(storiesCount);
-    }
-  }, [areStoriesFetching]); */
 
   useEffect(() => {
     if (storyLoadingError) {
@@ -451,10 +448,9 @@ export default function HomeContent({ storyId, communityId, history }) {
               featuredStoriesPosition={scrollFeaturedStoriesPosition}
               selectedMenuOption={selectedMenuOption}
               history={history}
-              setShouldSlidingBeStopped={
-                setShouldFeaturedStoriesSlidingBeStopped
-              }
+              //setShouldSlidingBeStopped={setShouldFeaturedStoriesSlidingBeStopped}
               setAreLocalFeaturedStoriesFound={setAreLocalFeaturedStoriesFound}
+              areAnimationsDisabled={areAnimationsDisabled}
             />
             <RecentStories
               showStory={showStory}
@@ -465,7 +461,7 @@ export default function HomeContent({ storyId, communityId, history }) {
               setSelectedMenuOption={setSelectedMenuOption}
               selectedMenuOption={selectedMenuOption}
               history={history}
-              setShouldSlidingBeStopped={setShouldRecentStoriesSlidingBeStopped}
+              //setShouldSlidingBeStopped={setShouldRecentStoriesSlidingBeStopped}
               setAreLocalRecentStoriesFound={setAreLocalRecentStoriesFound}
               areAnimationsDisabled={areAnimationsDisabled}
             />
@@ -476,7 +472,7 @@ export default function HomeContent({ storyId, communityId, history }) {
               communitiesRef={communitiesRef}
               isSearchResultsVisible={isSearchResultsVisible}
               setIsSearchResultsVisible={setIsSearchResultsVisible}
-              setShouldSlidingBeStopped={setShouldCommunitiesSlidingBeStopped}
+              //setShouldSlidingBeStopped={setShouldCommunitiesSlidingBeStopped}
               setAreLocalCommunitiesFound={setAreLocalCommunitiesFound}
             />
             {isStoryPopupVisible && (
@@ -491,7 +487,6 @@ export default function HomeContent({ storyId, communityId, history }) {
               <SearchResultsPopup
                 searchResults={stories}
                 storiesCount={storiesCount}
-                //setCurrentStories={setCurrentStories}
                 zIndex={1}
                 resetSearch={resetSearch}
                 pageSize={PAGESIZE}

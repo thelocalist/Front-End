@@ -24,7 +24,16 @@ export default function HomePage({ history, location }) {
   const { id } = useParams();
 
   return (
-    <div className={classes.HomePage}>
+    <div
+      className={classes.HomePage}
+      style={{
+        zIndex:
+          location.pathname.includes('story') ||
+          (location.pathname.includes('community') && isMobile)
+            ? 1
+            : 0,
+      }}
+    >
       <CityMap
         areLocalStoriesFound={areLocalStoriesFound}
         location={location}
