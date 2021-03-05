@@ -19,7 +19,7 @@ export default function StoryPopup({
   const isChrome =
     !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
-  const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
+  // const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [pagesCount, setPagesCount] = useState(null);
@@ -51,14 +51,14 @@ export default function StoryPopup({
 
     setAuthorPhotoWidth(authorPhotoContainer.current.clientWidth * 0.65);
 
-    setTimeout(() => {
+    /* setTimeout(() => {
       if (authorPhotoRef) {
         setAuthorPhotoTopPosition(
           -authorPhotoRef.current.clientHeight / 2 -
             authorPhotoRef.current.clientHeight * 0.1
         );
       }
-    }, 0);
+    }, 0); */
   };
 
   const fixChromePositioningBug = () => {
@@ -194,7 +194,7 @@ export default function StoryPopup({
                   className={classes.authorPhoto}
                   ref={authorPhotoRef}
                   style={{
-                    top: authorPhotoTopPosition,
+                    // top: authorPhotoTopPosition,
                     width: !isMobile ? authorPhotoWidth : '',
                     backgroundImage: `url(${STATIC_URL}${authorImage})`,
                   }}

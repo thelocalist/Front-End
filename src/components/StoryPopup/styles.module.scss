@@ -41,7 +41,9 @@
     transition: left 0.5s ease-out;
 
     .text {
-      text-indent: 40px;
+      //text-indent: 40px;
+      padding-left: 40px;
+      padding-right: 40px;
       font-family: Libre Baskerville;
       font-size: 14px;
       font-style: normal;
@@ -100,6 +102,7 @@
 
           .authorPhoto {
             position: absolute;
+            bottom: 40px;
             width: 60%;
             border-radius: 50%;
             background-image: url('https://ofad.org/files/daily-photo/recent-and-random-portraits_8.jpg');

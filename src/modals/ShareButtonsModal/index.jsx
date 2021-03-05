@@ -7,13 +7,12 @@ import '../../assets/bootstrap-modal.css';
 import {
   FacebookShareButton,
   FacebookIcon,
-  TelegramShareButton,
-  TelegramIcon,
   TwitterShareButton,
   TwitterIcon,
   EmailShareButton,
   EmailIcon,
 } from 'react-share';
+import ReactCopyToClipboardUI from 'react-copy-to-clipboard-ui';
 
 import classes from './styles.module.scss';
 
@@ -27,7 +26,7 @@ export default function ShareButtonsPopup({ show, onHide, title, shareUrl }) {
       centered
       className={classes.ShareButtonsPopup}
     >
-      <Modal.Header closeButton className={classes.header}>
+      <Modal.Header className={classes.header}>
         <Modal.Title className={classes.title}>Share story</Modal.Title>
       </Modal.Header>
       <Modal.Body className={classes.body}>
@@ -42,9 +41,6 @@ export default function ShareButtonsPopup({ show, onHide, title, shareUrl }) {
           >
             <TwitterIcon size={38} round />
           </TwitterShareButton>
-          <TelegramShareButton url={shareUrl} title={title}>
-            <TelegramIcon size={38} round />
-          </TelegramShareButton>
           <EmailShareButton
             url={shareUrl}
             subject={title}
@@ -56,6 +52,14 @@ export default function ShareButtonsPopup({ show, onHide, title, shareUrl }) {
         </div>
       </Modal.Body>
       <Modal.Footer className={classes.footer}>
+        <div className={classes.copyLink}>
+          <span>Link to story: </span>
+          <ReactCopyToClipboardUI
+            btnStyle={{ backgroundColor: 'white', paddingBottom: '6px' }}
+          >
+            {shareUrl}
+          </ReactCopyToClipboardUI>
+        </div>
         <button className={classes.button} type="button" onClick={onHide}>
           Close
         </button>
