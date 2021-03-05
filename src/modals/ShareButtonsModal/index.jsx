@@ -60,9 +60,6 @@ export default function ShareButtonsPopup({ show, onHide, title, shareUrl }) {
             {shareUrl}
           </ReactCopyToClipboardUI>
         </div>
-        <button className={classes.button} type="button" onClick={onHide}>
-          Close
-        </button>
       </Modal.Footer>
     </Modal>
   );
