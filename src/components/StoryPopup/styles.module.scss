@@ -35,10 +35,9 @@
   }
 
   .content {
-    position: relative;
     width: 100%;
     height: calc(100% - 40px);
-    transition: left 0.5s ease-out;
+    transition: margin-left 0.5s ease-out;
 
     .text {
       //text-indent: 40px;
@@ -211,6 +210,7 @@
           &.disabled {
             background-image: url(../../assets/images/switchPreviousDisabled.svg);
             cursor: auto;
+            pointer-events: none;
           }
         }
 
@@ -219,6 +219,7 @@
           &.disabled {
             background-image: url(../../assets/images/switchNextDisabled.svg);
             cursor: auto;
+            pointer-events: none;
           }
         }
       }

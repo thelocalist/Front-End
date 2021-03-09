@@ -16,8 +16,6 @@ export default function StoryPopup({
   history,
 }) {
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
-  const isChrome =
-    !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
   // const [authorPhotoTopPosition, setAuthorPhotoTopPosition] = useState(0);
   const [authorPhotoWidth, setAuthorPhotoWidth] = useState(0);
@@ -61,6 +59,27 @@ export default function StoryPopup({
     }, 0); */
   };
 
+  const calculatePagesCount = () => {
+    if (isMobile) {
+      return;
+    }
+    if (textContentRef.current.offsetWidth === contentRef.current.clientWidth) {
+      setPagesCount(
+        Math.floor(
+          (textContentRef.current.scrollHeight + 280) /
+            (contentRef.current.offsetHeight * 2 + 32)
+        )
+      );
+    } else {
+      setPagesCount(
+        Math.floor(
+          contentRef.current.offsetWidth /
+            (contentRef.current.clientWidth * 2 + 32)
+        )
+      );
+    }
+  };
+
   const fixChromePositioningBug = () => {
     setTimeout(() => {
       setHeadingBottomPosition((prevState) => {
@@ -79,32 +98,15 @@ export default function StoryPopup({
     resizeHeader();
     window.addEventListener('resize', resizeHeader);
     window.addEventListener('resize', fixChromePositioningBug);
+    window.addEventListener('resize', calculatePagesCount);
     return () => {
       window.removeEventListener('resize', resizeHeader);
       window.removeEventListener('resize', fixChromePositioningBug);
+      window.removeEventListener('resize', calculatePagesCount);
     };
   }, []);
 
-  useEffect(() => {
-    if (isMobile) {
-      return;
-    }
-    if (isChrome) {
-      setPagesCount(
-        Math.floor(
-          (textContentRef.current.scrollHeight + 280) /
-            (contentRef.current.offsetHeight * 2 + 32)
-        )
-      );
-    } else {
-      setPagesCount(
-        Math.floor(
-          contentRef.current.offsetWidth /
-            (contentRef.current.clientWidth * 2 + 32)
-        )
-      );
-    }
-  }, []);
+  useEffect(calculatePagesCount, []);
 
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
@@ -137,6 +139,8 @@ export default function StoryPopup({
     setIsShareButtonsPopupVisible(false);
   };
 
+  console.log({ pagesCount });
+
   return (
     <div className={classes.StoryPopup} ref={storyPopupRef}>
       {story && (
@@ -160,7 +164,7 @@ export default function StoryPopup({
         <div
           className={classes.content}
           style={{
-            left:
+            marginLeft:
               contentRef.current &&
               (-contentRef.current.clientWidth * 2 - 32) * currentPage,
           }}
@@ -239,21 +243,19 @@ export default function StoryPopup({
           {!isMobile && (
             <div className={classes.switchPageButtons}>
               <i
-                className={
-                  currentPage === 0
-                    ? classnames(classes.prevPage, classes.disabled)
-                    : classes.prevPage
-                }
+                className={classnames(
+                  classes.prevPage,
+                  currentPage === 0 && classes.disabled
+                )}
                 onClick={() => switchPage('back')}
               >
                 Previous Page
               </i>
               <i
-                className={
-                  currentPage === pagesCount
-                    ? classnames(classes.nextPage, classes.disabled)
-                    : classes.nextPage
-                }
+                className={classnames(
+                  classes.nextPage,
+                  currentPage === pagesCount && classes.disabled
+                )}
                 onClick={() => switchPage('forward')}
               >
                 Next Page
