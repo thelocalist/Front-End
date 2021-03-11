@@ -11,8 +11,8 @@ import classes from './styles.module.scss';
 const MAP_SIZE = { width: 1152, height: 723 };
 
 const MAP_VIEW_AREA_SIZE = {
-  width: 750,
-  height: 400,
+  width: 570,
+  height: 360,
 };
 
 export default function CityMap({ location, areLocalStoriesFound }) {
@@ -114,7 +114,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
           <path
             className={classes.noHover}
             d="M535.86 332.667L616.124 296.069L628.695 321.205L546.015 357.85L535.86 332.667Z"
-            fill="#082B3A"
+            fill="#061C25"
             stroke="#7284B6"
           />
           <path
@@ -140,7 +140,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M599.459 262.25L647.006 361.942L663.919 361.615L671.088 310.416L697.952 262.16L715.335 254.876L695.619 219.605L599.459 262.25Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -154,7 +154,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M695.129 220.436L714.833 255.103L764.612 235.711L745.756 198.007L695.129 220.436Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -167,7 +167,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M388.128 427.067L410.534 398.234L430.57 450.115L396.569 441.708L388.128 427.067Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -181,7 +181,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M448.391 402.94L431.156 370.945L410.22 397.635L417.197 414.722L448.391 402.94Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -195,7 +195,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M470.375 477.444L482.258 466.942L448.385 402.638L417.493 414.414L430.878 450.411L470.375 477.444Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -209,7 +209,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M431.132 369.737L449.704 345.812L501.603 451.765L482.56 466.937L431.132 369.737Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -222,7 +222,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M467.661 321.295L481.449 315.59L508.659 379.116L473.005 394.61L449.106 346.126L467.661 321.295Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -235,7 +235,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M504.878 449.284L522.555 410.27L508.363 379.424L473.609 394.598L501.312 452.374L504.878 449.284Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -248,7 +248,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M481.751 315.584L520.391 298.221L561.608 398.639L522.555 410.27L481.751 315.584Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -262,7 +262,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M519.775 297.628L599.767 262.547L615.213 295.785L535.553 332.371L519.775 297.628Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -276,7 +276,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M561.613 398.941L546.323 358.146L628.115 322.425L646.989 361.036L623.431 361.491L614.21 384.631L561.613 398.941Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -290,7 +290,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M636.13 393.271L628.202 389.497L553.088 411.19L542.977 419.543L558.984 419.234L636.241 399.01L636.13 393.271Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -303,7 +303,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M748.331 195.625L774.192 184.551L856.358 360.617L752.467 409.756L708.94 396.059L701.31 384.132L675.94 383.654L670.662 359.082L677.283 312.377L703.518 266.948L769.981 237.203L748.331 195.625Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -316,7 +316,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M682.916 406.568L732.076 417.703L614.746 474.958L577.582 427.939L644.002 409.737L662.123 409.387L658.33 400.698L667.285 395.087L676.95 394.9L682.916 406.568Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -330,7 +330,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M486.411 485.818L488.611 537.138L406.593 576.791L368.828 498.664L383.55 478.741L391.036 475.273L397.379 475.151L426.682 490.598L430.44 497.474L432.916 516.159L442.232 513.562L442.063 504.803L449.009 504.669L449.225 515.844L460.439 502.031L486.411 485.818Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -344,7 +344,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M562.433 488.021L559.094 502.89L488.738 536.275L487.746 484.932L507.296 480.324L512.21 484.459L514.928 484.407L512.029 475.097L525.921 459.117L533.668 453.529L543.385 456.061L551.656 461.944L562.433 488.021Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -358,7 +358,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M577.292 428.549L614.142 474.97L566.239 497.648L569.061 487.321L550.826 450.511L540.215 448.602L536.207 444.449L536.113 439.617L564.909 428.788L577.292 428.549Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -371,7 +371,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M739.026 120.574L423.8 271.686L415.003 301.163L395.013 314.238L403.43 327.672L448.312 289.34L511.019 266.678L542.393 248.548L557.534 234.66L578.071 234.263L753.728 146.575L739.026 120.574Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -385,7 +385,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
                     : null
                 }
                 d="M314.276 388.914L288.809 337.439L421.401 272.639L413.203 301.802L393.811 314.564L402.263 329.809L386.152 340.393L374.978 340.609L355.279 368.786L314.276 388.914Z"
-                fill="#071332"
+                fill="#00030B"
                 stroke="#7284B6"
               />
             </g>
@@ -440,7 +440,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
               gradientUnits="userSpaceOnUse"
             >
               <stop stopColor="#000102" />
-              <stop offset="0.3125" stopColor="#071332" />
+              <stop offset="0.3125" stopColor="#00030B" />
               <stop
                 offset="0.985119"
                 stopColor="#03091B"
@@ -458,7 +458,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
             >
               <stop stopColor="#00030A" />
               <stop offset="0.0520833" stopColor="#00030A" />
-              <stop offset="0.411458" stopColor="#071332" />
+              <stop offset="0.411458" stopColor="#00030B" />
               <stop offset="0.515625" stopColor="#00030A" stopOpacity="0" />
             </linearGradient>
             <linearGradient

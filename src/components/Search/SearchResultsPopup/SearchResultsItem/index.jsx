@@ -45,8 +45,11 @@ export default function SearchResultsItem({
       <h1>
         <Truncate
           lines={
-            searchResultItemRef.current &&
-            searchResultItemRef.current.clientHeight < 248
+            // eslint-disable-next-line no-nested-ternary
+            variant === 'mobile'
+              ? 3
+              : searchResultItemRef.current &&
+                searchResultItemRef.current.clientHeight < 248
               ? 1
               : 2
           }

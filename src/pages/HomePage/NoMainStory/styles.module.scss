@@ -11,8 +11,8 @@
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   background: #00030b !important;
-  border-left: 0.25px solid #2f4273;
-  border-bottom: 0.25px solid #2f4273;
+  border-left: 1px solid rgba(47, 66, 115, 0.25);
+  border-bottom: 1px solid rgba(47, 66, 115, 0.25);
   opacity: 0;
 
   &.visible {

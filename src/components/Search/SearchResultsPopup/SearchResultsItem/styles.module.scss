@@ -16,6 +16,7 @@
     min-height: 248px;
     max-height: 248px;
     margin: 0;
+    margin-bottom: 12px;
     padding-top: 0;
 
     .image {
@@ -33,6 +34,8 @@
     .footer {
       flex-direction: row;
       text-transform: uppercase;
+      bottom: 4px;
+
       span {
         color: inherit;
       }
@@ -78,9 +81,9 @@
   font-style: normal;
   font-weight: 700;
   line-height: 12px;
-  letter-spacing: 0.04em;
   text-align: center;
   color: #2f4273;
+  text-transform: uppercase;
 
   .views {
     display: flex;

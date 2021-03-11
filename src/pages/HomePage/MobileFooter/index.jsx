@@ -15,7 +15,7 @@ export default function MobileFooter({
   history,
 }) {
   const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(Context);
-  const [selectedMenuOption, setSelectedMenuOption] = useState('recent');
+  const [selectedMenuOption, setSelectedMenuOption] = useState('featured');
   const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
   const [linePosition, setLinePosition] = useState(null);
   const [currentStory, setCurrentStory] = useState(null);
