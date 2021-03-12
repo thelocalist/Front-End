@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import classnames from 'classnames';
 import Community from '../../Content/Communities/Community';
@@ -17,10 +17,13 @@ export default function ContentContainer({
   setAreLocalStoriesFound,
   switchMenuOption,
   communityId,
+  setMobileContentHeight,
 }) {
   const [isStoriesPopupVisible, setIsStoriesPopupVisible] = useState(false);
 
   const [storiesPopupTitle, setStoriesPopupTitle] = useState('');
+
+  const contentContainerRef = useRef(null);
 
   /* eslint-disable */
 
@@ -89,6 +92,10 @@ export default function ContentContainer({
     resetSearch,
   ] = useSearch('get', '/stories/search');
   /* eslint-disable */
+
+  useEffect(() => {
+    setMobileContentHeight(contentContainerRef.current.clientHeight);
+  }, []);
 
   useEffect(() => {
     requestRecentStories({
@@ -360,7 +367,7 @@ export default function ContentContainer({
   }
 
   return (
-    <div className={classes.ContentContainer}>
+    <div className={classes.ContentContainer} ref={contentContainerRef}>
       {isStoriesPopupVisible && (
         <StoriesPopup
           closeStoriesPopup={closeStoriesPopup}

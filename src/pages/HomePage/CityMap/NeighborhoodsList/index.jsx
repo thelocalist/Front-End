@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 
 import classnames from 'classnames';
 import { useMediaQuery } from 'react-responsive';
@@ -8,7 +8,7 @@ import { Context } from '../../../../context/index';
 
 import classes from './styles.module.scss';
 
-export default function NeighborhoodsList() {
+export default function NeighborhoodsList({ mobileContentHeight }) {
   const [neighborhoodsList, setNeighborhoodsList] = useState(NEIGHBORHOODS);
   const [
     isAllNeighborhoodsButtonsVisible,
@@ -16,6 +16,9 @@ export default function NeighborhoodsList() {
   ] = useState(false);
 
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+
+  const neighborhoodsListRef = useRef(null);
+  const neighborhoodsButtonsContainerRef = useRef(null);
 
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
@@ -38,13 +41,23 @@ export default function NeighborhoodsList() {
     }
   }, [currentNeighborhood]);
 
+  useEffect(() => {}, []);
+
   return (
     <div
+      preserveNeighborhoodSelection="true"
       className={
         isAllNeighborhoodsButtonsVisible
           ? classnames(classes.NeighborhoodsList, classes.expand)
           : classes.NeighborhoodsList
       }
+      ref={neighborhoodsListRef}
+      style={{
+        height:
+          isMobile && isAllNeighborhoodsButtonsVisible
+            ? `calc(100% - ${mobileContentHeight + 53 + 56 + 10}px)`
+            : '',
+      }}
     >
       <div
         className={
@@ -84,6 +97,7 @@ export default function NeighborhoodsList() {
               )
             : classes.neighborhoodsButtonsContainer
         }
+        ref={neighborhoodsButtonsContainerRef}
       >
         {isMobile && (
           <button
@@ -109,6 +123,7 @@ export default function NeighborhoodsList() {
               onClick={() => {
                 setCurrentNeighborhood(neighborhood);
                 setIsAllNeighborhoodsButtonsVisible(false);
+                neighborhoodsListRef.current.scrollTop = 0;
               }}
             >
               <span>{neighborhood}</span>

@@ -13,6 +13,7 @@ export default function MobileFooter({
   storyId,
   communityId,
   history,
+  setMobileContentHeight,
 }) {
   const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(Context);
   const [selectedMenuOption, setSelectedMenuOption] = useState('featured');
@@ -144,6 +145,7 @@ export default function MobileFooter({
         currentNeighborhood={currentNeighborhood}
         switchMenuOption={switchMenuOption}
         communityId={communityId}
+        setMobileContentHeight={setMobileContentHeight}
       />
       {isStoryPopupVisible && (
         <StoryPopup

@@ -20,6 +20,7 @@ export default function HomePage({ history, location }) {
   }, []);
 
   const [areLocalStoriesFound, setAreLocalStoriesFound] = useState(true);
+  const [mobileContentHeight, setMobileContentHeight] = useState(null);
 
   const { id } = useParams();
 
@@ -37,6 +38,7 @@ export default function HomePage({ history, location }) {
       <CityMap
         areLocalStoriesFound={areLocalStoriesFound}
         location={location}
+        mobileContentHeight={mobileContentHeight}
       />
       {isMobile ? (
         <MobileFooter
@@ -44,6 +46,7 @@ export default function HomePage({ history, location }) {
           history={history}
           storyId={location.pathname.includes('story') ? id : null}
           communityId={location.pathname.includes('community') ? id : null}
+          setMobileContentHeight={setMobileContentHeight}
         />
       ) : (
         <HomeContent

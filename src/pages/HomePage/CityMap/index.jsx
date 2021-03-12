@@ -16,7 +16,11 @@ const MAP_VIEW_AREA_SIZE = {
   height: 360,
 };
 
-export default function CityMap({ location, areLocalStoriesFound }) {
+export default function CityMap({
+  location,
+  areLocalStoriesFound,
+  mobileContentHeight,
+}) {
   const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
 
   const [mapSize, setMapSize] = useState({});
@@ -81,7 +85,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
   return (
     <div className={classes.CityMap}>
       <div className={classes.map} ref={mapContainerRef}>
-        <NeighborhoodsList />
+        <NeighborhoodsList mobileContentHeight={mobileContentHeight} />
         <svg
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
