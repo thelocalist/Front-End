@@ -103,6 +103,7 @@ export default function NeighborhoodsList() {
         {neighborhoodsList.map((neighborhood) => {
           return (
             <button
+              preserveNeighborhoodSelection="true"
               type="button"
               className={classes.neighborhoodButton}
               onClick={() => {
