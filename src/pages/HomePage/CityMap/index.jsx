@@ -5,8 +5,9 @@ import { useMediaQuery } from 'react-responsive';
 import { Context } from '../../../context';
 import NoLocalStories from '../NoMainStory';
 import MainStory from '../MainStory';
+import NeighborhoodsList from './NeighborhoodsList';
+
 import classes from './styles.module.scss';
-// import useOnClickOutside from '../../../helpers/useOnClickOutside';
 
 const MAP_SIZE = { width: 1152, height: 723 };
 
@@ -80,6 +81,7 @@ export default function CityMap({ location, areLocalStoriesFound }) {
   return (
     <div className={classes.CityMap}>
       <div className={classes.map} ref={mapContainerRef}>
+        <NeighborhoodsList />
         <svg
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
