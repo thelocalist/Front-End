@@ -71,7 +71,7 @@ export default function MainStory() {
       preserveNeighborhoodSelection="true"
       className={classes.MainStory}
       to={
-        stories
+        stories && stories[0] !== 'empty'
           ? {
               pathname: `/story/${stories[0].id}`,
               state: { from: location.pathname },

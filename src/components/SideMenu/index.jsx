@@ -126,10 +126,23 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
               }`}
             >
               <span
-                className={classes.neighborhoodLink}
+                className={classnames(
+                  classes.neighborhoodLink,
+                  classes.newsLetter
+                )}
                 onClick={toggleSubscriptionFormVisibility}
               >
-                Newsletter
+                <span>Newsletter</span>
+                <i
+                  role="button"
+                  className={classnames(
+                    classes.arrowIcon,
+                    isSubscriptionFormVisible && classes.clicked
+                  )}
+                  tabIndex={0}
+                >
+                  Directory
+                </i>
               </span>
               <EmailForm show={isSubscriptionFormVisible} small />
             </li>
@@ -138,7 +151,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                 Account (Coming Soon)
               </Link>
             </li>
-            <li className={classes.neighborhoodLi}>
+            {/* <li className={classes.neighborhoodLi}>
               <Link to="/" className={classes.neighborhoodLink}>
                 Privacy Policy
               </Link>
@@ -147,7 +160,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
               <Link to="/" className={classes.neighborhoodLink}>
                 About
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

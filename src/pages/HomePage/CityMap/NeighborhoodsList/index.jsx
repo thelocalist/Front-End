@@ -58,7 +58,7 @@ export default function NeighborhoodsList() {
           type="button"
           className={classnames(classes.neighborhoodButton, classes.allButton)}
           preserveNeighborhoodSelection="true"
-          onClick={(event) => {
+          onClick={() => {
             setIsAllNeighborhoodsButtonsVisible((prevState) => !prevState);
           }}
         >
@@ -66,6 +66,7 @@ export default function NeighborhoodsList() {
         </button>
       )}
       <button
+        preserveNeighborhoodSelection="true"
         type="button"
         className={classnames(
           classes.neighborhoodButton,
