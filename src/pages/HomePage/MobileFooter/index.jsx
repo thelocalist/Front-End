@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import StoryPopup from '../../../components/StoryPopup';
 import useApiRequest from '../../../helpers/useApiRequest';
-import { Context } from '../../../context';
+import { Neighborhood } from '../../../context';
 import ContentContainer from './ContentContainer';
 import classes from './styles.module.scss';
 
@@ -15,7 +15,9 @@ export default function MobileFooter({
   history,
   setMobileContentHeight,
 }) {
-  const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(Context);
+  const [currentNeighborhood, , , setIsMobileStoryOpened] = useContext(
+    Neighborhood
+  );
   const [selectedMenuOption, setSelectedMenuOption] = useState('featured');
   const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
   const [linePosition, setLinePosition] = useState(null);

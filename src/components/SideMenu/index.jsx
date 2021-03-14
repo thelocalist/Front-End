@@ -2,14 +2,14 @@ import React, { useRef, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
-import { Context } from '../../context';
+import { Neighborhood } from '../../context';
 import classes from './styles.module.scss';
 import EmailForm from '../EmailForm';
 import { NEIGHBORHOODS } from '../../constants/main';
 import useOnClickOutside from '../../helpers/useOnClickOutside';
 
 export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
-  const [, setCurrentNeighborhood] = useContext(Context);
+  const [, setCurrentNeighborhood] = useContext(Neighborhood);
 
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [isSubscriptionFormVisible, setIsSubscriptionFormVisible] = useState(

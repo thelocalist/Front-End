@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import classnames from 'classnames';
 
-import { Context } from '../../../../context';
+import { Neighborhood } from '../../../../context';
 import NoLocalStoriesMessage from '../NoLocalStoriesMessage';
 import SearchResultsItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
 import Spinner from '../../../../components/Spinner';
@@ -20,7 +20,9 @@ export default function FeaturedStories({
   setAreLocalFeaturedStoriesFound,
   areAnimationsDisabled,
 }) {
-  const [currentNeighborhood, , , , currentMainStory] = useContext(Context);
+  const [currentNeighborhood, , , , currentMainStory] = useContext(
+    Neighborhood
+  );
   const [
     stories,
     fetchStories,

@@ -32,10 +32,7 @@
     margin: 0;
     margin-right: 6px;
     margin-bottom: 11px;
-    padding: 0;
-    padding-bottom: 1px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 12px 1px 12px;
     //padding-bottom: 8px;
     font-style: normal;
     font-weight: normal;
@@ -47,16 +44,16 @@
     border: 1px solid #2f4273;
     border-radius: 15px;
     cursor: pointer;
-    pointer-events: none;
     pointer-events: auto;
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: rgba(72, 99, 170, 0.69);
       color: #050812;
     }
     &.ellipsisButton {
       position: absolute;
-      right: 0;
+      right: 15px;
       margin-right: 0;
     }
     &.allButton {
@@ -64,13 +61,7 @@
     }
   }
   .neighborhoodsButtonsContainer {
-    padding-right: 37px;
-    &.activeNeighborhood {
-      .neighborhoodButton:first-child {
-        background-color: rgba(72, 99, 170, 0.69);
-        color: #050812;
-      }
-    }
+    padding-right: 58px;
   }
 }
 
@@ -86,27 +77,21 @@
       font-weight: normal;
       font-size: 14px;
       line-height: 17px;
+      &:hover {
+        color: #485caf;
+        background: rgba(1, 5, 14, 0.79);
+      }
       &.allButton {
         margin-left: 0;
+      }
+      &.ellipsisButton {
+        right: 12px;
       }
     }
     .neighborhoodsButtonsContainer {
       justify-content: space-between;
       padding-left: 12px;
-      &.activeNeighborhood {
-        .neighborhoodButton:first-child {
-          background: rgba(1, 5, 14, 0.79);
-          color: #485caf;
-          &:hover {
-            background-color: inherit;
-            color: #485caf;
-          }
-        }
-        .neighborhoodButton:nth-child(2) {
-          background-color: rgba(72, 99, 170, 0.69);
-          color: #050812;
-        }
-      }
+      padding-right: 55px;
     }
   }
 }

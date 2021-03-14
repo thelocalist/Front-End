@@ -7,7 +7,7 @@ import NoMainStory from '../NoMainStory';
 import Spinner from '../../../components/Spinner';
 import ErrorMessage from '../ErrorMessage';
 
-import { Context } from '../../../context/index';
+import { Neighborhood } from '../../../context/index';
 import { STATIC_URL } from '../../../constants/main';
 import useSearch from '../../../helpers/useSearch';
 
@@ -22,7 +22,7 @@ export default function MainStory() {
   /* eslint-disable */
 
   const [currentNeighborhood, , , , , setCurrentMainStory] = useContext(
-    Context
+    Neighborhood
   );
 
   /* useEffect(() => {

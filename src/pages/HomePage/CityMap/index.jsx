@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
-import { Context } from '../../../context';
+import { Neighborhood } from '../../../context';
 import NoLocalStories from '../NoMainStory';
 import MainStory from '../MainStory';
 import NeighborhoodsList from './NeighborhoodsList';
@@ -21,7 +21,9 @@ export default function CityMap({
   areLocalStoriesFound,
   mobileContentHeight,
 }) {
-  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(
+    Neighborhood
+  );
 
   const [mapSize, setMapSize] = useState({});
   const [isMouseCursorOnMap, setIsMouseCursorOnMap] = useState(false);

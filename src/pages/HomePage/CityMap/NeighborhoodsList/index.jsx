@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { useMediaQuery } from 'react-responsive';
 
 import { NEIGHBORHOODS } from '../../../../constants/main';
-import { Context } from '../../../../context/index';
+import { Neighborhood } from '../../../../context/index';
 
 import classes from './styles.module.scss';
 
@@ -15,7 +15,9 @@ export default function NeighborhoodsList({ mobileContentHeight }) {
     setIsAllNeighborhoodsButtonsVisible,
   ] = useState(false);
 
-  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(
+    Neighborhood
+  );
 
   const neighborhoodsListRef = useRef(null);
   const neighborhoodsButtonsContainerRef = useRef(null);
@@ -69,10 +71,16 @@ export default function NeighborhoodsList({ mobileContentHeight }) {
       {!isMobile && (
         <button
           type="button"
-          className={classnames(classes.neighborhoodButton, classes.allButton)}
+          className={classnames(
+            classes.neighborhoodButton,
+            classes.allButton,
+            currentNeighborhood === '' && classes.active
+          )}
           preserveNeighborhoodSelection="true"
           onClick={() => {
-            setIsAllNeighborhoodsButtonsVisible((prevState) => !prevState);
+            setCurrentNeighborhood('');
+            setIsAllNeighborhoodsButtonsVisible(false);
+            neighborhoodsListRef.current.scrollTop = 0;
           }}
         >
           <span>All</span>
@@ -85,18 +93,14 @@ export default function NeighborhoodsList({ mobileContentHeight }) {
           classes.neighborhoodButton,
           classes.ellipsisButton
         )}
+        onClick={() => {
+          setIsAllNeighborhoodsButtonsVisible((prevState) => !prevState);
+        }}
       >
         <span>...</span>
       </button>
       <div
-        className={
-          currentNeighborhood !== ''
-            ? classnames(
-                classes.neighborhoodsButtonsContainer,
-                classes.activeNeighborhood
-              )
-            : classes.neighborhoodsButtonsContainer
-        }
+        className={classes.neighborhoodsButtonsContainer}
         ref={neighborhoodsButtonsContainerRef}
       >
         {isMobile && (
@@ -104,11 +108,14 @@ export default function NeighborhoodsList({ mobileContentHeight }) {
             type="button"
             className={classnames(
               classes.neighborhoodButton,
-              classes.allButton
+              classes.allButton,
+              currentNeighborhood === '' && classes.active
             )}
             preserveNeighborhoodSelection="true"
-            onClick={(event) => {
-              setIsAllNeighborhoodsButtonsVisible((prevState) => !prevState);
+            onClick={() => {
+              setCurrentNeighborhood('');
+              setIsAllNeighborhoodsButtonsVisible(false);
+              neighborhoodsListRef.current.scrollTop = 0;
             }}
           >
             <span>All</span>
@@ -119,7 +126,10 @@ export default function NeighborhoodsList({ mobileContentHeight }) {
             <button
               preserveNeighborhoodSelection="true"
               type="button"
-              className={classes.neighborhoodButton}
+              className={classnames(
+                classes.neighborhoodButton,
+                currentNeighborhood === neighborhood && classes.active
+              )}
               onClick={() => {
                 setCurrentNeighborhood(neighborhood);
                 setIsAllNeighborhoodsButtonsVisible(false);

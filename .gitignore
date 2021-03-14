@@ -14,7 +14,7 @@
 
 # misc
 .DS_Store
-.env.local
+....33.env.local
 .env.*.local
 .eslintcache
 

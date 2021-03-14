@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 
 import classnames from 'classnames';
 
-import { Context } from '../../../../context';
+import { Neighborhood } from '../../../../context';
 import NoLocalStoriesMessage from '../NoLocalStoriesMessage';
 import Spinner from '../../../../components/Spinner';
 import SearchResultItem from '../../../../components/Search/SearchResultsPopup/SearchResultsItem';
@@ -21,7 +21,7 @@ export default function RecentStories({
   areAnimationsDisabled,
 }) {
   /* eslint-disable */
-  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Context);
+  const [currentNeighborhood, setCurrentNeighborhood] = useContext(Neighborhood);
   const [
     stories,
     fetchStories,

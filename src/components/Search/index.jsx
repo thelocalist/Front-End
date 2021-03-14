@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 
-import { Context } from '../../context';
+import { Neighborhood } from '../../context';
 import SearchResultsPopup from './SearchResultsPopup';
 import useSearch from '../../helpers/useSearch';
 import useApiRequest from '../../helpers/useApiRequest';
@@ -46,7 +46,7 @@ export default function Search({ setIsSearchbarVisible }) {
     setCurrentNeighborhood,
     isMobileStoryOpened,
     setIsMobileStoryOpened,
-  ] = useContext(Context);
+  ] = useContext(Neighborhood);
 
   const changeNeighborhoodSelectionOnURLChange = () => {
     if (!location.search) {

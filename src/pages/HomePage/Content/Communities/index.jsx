@@ -8,7 +8,7 @@ import ErrorMessage from '../../ErrorMessage';
 import Community from './Community';
 import useApiRequest from '../../../../helpers/useApiRequest';
 import useSearch from '../../../../helpers/useSearch';
-import { Context } from '../../../../context/index';
+import { Neighborhood } from '../../../../context/index';
 import classes from './styles.module.scss';
 
 const PAGESIZE = 6;
@@ -46,7 +46,7 @@ export default function Communities({
     resetSearch,
   ] = useSearch('get', '/stories/search');
 
-  const [currentNeighborhood] = useContext(Context);
+  const [currentNeighborhood] = useContext(Neighborhood);
 
   /* eslint-disable */
 

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { useLocation, Link } from 'react-router-dom';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 
-import { Context } from '../../context/index';
+import { Neighborhood } from '../../context/index';
 import Search from '../Search';
 import MobileSearch from '../MobileSearch';
 import classes from './styles.module.scss';
@@ -15,7 +15,7 @@ function Header({ setIsSideMenuVisible }) {
     false
   );
 
-  const [, , isMobileStoryOpened] = useContext(Context);
+  const [, , isMobileStoryOpened] = useContext(Neighborhood);
 
   const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import classnames from 'classnames';
 
-import { Context } from '../../../context';
+import { Neighborhood } from '../../../context';
 import Communities from './Communities';
 import SearchResultsPopup from '../../../components/Search/SearchResultsPopup';
 import FeaturedStories from './FeaturedStories';
@@ -17,7 +17,7 @@ import classes from './styles.module.scss';
 const PAGESIZE = 6;
 
 export default function HomeContent({ storyId, communityId, history }) {
-  const [currentNeighborhood] = useContext(Context);
+  const [currentNeighborhood] = useContext(Neighborhood);
   const [areAnimationsDisabled, setAreAnimationsDisabled] = useState(false);
   const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
   const [selectedMenuOption, setSelectedMenuOption] = useState('featured');

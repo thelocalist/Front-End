@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { Context } from '../../context';
+import { Neighborhood } from '../../context';
 
 import Header from '../Header';
 import SideMenu from '../SideMenu';
@@ -15,7 +15,7 @@ const Layout = ({ location, children }) => {
   const isLaunchPage = location.pathname === '/';
 
   return (
-    <Context.Provider
+    <Neighborhood.Provider
       value={[
         currentNeighborhood,
         setCurrentNeighborhood,
@@ -31,7 +31,7 @@ const Layout = ({ location, children }) => {
         setIsSideMenuVisible={setIsSideMenuVisible}
       />
       {children}
-    </Context.Provider>
+    </Neighborhood.Provider>
   );
 };
 export default withRouter(Layout);
