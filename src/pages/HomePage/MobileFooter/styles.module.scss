@@ -15,7 +15,7 @@
   top: 0;
   width: 63px;
   height: 2px;
-  background-color: #9797aa;
+  background-color: #c4c4c4;
   transition: all 0.3s ease-in-out;
 }
 
@@ -41,7 +41,7 @@
       &:hover,
       &.active {
         span {
-          color: #9797aa;
+          color: #c4c4c4;
         }
       }
     }

@@ -14,7 +14,6 @@
   justify-content: center;
   position: relative;
   z-index: 1;
-  margin-bottom: 7px;
   margin-top: 22px;
 
   ul {
@@ -37,13 +36,13 @@
 
     li:hover {
       span {
-        color: #9797aa;
+        color: #c4c4c4;
       }
     }
 
     li.active {
       span {
-        color: #9797aa;
+        color: #c4c4c4;
       }
     }
 
@@ -142,7 +141,7 @@
   font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
   box-sizing: border-box;
   --animation-speed: 0.5s;
-  --color: white;
+  --color: #c4c4c4;
   color: var(--color);
 
   position: relative;
