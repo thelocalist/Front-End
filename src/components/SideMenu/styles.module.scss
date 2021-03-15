@@ -97,7 +97,7 @@
     padding-top: 27px;
     width: 254px;
     padding-bottom: 36px;
-    border-bottom: 1px solid #4863aa;
+    border-bottom: 1px solid rgba(47, 66, 115, 0.5);
 
     &:first-child {
       .neighborhoodLi {
@@ -107,7 +107,7 @@
 
         &:first-child {
           padding-top: 10px;
-          border-top: 1px solid #4863aa;
+          border-top: 1px solid rgba(47, 66, 115, 0.5);
         }
         &:last-child {
           margin-bottom: -20px;
