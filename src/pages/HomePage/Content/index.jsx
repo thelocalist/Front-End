@@ -30,7 +30,7 @@ export default function HomeContent({ storyId, communityId, history }) {
     scrollFeaturedStoriesPosition,
     setScrollFeaturedStoriesPosition,
   ] = useState(0);
-  const [isContentScrolldManually, setIsContentScrolldManually] = useState(
+  const [isContentScrolledManually, setIsContentScrolledManually] = useState(
     false
   );
   const [isStoryPopupVisible, setIsStoryPopupVisible] = useState(false);
@@ -333,10 +333,10 @@ export default function HomeContent({ storyId, communityId, history }) {
     if (isSearchResultsVisible) {
       return null;
     }
-    const timeoutDuration = isContentScrolldManually ? 10000 : 7000;
+    const timeoutDuration = isContentScrolledManually ? 10000 : 7000;
     timer = setTimeout(() => {
       scrollContentAutomatically();
-      setIsContentScrolldManually(false);
+      setIsContentScrolledManually(false);
     }, timeoutDuration);
     return () => {
       clearTimeout(timer);
@@ -422,7 +422,7 @@ export default function HomeContent({ storyId, communityId, history }) {
                 className={classes.switchPrevious}
                 onClick={() => {
                   scrollContent('back');
-                  setIsContentScrolldManually(true);
+                  setIsContentScrolledManually(true);
                 }}
                 preserveNeighborhoodSelection="true"
               >
@@ -432,7 +432,7 @@ export default function HomeContent({ storyId, communityId, history }) {
                 className={classes.switchNext}
                 onClick={() => {
                   scrollContent('forward');
-                  setIsContentScrolldManually(true);
+                  setIsContentScrolledManually(true);
                 }}
                 preserveNeighborhoodSelection="true"
               >

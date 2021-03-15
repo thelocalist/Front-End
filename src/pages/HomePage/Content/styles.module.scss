@@ -89,11 +89,23 @@
       background-position: center;
       background-size: contain;
     }
-    .switchNext {
-      background-image: url(../../../assets/images/switchNext.svg);
-    }
+
     .switchPrevious {
       background-image: url(../../../assets/images/switchPrevious.svg);
+      &.disabled {
+        background-image: url(../../../assets/images/switchPreviousDisabled.svg);
+        cursor: auto;
+        pointer-events: none;
+      }
+    }
+
+    .switchNext {
+      background-image: url(../../../assets/images/switchNext.svg);
+      &.disabled {
+        background-image: url(../../../assets/images/switchNextDisabled.svg);
+        cursor: auto;
+        pointer-events: none;
+      }
     }
   }
 }

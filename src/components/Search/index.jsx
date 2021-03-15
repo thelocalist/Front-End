@@ -18,6 +18,11 @@ const FIELDS = {
   keywords: 'keywords',
   neighborhood: 'neighborhood',
 };
+const DEFAULT_FILTER = {
+  option: 'author',
+  type: 'author',
+  value: '',
+};
 
 export default function Search({ setIsSearchbarVisible }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
@@ -31,11 +36,7 @@ export default function Search({ setIsSearchbarVisible }) {
     false
   );
   const [search, setSearch] = useState('');
-  const [searchFilter, setSearchFilter] = useState({
-    option: 'author',
-    type: 'author',
-    value: '',
-  });
+  const [searchFilter, setSearchFilter] = useState(DEFAULT_FILTER);
 
   const history = useHistory();
   const location = useLocation();
@@ -257,7 +258,10 @@ export default function Search({ setIsSearchbarVisible }) {
         onChange={(event) => setSearch(event.target.value)}
       />
       <div
-        className={classes.select}
+        className={classnames(
+          classes.select,
+          searchFilter.option === DEFAULT_FILTER && classes.placeholder
+        )}
         onClick={toggleOptionsVisibility}
         ref={selectRef}
       >

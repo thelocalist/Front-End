@@ -26,6 +26,7 @@
     border-bottom-left-radius: 5px;
 
     &::placeholder {
+      color: #2F4273;
       font-size: 16px;
       opacity: 1;
     }
@@ -53,6 +54,10 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     cursor: pointer;
+
+    &.placeholder {
+      color: #2F4273;
+    }
 
     .options {
       display: block;
