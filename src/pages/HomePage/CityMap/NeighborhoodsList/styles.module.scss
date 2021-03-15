@@ -5,12 +5,12 @@
   width: 50%;
   height: 30px;
   padding-top: 5px;
-  font-family: Libre Baskerville;
+  font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
   overflow: hidden;
 
   &.expand {
     height: 100%;
-    overflow: scroll;
+    overflow-y: auto;
   }
 
   .overlay {
@@ -45,6 +45,7 @@
     border-radius: 15px;
     cursor: pointer;
     pointer-events: auto;
+    font-family: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
 
     &:hover,
     &.active {
