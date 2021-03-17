@@ -76,6 +76,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
             className={classes.closeButton}
             onClick={hideSideMenu}
             tabIndex={0}
+            preserveNeighborhoodSelection="true"
           >
             Close
           </i>
@@ -87,6 +88,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
               <span
                 className={classes.submenuButton}
                 onClick={toggleSubmenuVisibility}
+                preserveNeighborhoodSelection="true"
               >
                 <span className={classes.neighborhoodLink}>Directory</span>
                 <i
@@ -131,6 +133,7 @@ export default function SideMenu({ isSideMenuVisible, setIsSideMenuVisible }) {
                   classes.newsLetter
                 )}
                 onClick={toggleSubscriptionFormVisibility}
+                preserveNeighborhoodSelection="true"
               >
                 <span>Newsletter</span>
                 <i

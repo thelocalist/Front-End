@@ -69,6 +69,7 @@ function Header({ setIsSideMenuVisible }) {
         )}
         onClick={showSideMenu}
         tabIndex={0}
+        preserveNeighborhoodSelection="true"
       >
         Menu
       </i>
