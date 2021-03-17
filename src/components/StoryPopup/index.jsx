@@ -120,6 +120,12 @@ export default function StoryPopup({
     }
   };
 
+  useEffect(() => {
+    if (!location.pathname.includes('/story/')) {
+      hidePopup();
+    }
+  }, [location]);
+
   const switchPage = (direction) => {
     if (direction === 'forward') {
       if (currentPage === pagesCount) {
