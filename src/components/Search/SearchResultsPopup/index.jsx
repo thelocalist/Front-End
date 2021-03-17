@@ -28,7 +28,7 @@ export default function SearchResultsPopup({
     } else if (setIsSearchResultsVisible) {
       setIsSearchResultsVisible(false);
     } else {
-      history.push('/home');
+      history.push('/');
     }
     /* if (setCurrentStories) {
       setTimeout(() => {

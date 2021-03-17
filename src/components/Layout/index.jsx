@@ -12,7 +12,7 @@ const Layout = ({ location, children }) => {
   const [isSideMenuVisible, setIsSideMenuVisible] = useState(false);
   const [currentMainStory, setCurrentMainStory] = useState({});
 
-  const isLaunchPage = location.pathname === '/';
+  const isLaunchPage = location.pathname === '/launch';
 
   return (
     <Neighborhood.Provider

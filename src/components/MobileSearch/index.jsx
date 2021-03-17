@@ -65,7 +65,7 @@ export default function MobileSearch({
       return;
     }
     history.push(
-      `/home/search?keywords=${search}&filterType=${
+      `/search?keywords=${search}&filterType=${
         FIELDS[searchFilter.type]
       }&filterValue=${searchFilter.value}&pageSize=${PAGESIZE}&pageIndex=0`
     );
@@ -202,7 +202,7 @@ export default function MobileSearch({
     setIsSearchbarVisible(false);
     setIsOptionsVisible(false);
     resetSearch();
-    history.push('/home');
+    history.push('/');
     setSearch('');
   };
 

@@ -28,7 +28,7 @@ export default function StoriesPopup({
             if (location.state && location.state.from) {
               history.goBack();
             } else {
-              history.push('/home');
+              history.push('/');
             }
           }}
         >

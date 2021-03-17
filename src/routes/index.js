@@ -18,10 +18,10 @@ const Routes = () => {
       {/* <Route exact path="/reset-password" component={ResetPasswordPage} /> */}
       {/* <Route exact path="/error" component={ErrorPage} /> */}
 
-      <Route path="/" exact component={LaunchPage} />
-      <Route path="/home" component={HomePage} />
+      <Route path="/launch" component={LaunchPage} />
       <Route path="/community/:id" component={HomePage} />
       <Route path="/story/:id" exact component={HomePage} />
+      <Route path="/" component={HomePage} />
     </Switch>
   );
 };

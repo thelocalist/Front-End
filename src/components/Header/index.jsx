@@ -30,7 +30,7 @@ function Header({ setIsSideMenuVisible }) {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/home/search') {
+    if (location.pathname === '/search') {
       showSearchbar();
     }
   }, []);
@@ -46,7 +46,7 @@ function Header({ setIsSideMenuVisible }) {
   }, [isSearchbarVisible]);
 
   useEffect(() => {
-    if (location.pathname === '/home/search' && isMobile) {
+    if (location.pathname === '/search' && isMobile) {
       setTimeout(() => {
         setIsMobileSearchBarVisible(true);
       }, 500);
@@ -73,7 +73,7 @@ function Header({ setIsSideMenuVisible }) {
       >
         Menu
       </i>
-      <Link to="/home" className={classes.logoLink}>
+      <Link to="/" className={classes.logoLink}>
         <h1>
           <span className={classes.capitalLetter}>T</span>HE{' '}
           <span className={classes.capitalLetter}>L</span>OCALIST

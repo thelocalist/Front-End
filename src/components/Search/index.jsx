@@ -98,7 +98,7 @@ export default function Search({ setIsSearchbarVisible }) {
       return;
     }
     history.push(
-      `/home/search?keywords=${search}&filterType=${
+      `/search?keywords=${search}&filterType=${
         FIELDS[searchFilter.type]
       }&filterValue=${searchFilter.value}&pageSize=${PAGESIZE}&pageIndex=0`
     );
@@ -137,7 +137,7 @@ export default function Search({ setIsSearchbarVisible }) {
 
   const hideSearchbar = () => {
     setIsSearchbarVisible(false);
-    history.push('/home');
+    history.push('/');
     setCurrentNeighborhood('');
   };
 

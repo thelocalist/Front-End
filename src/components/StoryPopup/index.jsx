@@ -111,12 +111,12 @@ export default function StoryPopup({
   const hidePopup = () => {
     setIsStoryPopupVisible(false);
     if (
-      (location.state && location.state.from === '/home/search') ||
+      (location.state && location.state.from === '/search') ||
       (location.state && location.state.from.includes('community'))
     ) {
       history.goBack();
     } else {
-      history.push('/home');
+      history.push('/');
     }
   };
 
